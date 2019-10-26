@@ -1,1 +1,7 @@
-
+spring:
+   security:
+      user:   
+         name: user
+         password: password
+      sessions: NEVER
+         
