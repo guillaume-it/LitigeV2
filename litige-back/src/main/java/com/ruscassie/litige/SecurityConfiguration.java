@@ -17,8 +17,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and().httpBasic().and().logout().logoutUrl("logout").logoutSuccessUrl("/").invalidateHttpSession(true)
 		.deleteCookies("X-Auth-Token").clearAuthentication(true).deleteCookies("JSESSIONID")
           .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+		
+
 
 	}
+	
 
 //    @Autowired
 //public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
