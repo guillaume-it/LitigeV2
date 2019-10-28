@@ -13,6 +13,8 @@ import { AppService } from './service/app.service';
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
 
+  // https://spring.io/guides/tutorials/spring-security-and-angular-js/ 
+  // to remove the popup login sent by spring
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const xhr = req.clone({
       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
