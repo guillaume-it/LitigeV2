@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -8,9 +9,22 @@
 	<packaging>pom</packaging>
 	<name>Litige</name>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.0.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
 	<modules>
 		<module>litige-resource</module>
 		<module>litige-auth</module>
 	</modules>
 
+	<properties>
+		<oauth.version>2.3.5.RELEASE</oauth.version>
+		<jwt.version>1.0.10.RELEASE</jwt.version>
+		<commons-io.version>2.6</commons-io.version>
+
+	</properties>
 </project>
