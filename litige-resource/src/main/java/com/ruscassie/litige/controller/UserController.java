@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.model.Users;
+import com.ruscassie.litige.entity.Users;
 import com.ruscassie.litige.service.UserService;
 
 @RestController

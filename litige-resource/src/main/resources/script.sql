@@ -11,4 +11,8 @@ password varchar(255), salary bigint, username varchar(255));
 
 INSERT INTO users (age, first_name, last_name,password,salary,username) values (23, 'admin', 'admin','$2a$04$EZzbSqieYfe/nFWfBWt2KeCdyq0UuDEM1ycFF8HzmlVR6sbsOnw7u',12345,'admin');
 
-ALTER TABLE users RENAME TO users;
+
+create table litige (id SERIAL PRIMARY KEY,
+ objet varchar(255), localite varchar(255),
+creation date,  requerant varchar(255), agent varchar(255));
+

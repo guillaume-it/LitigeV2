@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {ApiService} from "../core/api.service";
+import {UserService} from "../service/user.service";
 import {HttpParams} from "@angular/common/http";
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   invalidLogin: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       .set('password', this.loginForm.controls.password.value)
       .set('grant_type', 'password');
 
-    this.apiService.login(body.toString()).subscribe(data => {
+    this.userService.login(body.toString()).subscribe(data => {
       window.sessionStorage.setItem('token', JSON.stringify(data));
       console.log(window.sessionStorage.getItem('token'));
       this.router.navigate(['list-user']);

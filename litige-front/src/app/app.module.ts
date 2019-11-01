@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
-import {ApiService} from "./core/api.service";
+import {UserService} from "./service/user.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {routing} from "./app.routing";
@@ -25,7 +25,7 @@ import {routing} from "./app.routing";
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ApiService],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

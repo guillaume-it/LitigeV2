@@ -1,7 +1,8 @@
 import { Component, OnInit , Inject} from '@angular/core';
 import {Router} from "@angular/router";
 import {Users} from "../model/users.model";
-import {ApiService} from "../core/api.service";
+import {UserService} from "../service/user.service";
+import { LitigeService } from '../service/litige.service';
 
 @Component({
   selector: 'app-list-user',
@@ -12,22 +13,26 @@ export class ListUserComponent implements OnInit {
 
   users: any;
 
-  constructor(private router: Router, private apiService: ApiService) { }
+  constructor(private router: Router, private userService: UserService, private litigeService: LitigeService) { }
 
   ngOnInit() {
     if(!window.sessionStorage.getItem('token')) {
       this.router.navigate(['login']);
       return;
     }
-    this.apiService.getUsers()
+    this.userService.getUsers()
       .subscribe( data => {
         console.log(data)
           this.users = data;
       });
+
+    this.litigeService.getLitigeById(1).subscribe(data => {
+      console.log('Litige: ',data);
+    });
   }
 
   deleteUser(user: Users): void {
-    this.apiService.deleteUser(user.id)
+    this.userService.deleteUser(user.id)
       .subscribe( data => {
         debugger
         this.users = this.users.filter(u => u !== user);
