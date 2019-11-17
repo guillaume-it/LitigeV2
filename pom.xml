@@ -17,13 +17,18 @@
 	</parent>
 
 	<modules>
-		<module>litige-back</module>
+		<module>litige-authorization</module>
+		<module>litige-resource-1</module>
 	</modules>
 
 	<properties>
 		<oauth.version>2.3.5.RELEASE</oauth.version>
 		<jwt.version>1.0.10.RELEASE</jwt.version>
 		<commons-io.version>2.6</commons-io.version>
-
+		<swagger.version>2.9.2</swagger.version>
+		<netflix-zuul.version>2.1.1.RELEASE</netflix-zuul.version>
+		<oauth-autoconfig.version>2.1.3.RELEASE</oauth-autoconfig.version>
+		<!-- util -->
+		<commons-io.version>2.6</commons-io.version>
 	</properties>
 </project>

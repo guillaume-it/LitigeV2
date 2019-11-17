@@ -1,31 +1,42 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app/app.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ConfigService, configServiceInitializerFactory } from './services/config.service';
+import { TokenInterceptor } from './services/token.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { PublicModule } from './public/public.module';
 
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { AddUserComponent } from './add-user/add-user.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
-import { ListUserComponent } from './list-user/list-user.component';
-import {UserService} from "./service/user.service";
-import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
-import {routing} from "./app.routing";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    AddUserComponent,
-    EditUserComponent,
-    ListUserComponent
+    NavbarComponent,
+    ProfileComponent,
   ],
   imports: [
-    BrowserModule,
-    routing,
-    ReactiveFormsModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    JwtModule,
+    SharedModule,
+    PublicModule,
+    AppRoutingModule
   ],
-  providers: [UserService],
-  bootstrap: [AppComponent]
+  providers: [
+    ConfigService, {
+      provide: APP_INITIALIZER,
+      useFactory: configServiceInitializerFactory,
+      deps: [ConfigService],
+      multi: true
+    },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
