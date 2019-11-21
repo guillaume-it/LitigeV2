@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ruscassie.litige.dto.Role;
 import com.ruscassie.litige.entity.User;
 import com.ruscassie.litige.repository.UserRepository;
 
@@ -29,7 +30,7 @@ public class SignInController {
 
     @PostMapping
     User signin(@RequestParam String email, @RequestParam String password) {
-        User u = new User(null, email, passwordEncoder.encode(password), User.Role.USER);
+        User u = new User(null, email, passwordEncoder.encode(password), Role.USER);
         return repository.save(u);
     }
 

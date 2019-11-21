@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Users {
+public class User {
 
 	private long id;
 
@@ -15,9 +15,7 @@ public class Users {
 
 	private String username;
 
-	private String password;
+	private String email;
 
-	private long salary;
-
-	private int age;
+	private Role role;
 }

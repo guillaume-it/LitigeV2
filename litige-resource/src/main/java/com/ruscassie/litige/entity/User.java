@@ -12,12 +12,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ruscassie.litige.dto.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Entity
@@ -26,7 +25,6 @@ import lombok.ToString;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User {
 
-    public enum Role {USER, ADMIN, USER_MANAGER}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,9 +32,9 @@ public class User {
     @NotEmpty
     @Email
     private String email;
-    @JsonIgnore
-    @ToString.Exclude
+   
     private String password;
+    
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -1,8 +1,5 @@
 package com.ruscassie.litige.config;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.ruscassie.litige.dto.Role;
 import com.ruscassie.litige.entity.User;
 import com.ruscassie.litige.repository.UserRepository;
 
@@ -46,7 +44,7 @@ public class LoadDatabase {
         return args -> {
             for (int i = 0; i < users.length; i++) {
                 String email = users[i] + "@" + users[i] + ".com";
-                User.Role role = i > 1 ? User.Role.USER : i == 0 ? User.Role.ADMIN : User.Role.USER_MANAGER;
+               Role role = i > 1 ? Role.USER : i == 0 ? Role.ADMIN : Role.USER_MANAGER;
                 double minGleePerDay = rnd(1000 * feelings.length);
                 String pwd = passwordEncoder.encode("pwd");
                 log.info("save {}", repo.save(new User(null, email, pwd, role)));
