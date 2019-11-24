@@ -14,27 +14,28 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: 'profile', component: ProfileComponent,
-        data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] },
+        path: 'profile',
+        component: ProfileComponent,
+        data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] }
       },
       { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
-      { path: '', loadChildren: './user/user.module#UserModule' },
-    ],
+      { path: '', loadChildren: './litige/litige.module#LitigeModule' }
+    ]
   },
   {
     path: '',
     canActivateChild: [AuthGuard],
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'signin', component: SigninComponent },
+      { path: 'signin', component: SigninComponent }
     ]
   },
-  { path: '', redirectTo: '/glee', pathMatch: 'full' },
-  { path: '**', redirectTo: '/glee', pathMatch: 'full' }
+  { path: '', redirectTo: '/litige', pathMatch: 'full' },
+  { path: '**', redirectTo: '/litige', pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

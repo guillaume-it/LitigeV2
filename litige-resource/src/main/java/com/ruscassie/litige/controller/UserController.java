@@ -37,11 +37,6 @@ class UserController {
 	@Autowired
 	private UserService userService;
 
-//    UserController(UserRepository repository, PasswordEncoder passwordEncoder) {
-//        this.repository = repository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
-
 	@GetMapping
 	Page<User> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable,
 			final OAuth2Authentication authentication) {

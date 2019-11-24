@@ -1,15 +1,14 @@
 package com.ruscassie.litige.controller;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.dto.Role;
-import com.ruscassie.litige.entity.User;
-import com.ruscassie.litige.repository.UserRepository;
+import com.ruscassie.litige.dto.User;
+import com.ruscassie.litige.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,24 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/signin")
 public class SignInController {
 
-    private final UserRepository repository;
+	@Autowired
+	private UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
+	@PostMapping("/validateEmail")
+	Boolean emailExists(@RequestParam final String email) {
+		return userService.existsByEmail(email);
+	}
 
-    public SignInController(UserRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @PostMapping
-    User signin(@RequestParam String email, @RequestParam String password) {
-        User u = new User(null, email, passwordEncoder.encode(password), Role.USER);
-        return repository.save(u);
-    }
-
-    @PostMapping("/validateEmail")
-    Boolean emailExists(@RequestParam String email) {
-        return repository.existsByEmail(email);
-    }
+	@PostMapping
+	User signin(@RequestParam final String email, @RequestParam final String password) {
+		return userService.signin(email, password);
+	}
 
 }

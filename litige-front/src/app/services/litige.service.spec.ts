@@ -1,12 +1,11 @@
+import { LitigeServive } from './litige.service';
 import { TestBed } from '@angular/core/testing';
 
-import { GleeService } from './glee.service';
-
-describe('GleeService', () => {
+describe('LitigeServive', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GleeService = TestBed.get(GleeService);
+    const service: LitigeServive = TestBed.get(LitigeServive);
     expect(service).toBeTruthy();
   });
 });

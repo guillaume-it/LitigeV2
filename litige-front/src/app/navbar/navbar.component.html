@@ -1,16 +1,26 @@
 <mat-toolbar color="primary">
-  <span>Glee-O-Meter</span>
+  <span>Litige</span>
   <ng-container *ngIf="loggedUser$ | async">
-
-    <a mat-button routerLink="/glee" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)" >Glee</a>
-    <a mat-button routerLink="/admin/users"*ngIf="!(authentication.hasRole('USER') | async)">Users</a>
+    <a
+      mat-button
+      routerLink="/litige"
+      *ngIf="!(authentication.hasRole('USER_MANAGER') | async)"
+      >Litige</a
+    >
+    <a
+      mat-button
+      routerLink="/admin/users"
+      *ngIf="!(authentication.hasRole('USER') | async)"
+      >Users</a
+    >
 
     <span class="filler"></span>
 
-    <a mat-button routerLink="/profile" >{{(loggedUser$ | async)?.email}} {{(loggedUser$ | async)?.role}}</a>
+    <a mat-button routerLink="/profile"
+      >{{ (loggedUser$ | async)?.email }} {{ (loggedUser$ | async)?.role }}</a
+    >
 
     <button mat-button (click)="logout()">Logout</button>
-
   </ng-container>
 
   <ng-container *ngIf="!(loggedUser$ | async)">
@@ -18,7 +28,5 @@
 
     <button mat-button routerLink="/signin">Sign in</button>
     <button mat-button routerLink="/login">Login</button>
-
   </ng-container>
-
 </mat-toolbar>

@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ruscassie.litige.dto.Role;
 import com.ruscassie.litige.dto.User;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.repository.UserRepository;
@@ -113,6 +114,12 @@ public class UserService implements UserDetailsService {
 
 	public User save(@Valid final User user) {
 		return mapper.map(userRepository.save(mapper.map(user, com.ruscassie.litige.entity.User.class)), User.class);
+	}
+
+	public User signin(final String email, final String password) {
+		final com.ruscassie.litige.entity.User u = new com.ruscassie.litige.entity.User(null, email,
+				passwordEncoder.encode(password), Role.USER);
+		return mapper.map(userRepository.save(u), User.class);
 	}
 
 	public void update(final Long id, @Valid final User res) {
