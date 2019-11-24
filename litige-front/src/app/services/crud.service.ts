@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { Pageable } from '../models/pageable';
@@ -11,7 +12,7 @@ export class CrudService<T> {
   constructor(private http: HttpClient) {}
 
   get(url: string): Observable<T> {
-    return this.http.get<T>(url);
+    return this.http.get<T>(environment.serverUrl + url);
   }
 
   getPage(url: string, config?: Pageable<T>): Observable<Page<T>> {
@@ -27,7 +28,7 @@ export class CrudService<T> {
       }
     }
 
-    console.log(`load ${url}, ${params.toString()}`);
-    return this.http.get<Page<T>>(url, { params });
+    console.log(`load ${environment.serverUrl}${url}, ${params.toString()}`);
+    return this.http.get<Page<T>>(environment.serverUrl + url, { params });
   }
 }

@@ -3,6 +3,7 @@ package com.ruscassie.litige.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class LitigeController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public List<Litige> list() {
+	public List<Litige> list(final Pageable pageable) {
 		return litigeService.findAll();
 	}
 
