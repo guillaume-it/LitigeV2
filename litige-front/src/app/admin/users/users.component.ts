@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatPaginator, MatSnackBar, MatSort } from '@angular/material';
+import {
+  MatDialog,
+  MatPaginator,
+  MatSnackBar,
+  MatSort,
+  MatTableDataSource
+} from '@angular/material';
 import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -15,29 +21,29 @@ import { UserDetailComponent } from '../user-detail/user-detail.component';
 })
 export class UsersComponent implements OnInit {
   displayedColumns: string[];
-  dataSource: StoreServiceDataSource<User>;
   filter: UserServiceFilter;
   currentUser: User;
+  dataSource: MatTableDataSource<User>;
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
-    private userService: UserService,
     private snackBar: MatSnackBar,
     private authService: AuthenticationService,
-  ) {
-  }
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     console.log(`users initialized ${this.authService.loggedUser.email}`);
     this.currentUser = this.authService.loggedUser;
-    this.dataSource = new StoreServiceDataSource<User>(this.userService, this.snackBar);
     this.filter = new UserServiceFilter();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.displayedColumns = ['email', 'minGleePerDay', 'role', 'actions'];
+
+    this.userService.all().subscribe(page => {
+      this.dataSource = new MatTableDataSource<User>(page.content);
+      this.dataSource.paginator = this.paginator;
+    });
+    this.displayedColumns = ['email', 'role', 'actions'];
   }
 
   private createOrEdit(i: number = null) {
@@ -64,7 +70,7 @@ export class UsersComponent implements OnInit {
 
   delete(i: number) {
     console.log(`delete ${i}`);
-    this.dataSource.delete(i).subscribe(
+    this.userService.delete(i).subscribe(
       res => {
         if (this.dataSource.data[i].id === this.currentUser.id) {
           this.authService.logout(`Deleted current user: forced logout.`);
@@ -72,16 +78,17 @@ export class UsersComponent implements OnInit {
           this.snackBar.open(`User deleted.`);
         }
       },
-      err => this.snackBar.open(`User deletion failed due to ${formatError(err)}.`)
+      err =>
+        this.snackBar.open(`User deletion failed due to ${formatError(err)}.`)
     );
   }
 
   applyFilter() {
-    this.dataSource.applyFilter(this.filter);
+    //this.dataSource.applyFilter(this.filter);
   }
 
   resetFilter() {
-    this.dataSource.applyFilter(null);
+    //  this.dataSource.applyFilter(null);
   }
 
   changePassword(i: number) {

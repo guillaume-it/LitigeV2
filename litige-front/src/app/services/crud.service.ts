@@ -8,14 +8,14 @@ import { Page } from '../models/page';
 @Injectable({
   providedIn: 'root'
 })
-export class CrudService<T> {
+export class CrudService {
   constructor(private http: HttpClient) {}
 
-  get(url: string): Observable<T> {
-    return this.http.get<T>(environment.serverUrl + url);
+  get<T>(url: string, params?: HttpParams): Observable<T> {
+    return this.http.get<T>(environment.serverUrl + url, { params });
   }
 
-  getPage(url: string, config?: Pageable<T>): Observable<Page<T>> {
+  getPage<T>(url: string, config?: Pageable<T>): Observable<Page<T>> {
     let params = new HttpParams();
     if (config) {
       params = params.set('page', config.page.toString());
@@ -30,5 +30,16 @@ export class CrudService<T> {
 
     console.log(`load ${environment.serverUrl}${url}, ${params.toString()}`);
     return this.http.get<Page<T>>(environment.serverUrl + url, { params });
+  }
+
+  putObjet<P, R>(url: string, data: P): Observable<R> {
+    return this.http.put<R>(environment.serverUrl + url, data);
+  }
+  put<T>(url: string, params: HttpParams): Observable<T> {
+    return this.http.put<T>(environment.serverUrl + url, params);
+  }
+
+  post<T>(url: string, params: HttpParams): Observable<T> {
+    return this.http.post<T>(environment.serverUrl + url, params);
   }
 }

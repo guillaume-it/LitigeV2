@@ -9,7 +9,7 @@ import { url } from './url';
   providedIn: 'root'
 })
 export class LitigeServive {
-  constructor(private crudService: CrudService<Litige>) {}
+  constructor(private crudService: CrudService) {}
 
   loadPages(): Observable<Page<Litige>> {
     return this.crudService.getPage(url.litiges, {

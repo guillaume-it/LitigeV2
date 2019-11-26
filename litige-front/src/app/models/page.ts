@@ -5,8 +5,20 @@ export interface Page<T> {
   last: boolean;
   number: number;
   numberOfElements: number;
-  size: number;
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    sort: Sort;
+  };
+  sort: Sort;
   totalElements: number;
   totalPages: number;
-  sort: { sorted: boolean; unsorted: boolean; empty: boolean };
+}
+
+interface Sort {
+  sorted: boolean;
+  unsorted: boolean;
+  empty: boolean;
 }
