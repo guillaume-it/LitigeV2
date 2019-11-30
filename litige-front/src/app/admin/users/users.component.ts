@@ -20,9 +20,10 @@ import { UserDetailComponent } from '../user-detail/user-detail.component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[];
+  displayedColumns = ['email', 'role', 'actions'];
+
   filter: UserServiceFilter;
-  currentUser: User;
+  current: User;
   dataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -36,14 +37,13 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     console.log(`users initialized ${this.authService.loggedUser.email}`);
-    this.currentUser = this.authService.loggedUser;
+    this.current = this.authService.loggedUser;
     this.filter = new UserServiceFilter();
 
     this.userService.all().subscribe(page => {
       this.dataSource = new MatTableDataSource<User>(page.content);
       this.dataSource.paginator = this.paginator;
     });
-    this.displayedColumns = ['email', 'role', 'actions'];
   }
 
   private createOrEdit(i: number = null) {
@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
         index: i,
         user: i === null ? new User() : this.dataSource.data[i],
         dataSource: this.dataSource,
-        currentUser: this.currentUser
+        currentUser: this.current
       }
     });
   }
@@ -72,7 +72,7 @@ export class UsersComponent implements OnInit {
     console.log(`delete ${i}`);
     this.userService.delete(i).subscribe(
       res => {
-        if (this.dataSource.data[i].id === this.currentUser.id) {
+        if (this.dataSource.data[i].id === this.current.id) {
           this.authService.logout(`Deleted current user: forced logout.`);
         } else {
           this.snackBar.open(`User deleted.`);

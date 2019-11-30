@@ -1,8 +1,7 @@
 package com.ruscassie.litige.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.entity.Litige;
+import com.ruscassie.litige.dto.Litige;
 import com.ruscassie.litige.service.LitigeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +42,8 @@ public class LitigeController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public List<Litige> list(final Pageable pageable) {
-		return litigeService.findAll();
+	public Page<Litige> list(final Pageable pageable) {
+		return litigeService.findAll(pageable);
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
