@@ -13,6 +13,10 @@
 	<name>litige-resource</name>
 	<description>Gestionnaire de litige</description>
 	
+	<properties>
+		<start-class>com.ruscassie.litige.Resource1ServerApplication</start-class>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -127,6 +131,16 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.5.18</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.5.1</version>
+		</dependency>
+		 <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+		
 	</dependencies>
 
 	<dependencyManagement>
