@@ -1,4 +1,5 @@
-package com.ruscassie.litige.config;
+package com.ruscassie.litige;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +8,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class ResourceServerApplication extends SpringBootServletInitializer {
+public class Resource1ServerApplication extends SpringBootServletInitializer {
 
 	public static void main(final String[] args) {
-		SpringApplication.run(ResourceServerApplication.class, args);
+		SpringApplication.run(Resource1ServerApplication.class, args);
 	}
 
 }
