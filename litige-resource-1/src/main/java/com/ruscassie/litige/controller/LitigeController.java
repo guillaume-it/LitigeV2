@@ -3,8 +3,6 @@ package com.ruscassie.litige.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/litiges")
 @Slf4j
-@Validated
+//@Validated
 public class LitigeController {
 
 	@Autowired
@@ -35,7 +33,7 @@ public class LitigeController {
 		litigeService.delete(id);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	// @PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public Litige findOne(@PathVariable final long id) {
 		return litigeService.findOne(id);
