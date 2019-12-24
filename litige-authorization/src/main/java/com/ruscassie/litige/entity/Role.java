@@ -1,5 +1,6 @@
 package com.ruscassie.litige.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,12 +21,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Role {
+public class Role implements Serializable {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 8624315723258966098L;
+	private static final long serialVersionUID = 5487187333735250174L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
