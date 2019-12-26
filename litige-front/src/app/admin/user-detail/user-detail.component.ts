@@ -14,7 +14,6 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
-
   user: User;
   userForm: FormGroup;
   private index: number;
@@ -26,7 +25,8 @@ export class UserDetailComponent implements OnInit {
     private dialogRef: MatDialogRef<UserDetailComponent>,
     private snackBar: MatSnackBar,
     private authentication: AuthenticationService,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
     this.user = data.user;
     this.index = data.index;
     this.dataSource = data.dataSource;
@@ -35,14 +35,20 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = new FormGroup({
-      email: new FormControl(this.user.email,
-        {
-          validators: [Validators.required, Validators.email],
-          asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.user.email),
-          updateOn: 'blur'
-        }),
+      email: new FormControl(this.user.email, {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: createUniqueEmailValidator(
+          this.userService,
+          this.snackBar,
+          this.user.email
+        ),
+        updateOn: 'blur'
+      }),
       role: new FormControl(this.user.role, Validators.required),
-      minGleePerDay: new FormControl(this.user.minGleePerDay, Validators.required),
+      minGleePerDay: new FormControl(
+        this.user.minGleePerDay,
+        Validators.required
+      )
     });
   }
 
@@ -56,7 +62,7 @@ export class UserDetailComponent implements OnInit {
     Object.assign(user, {
       email: String(this.userForm.value.email),
       role: Role[String(this.userForm.value.role)],
-      minGleePerDay: Number(this.userForm.value.minGleePerDay),
+      minGleePerDay: Number(this.userForm.value.minGleePerDay)
     });
     if (this.index === null) {
       this.dataSource.create(user).subscribe(
@@ -64,18 +70,25 @@ export class UserDetailComponent implements OnInit {
           this.snackBar.open(`User ${res.email} created.`);
           this.dialogRef.close(user);
         },
-        err => this.snackBar.open(`User creation failed due to ${formatError(err)}.`)
+        err =>
+          this.snackBar.open(`User creation failed due to ${formatError(err)}.`)
       );
     } else {
       this.dataSource.update(this.index, user).subscribe(
         res => {
           this.snackBar.open(`User ${user.email} updated.`);
           this.dialogRef.close(user);
-          if (user.id === this.currentUser.id && this.authentication.currentUserUpdateForceLogout(user)) {
-              this.snackBar.open(`Changed email or role of the current user: forced logout`);
+          if (
+            user.id === this.currentUser.id &&
+            this.authentication.currentUserUpdateForceLogout(user)
+          ) {
+            this.snackBar.open(
+              `Changed email or role of the current user: forced logout`
+            );
           }
         },
-        err => this.snackBar.open(`User update failed due to ${formatError(err)}.`)
+        err =>
+          this.snackBar.open(`User update failed due to ${formatError(err)}.`)
       );
     }
   }

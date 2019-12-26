@@ -7,7 +7,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class Resource1ServerApplication extends SpringBootServletInitializer {
+//@EnableTransactionManagement
+//@EntityScan
+//@EnableJpaRepositories
+//@EnableEntityLinks
+class Resource1ServerApplication extends SpringBootServletInitializer {
 
 	public static void main(final String[] args) {
 		SpringApplication.run(Resource1ServerApplication.class, args);

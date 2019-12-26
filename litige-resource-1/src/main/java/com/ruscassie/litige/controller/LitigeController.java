@@ -3,6 +3,7 @@ package com.ruscassie.litige.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.ruscassie.litige.service.LitigeService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/litiges")
+@RequestMapping("/litiges")
 @Slf4j
 //@Validated
 public class LitigeController {
@@ -34,9 +35,12 @@ public class LitigeController {
 	}
 
 	// @PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
-		return litigeService.findOne(id);
+		// return litigeService.findOne(id);
+		final Litige li = new Litige();
+		li.setAgent("agent");
+		return li;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)

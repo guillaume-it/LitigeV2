@@ -29,22 +29,20 @@ spring:
       property-naming-strategy: SNAKE_CASE
       serialization:
 #    database: H2
-#    show-sql: true
-#    properties:
-#      hibernate:
-#       format_sql: true
-#    hibernate:
-#      ddl-auto: create
-#  datasource:
-#    url: jdbc:h2:mem:got;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-#    username: sa
-#    password: sa
-#    driver-class-name: org.h2.Driver
          indent-output: true
 eureka:
    instance:
       hostname: localhost
       port: 9091
    client:
+      registerWithEureka: true
+      fetchRegistry: false
       serviceUrl:
          defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+   server:
+      wait-time-in-ms-when-sync-empty: 3000
+      
+
+logging:
+  level:
+    root: INFO
