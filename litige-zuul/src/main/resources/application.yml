@@ -2,10 +2,9 @@ spring:
   application:
     name: zuul
   profiles: default
-    
+      
 server:
   port: 9092
-
   
 endpoints:
   restart:
@@ -16,18 +15,18 @@ endpoints:
     sensitive: false
       
 zuul:
-  ignoredServices: "*"
+  ignoredServices: '*'
   routes:
     resource-server-1:
       sensitiveHeaders:
       path: /api/**
       serviceId: resource-server-1  
-    auth-server:  
-      sensitiveHeaders:
-      path: /security/**
       stripPrefix: false
+    auth-server:
+      sensitiveHeaders:
+      path: /uaa/**
       serviceId: auth-server
-      sensitive-headers: Cookie,Set-Cookie,Authorization   
+      stripPrefix: false
 eureka:
   instance:
     hostname: localhost
@@ -35,17 +34,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-
-
-
-hystrix:
-   command:
-      default:
-         execution:
-            isolation:
-               thread:
-                  timeoutInMilliseconds: 1000000
-            strategy: THREAD
-
-ribbon:
-   ReadTimeout: 60000
