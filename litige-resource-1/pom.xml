@@ -12,7 +12,7 @@
 	<artifactId>litige-resource</artifactId>
 	<name>litige-resource</name>
 	<description>Gestionnaire de litige</description>
-	
+
 	<properties>
 		<start-class>com.ruscassie.litige.Resource1ServerApplication</start-class>
 	</properties>
@@ -50,7 +50,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		
+
 		<!-- Dependencias Security/OAuth/JWT -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -60,7 +60,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -136,11 +136,15 @@
 			<artifactId>dozer</artifactId>
 			<version>5.5.1</version>
 		</dependency>
-		 <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -158,6 +162,7 @@
 				<artifactId>guava</artifactId>
 				<version>20.0</version>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

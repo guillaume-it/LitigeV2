@@ -29,7 +29,7 @@ import com.ruscassie.litige.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @Slf4j
 @Validated
 class UserController {

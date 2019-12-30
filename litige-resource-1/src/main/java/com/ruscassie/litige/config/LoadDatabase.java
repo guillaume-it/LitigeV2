@@ -1,14 +1,7 @@
 package com.ruscassie.litige.config;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.ruscassie.litige.entity.Litige;
-import com.ruscassie.litige.repository.LitigeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,17 +26,17 @@ public class LoadDatabase {
 	@Value("clientSecret:secret")
 	private String clientSecret;
 
-	@Bean
-	CommandLineRunner initLitige(final LitigeRepository repo) {
-		return args -> {
-			for (int i = 0; i < 100; i++) {
-
-				log.info("save {}", repo.save(
-						new Litige(null, "Objet " + i, "Localite " + i, new Date(), "Requerant " + i, "Agent " + i)));
-			}
-		};
-	}
-
+//	@Bean
+//	CommandLineRunner initLitige(final LitigeRepository repo) {
+//		return args -> {
+//			for (long i = 0; i < 100; i++) {
+//
+//				log.info("save {}", repo.save(
+//						new Litige(i, "Objet " + i, "Localite " + i, new Date(), "Requerant " + i, "Agent " + i)));
+//			}
+//		};
+//	}
+//
 //	@Bean
 //	CommandLineRunner initUsers(final UserRepository repo) {
 //

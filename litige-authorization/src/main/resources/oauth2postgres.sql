@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS permission_role;
 DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS userdb;
+DROP TABLE IF EXISTS litige;
 commit;
 
 CREATE TABLE oauth_access_token (
@@ -124,3 +125,13 @@ CREATE TABLE role_user (
 
 INSERT INTO role_user VALUES (1,1,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
 INSERT INTO role_user VALUES (2,2,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
+
+CREATE TABLE litige(
+	id NUMERIC(19,0) NOT NULL,
+	objet varchar(200),
+	localite varchar(200),
+	creation TIMESTAMP,
+	requerant varchar(200),
+	agent varchar(200),
+	PRIMARY KEY (id)
+);

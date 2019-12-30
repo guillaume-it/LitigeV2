@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:9092/api/',
+  serverUrl: 'http://localhost:9094/api/',
   loginUrl: 'http://localhost:9093/uaa/oauth/token ',
   signinUrl: 'http://localhost:9092/security/api/signin',
   clientId: 'adminapp',
   clientSecret: 'password',
-  scope: 'role_admin'
+  scope: 'admin'
 };
 
 /*

@@ -14,23 +14,16 @@ spring:
    application:
       name: resource-server-1
    jpa:
-      properties:
-         hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
-      hibernate:
-         naming:
-            physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-         ddl-auto: validate
+      database-platform: org.hibernate.dialect.H2Dialect
+      show-sql: false
    datasource:
-      url: jdbc:postgresql://localhost:5432/oauth2?useSSL=false
-      username: postgres
-      password: postgres
-      driver-class-name: org.postgresql.Driver
-      tomcat:
-         test-while-idle: true
-         validation-query: SELECT 1
-      initialization-mode: never
-      platform: postgres
+      url: jdbc:h2:mem:testdb
+      driverClassName: org.h2.Driver
+      username: sa
+      password: password
+   h2:
+      console:
+         enabled: true
 #  jpa:
    jackson:
       property-naming-strategy: SNAKE_CASE
@@ -48,6 +41,8 @@ eureka:
          defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
    server:
       wait-time-in-ms-when-sync-empty: 3000
+      
+
 logging:
-   level:
-      root: INFO
+  level:
+    root: INFO

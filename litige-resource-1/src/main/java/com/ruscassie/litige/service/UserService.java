@@ -19,8 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ruscassie.litige.dto.Role;
 import com.ruscassie.litige.dto.User;
+import com.ruscassie.litige.entity.Role;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.repository.UserRepository;
 
@@ -90,7 +90,7 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		final com.ruscassie.litige.entity.User user = userRepository.findByEmail(username)
 				.orElseThrow(() -> new RuntimeException("User not found: " + username));
-		final GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().name());
+		final GrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles().get(0).getName());
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
 				Arrays.asList(authority));
 
@@ -103,8 +103,14 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User signin(final String email, final String password) {
-		final com.ruscassie.litige.entity.User u = new com.ruscassie.litige.entity.User(null, email,
-				passwordEncoder.encode(password), Role.USER);
+		final Role role = new Role();
+		role.setName(com.ruscassie.litige.dto.Role.USER.name());
+		final com.ruscassie.litige.entity.User u = new com.ruscassie.litige.entity.User();
+
+		u.setId(null);
+		u.setEmail(email);
+		u.setPassword(passwordEncoder.encode(password));
+		u.setRoles(Arrays.asList(role));
 		return serviceMapper.mapEntityToDto(userRepository.save(u), User.class);
 	}
 
