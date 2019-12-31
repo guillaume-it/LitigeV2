@@ -1,29 +1,9 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpRequest
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import {
-  BehaviorSubject,
-  empty,
-  Observable,
-  of,
-  Subject,
-  EMPTY,
-  throwError
-} from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  skipWhile,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
+import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 import { Role, User } from '../models/user';
 import { ConfigService } from './config.service';
 import { TokenInterceptor } from './token.interceptor';
@@ -43,12 +23,7 @@ export class AuthenticationService {
   logout$: Observable<string>;
   private userLoading = false;
 
-  constructor(
-    private http: HttpClient,
-    private config: ConfigService,
-    private router: Router,
-    private userService: UserService
-  ) {
+  constructor(private http: HttpClient, private config: ConfigService, private router: Router, private userService: UserService) {
     console.log('init auth');
     this.jwtHelper = new JwtHelperService();
     TokenInterceptor.init(this);
@@ -106,11 +81,7 @@ export class AuthenticationService {
   }
 
   interceptUrl(req: HttpRequest<any>): boolean {
-    return (
-      req.url.startsWith(this.config.config.serverUrl) &&
-      !req.url.startsWith(this.config.config.authUrl + '/signin') &&
-      !req.headers.get('Authorization')
-    );
+    return req.url.startsWith(this.config.config.serverUrl) && !req.url.startsWith(this.config.config.authUrl + '/signin') && !req.headers.get('Authorization');
   }
 
   login(username: string, password: string): Promise<string> {
@@ -126,10 +97,7 @@ export class AuthenticationService {
 
   currentUserUpdateForceLogout(user: User): boolean {
     console.log(`force update of logged user ${user.email}`);
-    if (
-      user.email !== this.loggedUserSubject.value.email ||
-      user.role !== this.loggedUserSubject.value.role
-    ) {
+    if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
       this.logout('Changed email or role of the current user: forced logout');
       return true;
     }
@@ -138,9 +106,7 @@ export class AuthenticationService {
   }
 
   hasRole(role: string): Observable<boolean> {
-    return this.loggedUser$.pipe(
-      map(loggedUser => loggedUser && loggedUser.role === Role[role])
-    );
+    return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
   }
 
   private extractLoggedUser(accessToken): Observable<User> {
@@ -169,30 +135,17 @@ export class AuthenticationService {
     return this.loadAccessToken(false, token);
   }
 
-  private loadAccessToken(
-    retrieveAccessToken: boolean,
-    refreshToken?: string,
-    username?: string,
-    password?: string
-  ): Observable<string> {
+  private loadAccessToken(retrieveAccessToken: boolean, refreshToken?: string, username?: string, password?: string): Observable<string> {
     console.log(retrieveAccessToken ? 'login' : 'refresh_token');
     const params = retrieveAccessToken
       ? new HttpParams()
           .set('username', username)
           .set('password', password)
           .set('grant_type', 'password')
-      : new HttpParams()
-          .set(refreshTokenKey, refreshToken)
-          .set('grant_type', refreshTokenKey);
+      : new HttpParams().set(refreshTokenKey, refreshToken).set('grant_type', refreshTokenKey);
     return this.http
       .post<any>(this.config.config.loginUrl, params, {
-        headers: new HttpHeaders().append(
-          'Authorization',
-          'Basic ' +
-            btoa(
-              `${this.config.config.clientId}:${this.config.config.clientSecret}`
-            )
-        )
+        headers: new HttpHeaders().append('Authorization', 'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`))
       })
       .pipe(
         // delay(2000),

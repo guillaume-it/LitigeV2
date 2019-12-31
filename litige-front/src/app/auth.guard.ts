@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Role, User } from './models/user';
@@ -16,17 +9,11 @@ import { AuthenticationService } from './services/authentication.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private authentication: AuthenticationService,
-    private router: Router
-  ) {
+  constructor(private authentication: AuthenticationService, private router: Router) {
     console.log('init guard');
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     console.log(`canActivate '${route.url}'`);
     return this.canActivateRoute(route, state);
   }
@@ -34,19 +21,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     console.log(`canActivate child '${childRoute.url}'`);
     return this.canActivateRoute(childRoute, state);
   }
 
-  private canActivateRoute(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  private canActivateRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.authentication.loggedUser$.pipe(
       map(loggedUser => {
         const res = this.checkRoute(route, state, loggedUser);
@@ -56,33 +36,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     );
   }
 
-  private checkRoute(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-    user: User
-  ): boolean {
-    if (
-      (!route.data.roles && user) ||
-      (route.data.roles && !user) ||
-      (user && route.data.roles && !route.data.roles.includes(user.role)) ||
-      state.url === '/' ||
-      state.url === ''
-    ) {
-      console.log(user);
-      if (user) {
-        if (user.role === Role.ADMIN) {
-          console.log('/admin/users');
-          this.router.navigate(['/admin/users']);
-        } else {
-          console.log('/litige');
-          this.router.navigate(['/litige']);
-        }
-      } else {
-        console.log('/login');
-        this.router.navigate(['/login']);
-      }
-      return false;
+  private checkRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot, user: User): boolean {
+    console.log('Roles: ', route.data.roles);
+    console.log('User: ', user);
+    if ((!route.data.roles && !user) || (user && (!user.role || (user.role && user.role.length > 0 && route.data.roles.includes(user.role))))) {
+      return true;
     }
-    return true;
+    return false;
   }
 }

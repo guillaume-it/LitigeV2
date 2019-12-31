@@ -9,14 +9,14 @@ import { Role } from './models/user';
 const routes: Routes = [
   {
     path: '',
-    // data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] },
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] },
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'profile',
-        component: ProfileComponent
-        //  data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] }
+        component: ProfileComponent,
+        data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] }
       },
       { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
       { path: '', loadChildren: './litige/litige.module#LitigeModule' }
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    //  canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'signin', component: SigninComponent }

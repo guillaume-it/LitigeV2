@@ -3,6 +3,7 @@ package com.ruscassie.litige.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public class LitigeController {
 		litigeService.delete(id);
 	}
 
-	// @PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
 		// return litigeService.findOne(id);
