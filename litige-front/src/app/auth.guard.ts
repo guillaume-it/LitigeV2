@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Role, User } from './models/user';
@@ -13,7 +20,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     console.log('init guard');
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     console.log(`canActivate '${route.url}'`);
     return this.canActivateRoute(route, state);
   }
@@ -39,7 +49,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   private checkRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot, user: User): boolean {
     console.log('Roles: ', route.data.roles);
     console.log('User: ', user);
-    if ((!route.data.roles && !user) || (user && (!user.role || (user.role && user.role.length > 0 && route.data.roles.includes(user.role))))) {
+    if (
+      (!route.data.roles && !user) ||
+      (user && (!user.role || (user.role && user.role.length > 0 && route.data.roles.includes(user.role))))
+    ) {
       return true;
     }
     return false;
