@@ -7,11 +7,9 @@ import { AuthGuard } from '../auth.guard';
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.ADMIN, Role.USER_MANAGER] },
-    canActivateChild: [AuthGuard],
-    children: [
-      { path: 'users', component: UsersComponent }
-    ]
+    //  data: { roles: [Role.ADMIN, Role.USER] },
+    //canActivateChild: [AuthGuard],
+    children: [{ path: 'users', component: UsersComponent }]
   }
 ];
 
@@ -19,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

@@ -7,8 +7,8 @@ import { LitigeListComponent } from './litige-list/litige-list.component';
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.USER, Role.ADMIN] },
-    canActivateChild: [AuthGuard],
+    // data: { roles: [Role.USER, Role.ADMIN] },
+    //canActivateChild: [AuthGuard],
     children: [{ path: 'litige', component: LitigeListComponent }]
   }
 ];

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:9094/api/',
-  loginUrl: 'http://localhost:9093/auth/oauth/token ',
-  authUrl: 'http://localhost:9093/auth',
+  serverUrl: 'http://localhost:9092/api/',
+  loginUrl: 'http://localhost:9092/auth/oauth/token ',
+  authUrl: 'http://localhost:9092/auth',
   clientId: 'adminapp',
   clientSecret: 'password',
   scope: 'admin'
