@@ -94,7 +94,7 @@ INSERT INTO permission_role (permission_id,role_id,created_on,updated_on,version
 
 CREATE TABLE userdb (
   id NUMERIC(19,0) NOT NULL,
-  username varchar(24) NOT NULL,
+  name varchar(24) NOT NULL,
   password varchar(200) NOT NULL,
   email varchar(255) NOT NULL,
   enabled boolean,

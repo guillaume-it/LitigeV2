@@ -38,7 +38,6 @@ public class LitigeController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
-		// return litigeService.findOne(id);
 		final Litige li = new Litige();
 		li.setAgent("agent");
 		return li;

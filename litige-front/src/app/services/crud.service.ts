@@ -20,10 +20,7 @@ export class CrudService {
       params = params.set('page', config.page.toString());
       params = params.set('size', config.limit.toString());
       if (config.sort.direction) {
-        params = params.set(
-          'sort',
-          config.sort.active + ',' + config.sort.direction
-        );
+        params = params.set('sort', config.sort.active + ',' + config.sort.direction);
       }
     }
 
@@ -39,6 +36,7 @@ export class CrudService {
   }
 
   post<T>(url: string, params: HttpParams): Observable<T> {
+    console.log(url);
     return this.http.post<T>(url, params);
   }
 }

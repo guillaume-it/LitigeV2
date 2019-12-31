@@ -71,6 +71,11 @@ class UserController {
 		}
 	}
 
+	@PostMapping("/validateEmail")
+	Boolean emailExists(@RequestParam final String email) {
+		return userService.existsByEmail(email);
+	}
+
 	@GetMapping("/findByEmail")
 	// @PreAuthorize("hasAuthority('ADMIN') || (authentication.principal ==
 	// #email)")
@@ -94,6 +99,11 @@ class UserController {
 			return userService.findAllByEmailContainsAndEmail(email, auth, pageable);
 		}
 		return userService.findByEmailContains(email, pageable);
+	}
+
+	@PostMapping("/signin")
+	User signin(@RequestParam final String email, @RequestParam final String password) {
+		return userService.signin(email, password);
 	}
 
 	@PutMapping("/{id}")

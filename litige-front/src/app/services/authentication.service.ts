@@ -1,3 +1,5 @@
+import { environment } from './../../environments/environment';
+import { CrudService } from './crud.service';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,7 +25,13 @@ export class AuthenticationService {
   logout$: Observable<string>;
   private userLoading = false;
 
-  constructor(private http: HttpClient, private config: ConfigService, private router: Router, private userService: UserService) {
+  constructor(
+    private http: HttpClient,
+    private config: ConfigService,
+    private router: Router,
+    private userService: UserService,
+    private crudService: CrudService
+  ) {
     console.log('init auth');
     this.jwtHelper = new JwtHelperService();
     TokenInterceptor.init(this);
@@ -81,7 +89,11 @@ export class AuthenticationService {
   }
 
   interceptUrl(req: HttpRequest<any>): boolean {
-    return req.url.startsWith(this.config.config.serverUrl) && !req.url.startsWith(this.config.config.authUrl + '/signin') && !req.headers.get('Authorization');
+    return (
+      req.url.startsWith(this.config.config.serverUrl) &&
+      !req.url.startsWith(this.config.config.authUrl + '/signin') &&
+      !req.headers.get('Authorization')
+    );
   }
 
   login(username: string, password: string): Promise<string> {
@@ -90,6 +102,7 @@ export class AuthenticationService {
 
   logout(msg: string): Promise<boolean> {
     console.log('logout');
+    this.crudService.post(environment.authUrl + '/oauth/logout', new HttpParams()).subscribe(data => {});
     this.clearToken();
     this.logoutSubject.next(msg);
     return this.router.navigate(['/login']);
@@ -135,7 +148,12 @@ export class AuthenticationService {
     return this.loadAccessToken(false, token);
   }
 
-  private loadAccessToken(retrieveAccessToken: boolean, refreshToken?: string, username?: string, password?: string): Observable<string> {
+  private loadAccessToken(
+    retrieveAccessToken: boolean,
+    refreshToken?: string,
+    username?: string,
+    password?: string
+  ): Observable<string> {
     console.log(retrieveAccessToken ? 'login' : 'refresh_token');
     const params = retrieveAccessToken
       ? new HttpParams()
@@ -145,7 +163,10 @@ export class AuthenticationService {
       : new HttpParams().set(refreshTokenKey, refreshToken).set('grant_type', refreshTokenKey);
     return this.http
       .post<any>(this.config.config.loginUrl, params, {
-        headers: new HttpHeaders().append('Authorization', 'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`))
+        headers: new HttpHeaders().append(
+          'Authorization',
+          'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)
+        )
       })
       .pipe(
         // delay(2000),

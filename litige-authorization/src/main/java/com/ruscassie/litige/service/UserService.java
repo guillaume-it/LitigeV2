@@ -90,10 +90,11 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String input) {
 		Optional<com.ruscassie.litige.entity.User> user = null;
 
-		if (input.contains("@"))
-			user = userRepository.findByEmail(input);
-		else
-			user = userRepository.findByUsername(input);
+//		if (input.contains("@"))
+		user = userRepository.findByEmail(input);
+		System.err.println(user.toString());
+//		else
+//			user = userRepository.findByUsername(input);
 
 		if (!user.isPresent())
 			throw new BadCredentialsException("Bad credentials");

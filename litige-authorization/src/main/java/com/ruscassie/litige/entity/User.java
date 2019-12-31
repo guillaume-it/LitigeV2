@@ -43,7 +43,7 @@ public class User implements UserDetails {
 	private String email;
 
 	@Column
-	private String username;
+	private String name;
 
 	@Column
 	private String password;
@@ -81,6 +81,12 @@ public class User implements UserDetails {
 		});
 
 		return authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		// use by spring to check the login
+		return email;
 	}
 
 	@Override
