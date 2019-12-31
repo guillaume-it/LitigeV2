@@ -10,11 +10,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,14 +23,15 @@ import com.ruscassie.litige.entity.Role;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.repository.UserRepository;
 
-@Service
+@Service()
 public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	final ServiceMapper<User, com.ruscassie.litige.entity.User> serviceMapper = new ServiceMapper<>();
+	private final ServiceMapper<User, com.ruscassie.litige.entity.User> serviceMapper = new ServiceMapper<>();
 
 	public void changePassword(final Long id, final String oldPassword, final String newPassword) {
 		final com.ruscassie.litige.entity.User user = userRepository.findById(id).orElseThrow(
@@ -87,14 +87,31 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-		final com.ruscassie.litige.entity.User user = userRepository.findByEmail(username)
-				.orElseThrow(() -> new RuntimeException("User not found: " + username));
-		final GrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles().get(0).getName());
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-				Arrays.asList(authority));
+	public UserDetails loadUserByUsername(final String input) {
+		Optional<com.ruscassie.litige.entity.User> user = null;
 
+		if (input.contains("@"))
+			user = userRepository.findByEmail(input);
+		else
+			user = userRepository.findByUsername(input);
+
+		if (!user.isPresent())
+			throw new BadCredentialsException("Bad credentials");
+
+		new AccountStatusUserDetailsChecker().check(user.get());
+
+		return user.get();
 	}
+
+//	@Override
+//	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+//		final com.ruscassie.litige.entity.User user = userRepository.findByEmail(username)
+//				.orElseThrow(() -> new RuntimeException("User not found: " + username));
+//		final GrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles().get(0).getName());
+//		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+//				Arrays.asList(authority));
+//
+//	}
 
 	public User save(@Valid final User user) {
 		return serviceMapper.mapEntityToDto(
@@ -104,7 +121,7 @@ public class UserService implements UserDetailsService {
 
 	public User signin(final String email, final String password) {
 		final Role role = new Role();
-		role.setName(com.ruscassie.litige.dto.Role.USER.name());
+		role.setName("user");
 		final com.ruscassie.litige.entity.User u = new com.ruscassie.litige.entity.User();
 
 		u.setId(null);
@@ -126,4 +143,5 @@ public class UserService implements UserDetailsService {
 		userRepository.save(save);
 
 	}
+
 }

@@ -19,7 +19,7 @@ export class UserService {
   constructor(private crudService: CrudService) {
     console.log('init userservice');
     // super(User, http, config.config.serverUrl + 'users', config.config.serverUrl + 'users/search');
-    // this.signinUrl = config.config.signinUrl;
+    // this.signinUrl = config.config.authUrl + 'signin' + ;
   }
 
   // prepareData(item: User): Object {
@@ -37,13 +37,16 @@ export class UserService {
     throw new Error('Method not implemented.');
   }
   all(): Observable<Page<User>> {
-    return this.crudService.get(url.users);
+    return this.crudService.get(environment.authUrl + '/users');
   }
 
   findByEmail(email: string): Observable<User> {
     const params = new HttpParams().set('email', email);
 
-    return this.crudService.get(url.users + '/findByEmail', params);
+    return this.crudService.get(
+      environment.authUrl + '/users/findByEmail',
+      params
+    );
   }
 
   changePassword(
@@ -55,7 +58,7 @@ export class UserService {
     return (
       this.crudService
         .put<boolean>(
-          url.users + `/${id}/changePassword`,
+          environment.authUrl + `/users/${id}/changePassword`,
           new HttpParams()
             .set('id', String(id))
             .set('oldPassword', oldPassword)
@@ -75,7 +78,7 @@ export class UserService {
   signin(email: string, password: string): Observable<User> {
     console.log(`signin ${email} ${password}`);
     return this.crudService.post<User>(
-      environment.signinUrl,
+      environment.authUrl + 'signin',
       new HttpParams().set('email', email).set('password', password)
     );
   }
@@ -83,14 +86,14 @@ export class UserService {
   validateEmail(email: string): Observable<boolean> {
     console.log(`validateEmail ${email}`);
     return this.crudService.post<boolean>(
-      environment.signinUrl + '/validateEmail',
+      environment.authUrl + '/signin/validateEmail',
       new HttpParams().set('email', email)
     );
   }
 
   update(user: User): Observable<boolean> {
     return this.crudService
-      .putObjet<User, boolean>(url.users + '/' + user.id, user)
+      .putObjet<User, boolean>(environment.authUrl + '/users/' + user.id, user)
       .pipe(
         map(res => {
           console.log(`updated ${user.constructor.name} ${user.id}`);

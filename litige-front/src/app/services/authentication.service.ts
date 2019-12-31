@@ -1,9 +1,29 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
-import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  empty,
+  Observable,
+  of,
+  Subject,
+  EMPTY,
+  throwError
+} from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  skipWhile,
+  switchMap,
+  tap
+} from 'rxjs/operators';
 import { Role, User } from '../models/user';
 import { ConfigService } from './config.service';
 import { TokenInterceptor } from './token.interceptor';
@@ -14,7 +34,6 @@ const refreshTokenKey = 'refresh_token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-
   private jwtHelper: JwtHelperService;
   private accessTokenSubject: BehaviorSubject<string>;
   accessToken$: Observable<string>;
@@ -28,7 +47,7 @@ export class AuthenticationService {
     private http: HttpClient,
     private config: ConfigService,
     private router: Router,
-    private userService: UserService,
+    private userService: UserService
   ) {
     console.log('init auth');
     this.jwtHelper = new JwtHelperService();
@@ -52,7 +71,7 @@ export class AuthenticationService {
         }
         console.log(`access token available ${!!token}`);
         return token ? of(token) : EMPTY;
-      }),
+      })
     );
   }
 
@@ -65,12 +84,15 @@ export class AuthenticationService {
         // it's mainly used inside auth guard, in order to make it waits for current user to be loaded before checking next url
         // console.log(`skip loggedUser ${this.userLoading}`);
         return this.userLoading;
-      }),
+      })
     );
-    this.accessTokenSubject.asObservable().pipe(
-      // blocks loggedUser to emit until currrent user is loaded
-      tap(() => this.userLoading = true),
-      switchMap(token => this.extractLoggedUser(token)))
+    this.accessTokenSubject
+      .asObservable()
+      .pipe(
+        // blocks loggedUser to emit until currrent user is loaded
+        tap(() => (this.userLoading = true)),
+        switchMap(token => this.extractLoggedUser(token))
+      )
       .subscribe(user => {
         console.log(`logged user change ${user ? user.email : null}`);
         // permits loggedUser to emit new values
@@ -84,9 +106,11 @@ export class AuthenticationService {
   }
 
   interceptUrl(req: HttpRequest<any>): boolean {
-    return req.url.startsWith(this.config.config.serverUrl)
-      && !req.url.startsWith(this.config.config.signinUrl)
-      && !req.headers.get('Authorization');
+    return (
+      req.url.startsWith(this.config.config.serverUrl) &&
+      !req.url.startsWith(this.config.config.authUrl + '/signin') &&
+      !req.headers.get('Authorization')
+    );
   }
 
   login(username: string, password: string): Promise<string> {
@@ -102,7 +126,10 @@ export class AuthenticationService {
 
   currentUserUpdateForceLogout(user: User): boolean {
     console.log(`force update of logged user ${user.email}`);
-    if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
+    if (
+      user.email !== this.loggedUserSubject.value.email ||
+      user.role !== this.loggedUserSubject.value.role
+    ) {
       this.logout('Changed email or role of the current user: forced logout');
       return true;
     }
@@ -111,15 +138,17 @@ export class AuthenticationService {
   }
 
   hasRole(role: string): Observable<boolean> {
-    return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
+    return this.loggedUser$.pipe(
+      map(loggedUser => loggedUser && loggedUser.role === Role[role])
+    );
   }
 
   private extractLoggedUser(accessToken): Observable<User> {
     if (accessToken) {
       const data = this.jwtHelper.decodeToken(accessToken);
-      // console.log(data);
+      console.log(data);
       if (data) {
-        return this.userService.findByEmail(data.user_name);
+        return this.userService.findByEmail(data.email);
       }
     }
     return of(null);
@@ -140,37 +169,46 @@ export class AuthenticationService {
     return this.loadAccessToken(false, token);
   }
 
-  private loadAccessToken(retrieveAccessToken: boolean, refreshToken?: string, username?: string, password?: string):
-    Observable<string> {
+  private loadAccessToken(
+    retrieveAccessToken: boolean,
+    refreshToken?: string,
+    username?: string,
+    password?: string
+  ): Observable<string> {
     console.log(retrieveAccessToken ? 'login' : 'refresh_token');
-    const params = retrieveAccessToken ?
-      new HttpParams()
-        .set('username', username)
-        .set('password', password)
-        .set('grant_type', 'password') :
-      new HttpParams()
-        .set(refreshTokenKey, refreshToken)
-        .set('grant_type', refreshTokenKey);
-    return this.http.post<any>(this.config.config.loginUrl, params,
-      {
-        headers: new HttpHeaders().append('Authorization',
-          'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)),
-      }
-    ).pipe(
-      // delay(2000),
-      map(jwt => {
-        console.log('load token response');
-        // console.log(jwt);
-        return this.storeToken(jwt);
-      }),
-      catchError(error => {
-        console.error(error);
-        if (refreshToken) {
-          this.logout('Error loading access token, force logout.');
-        }
-        throw error;
+    const params = retrieveAccessToken
+      ? new HttpParams()
+          .set('username', username)
+          .set('password', password)
+          .set('grant_type', 'password')
+      : new HttpParams()
+          .set(refreshTokenKey, refreshToken)
+          .set('grant_type', refreshTokenKey);
+    return this.http
+      .post<any>(this.config.config.loginUrl, params, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          'Basic ' +
+            btoa(
+              `${this.config.config.clientId}:${this.config.config.clientSecret}`
+            )
+        )
       })
-    );
+      .pipe(
+        // delay(2000),
+        map(jwt => {
+          console.log('load token response');
+          // console.log(jwt);
+          return this.storeToken(jwt);
+        }),
+        catchError(error => {
+          console.error(error);
+          if (refreshToken) {
+            this.logout('Error loading access token, force logout.');
+          }
+          throw error;
+        })
+      );
   }
 
   private getToken(key: string): string {
@@ -201,5 +239,4 @@ export class AuthenticationService {
     console.log('token invalid');
     return null;
   }
-
 }

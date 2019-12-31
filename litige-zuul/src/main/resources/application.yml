@@ -33,7 +33,7 @@ zuul:
       stripPrefix: false
     auth-server:
       sensitiveHeaders:
-      path: /uaa/**
+      path: /auth/**
       serviceId: auth-server
       stripPrefix: false
 eureka:

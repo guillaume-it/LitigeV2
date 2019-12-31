@@ -6,18 +6,19 @@ import { environment } from 'src/environments/environment';
 interface Config {
   serverUrl: string;
   loginUrl: string;
-  signinUrl: string;
+  authUrl: string;
   clientId: string;
   clientSecret: string;
 }
 
-export function configServiceInitializerFactory(config: ConfigService): Function {
+export function configServiceInitializerFactory(
+  config: ConfigService
+): Function {
   return () => config.load();
 }
 
 @Injectable()
 export class ConfigService {
-
   config: Config;
 
   constructor(private http: HttpClient) {}
@@ -27,11 +28,10 @@ export class ConfigService {
     this.config = {
       serverUrl: environment.serverUrl,
       loginUrl: environment.loginUrl,
-      signinUrl: environment.signinUrl,
+      authUrl: environment.authUrl,
       clientId: environment.clientId,
       clientSecret: environment.clientSecret
     };
     return of().toPromise();
   }
-
 }

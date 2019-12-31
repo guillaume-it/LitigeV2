@@ -2,7 +2,7 @@ server:
    port: 9093
    use-forward-headers: false
    servlet:
-      context-path: /uaa
+      context-path: /auth
       
       
       

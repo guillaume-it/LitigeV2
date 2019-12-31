@@ -72,7 +72,8 @@ class UserController {
 	}
 
 	@GetMapping("/findByEmail")
-	@PreAuthorize("!hasAuthority('USER') || (authentication.principal == #email)")
+	// @PreAuthorize("hasAuthority('ADMIN') || (authentication.principal ==
+	// #email)")
 	User findByEmail(@RequestParam final String email, final OAuth2Authentication authentication) {
 		return userService.findByEmail(email)
 				.orElseThrow(() -> new EntityNotFoundException(User.class, "email", email));

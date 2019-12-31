@@ -12,7 +12,7 @@ export class CrudService {
   constructor(private http: HttpClient) {}
 
   get<T>(url: string, params?: HttpParams): Observable<T> {
-    return this.http.get<T>(environment.serverUrl + url, { params });
+    return this.http.get<T>(url, { params });
   }
 
   getPage<T>(url: string, config?: Pageable<T>): Observable<Page<T>> {
@@ -28,18 +28,18 @@ export class CrudService {
       }
     }
 
-    console.log(`load ${environment.serverUrl}${url}, ${params.toString()}`);
-    return this.http.get<Page<T>>(environment.serverUrl + url, { params });
+    console.log(`load ${url}, ${params.toString()}`);
+    return this.http.get<Page<T>>(url, { params });
   }
 
   putObjet<P, R>(url: string, data: P): Observable<R> {
-    return this.http.put<R>(environment.serverUrl + url, data);
+    return this.http.put<R>(url, data);
   }
   put<T>(url: string, params: HttpParams): Observable<T> {
-    return this.http.put<T>(environment.serverUrl + url, params);
+    return this.http.put<T>(url, params);
   }
 
   post<T>(url: string, params: HttpParams): Observable<T> {
-    return this.http.post<T>(environment.serverUrl + url, params);
+    return this.http.post<T>(url, params);
   }
 }

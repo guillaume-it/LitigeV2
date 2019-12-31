@@ -4,6 +4,7 @@ import { Litige } from '../models/litige';
 import { Observable } from 'rxjs';
 import { Page } from '../models/page';
 import { url } from './url';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class LitigeServive {
   constructor(private crudService: CrudService) {}
 
   loadPages(): Observable<Page<Litige>> {
-    return this.crudService.getPage(url.litiges, {
+    return this.crudService.getPage(environment.serverUrl + url.litiges, {
       page: 0,
       limit: 20,
       size: 20,
@@ -23,6 +24,6 @@ export class LitigeServive {
     });
   }
   getLitige(): Observable<Litige> {
-    return this.crudService.get(url.litiges + '1');
+    return this.crudService.get(environment.serverUrl + url.litiges + '1');
   }
 }
