@@ -96,12 +96,11 @@ export class AuthenticationService {
     );
   }
 
-  login(username: string, password: string): Promise<string> {
-    return this.loadAccessToken(true, null, username, password).toPromise();
+  login(email: string, password: string): Promise<string> {
+    return this.loadAccessToken(true, null, email, password).toPromise();
   }
 
   logout(msg: string): Promise<boolean> {
-    console.log('logout');
     this.crudService.post(environment.authUrl + '/oauth/logout', new HttpParams()).subscribe(data => {});
     this.clearToken();
     this.logoutSubject.next(msg);

@@ -43,7 +43,8 @@ public class LitigeController {
 		return li;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "")
 	public Page<Litige> list(final Pageable pageable) {
 		return litigeService.findAll(pageable);
 	}

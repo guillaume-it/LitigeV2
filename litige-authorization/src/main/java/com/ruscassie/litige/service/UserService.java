@@ -23,7 +23,7 @@ import com.ruscassie.litige.entity.Role;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.repository.UserRepository;
 
-@Service()
+@Service
 public class UserService implements UserDetailsService {
 
 	@Autowired

@@ -4,26 +4,24 @@
   </mat-card-title>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-card-content>
-
       <mat-form-field>
-        <input type="email" placeholder="Email" matInput formControlName="username">
-        <mat-error *ngFor="let error of loginForm.get('username').errors | keyvalue | slice:0:1">
-          {{error.key === 'email' ? 'Email format not valid' : ''}}
-          {{error.key === 'required' ? 'Email is required' : ''}}
+        <input type="email" placeholder="Email" matInput formControlName="login" />
+        <mat-error *ngFor="let error of loginForm.get('login').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'email' ? 'Email format not valid' : '' }}
+          {{ error.key === 'required' ? 'Email is required' : '' }}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input type="password" placeholder="Password" matInput formControlName="password">
-        <mat-error *ngFor="let error of loginForm.get('password').errors | keyvalue | slice:0:1">
-          {{error.key === 'required' ? 'Password is required' : ''}}
+        <input type="password" placeholder="Password" matInput formControlName="password" />
+        <mat-error *ngFor="let error of loginForm.get('password').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'required' ? 'Password is required' : '' }}
         </mat-error>
       </mat-form-field>
 
       <div class="spinner" *ngIf="loading$ | async">
         <mat-spinner></mat-spinner>
       </div>
-
     </mat-card-content>
 
     <mat-card-actions>

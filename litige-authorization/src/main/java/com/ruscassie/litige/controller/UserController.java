@@ -77,9 +77,8 @@ class UserController {
 	}
 
 	@GetMapping("/findByEmail")
-	// @PreAuthorize("hasAuthority('ADMIN') || (authentication.principal ==
-	// #email)")
-	User findByEmail(@RequestParam final String email, final OAuth2Authentication authentication) {
+	@PreAuthorize("(hasAuthority('ADMIN') || hasAuthority('USER') ) && (authentication.principal == #email)")
+	User findByEmail(@RequestParam final String email) {
 		return userService.findByEmail(email)
 				.orElseThrow(() -> new EntityNotFoundException(User.class, "email", email));
 	}
@@ -111,4 +110,5 @@ class UserController {
 	void update(@PathVariable final Long id, @Valid @RequestBody final User res) {
 		userService.update(id, res);
 	}
+
 }
