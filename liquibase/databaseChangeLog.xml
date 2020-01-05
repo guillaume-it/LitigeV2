@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Guillaume (generated)" id="1578097344371-1">
+        <createTable tableName="litige">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objet" type="VARCHAR(200)"/>
+            <column name="localite" type="VARCHAR(200)"/>
+            <column name="creation" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="requerant" type="VARCHAR(200)"/>
+            <column name="agent" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-2">
+        <createTable tableName="oauth_access_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="authentication_id" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="user_name" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="client_id" type="VARCHAR(256)"/>
+            <column name="authentication" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="refresh_token" type="VARCHAR(256)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-3">
+        <createTable tableName="oauth_client_details">
+            <column name="client_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="resource_ids" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="client_secret" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="scope" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorized_grant_types" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="web_server_redirect_uri" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorities" type="VARCHAR(255)"/>
+            <column name="access_token_validity" type="INT"/>
+            <column name="refresh_token_validity" type="INT"/>
+            <column defaultValue="NULL::character varying" name="additional_information" type="VARCHAR(4096)"/>
+            <column defaultValue="NULL::character varying" name="autoapprove" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-4">
+        <createTable tableName="oauth_refresh_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column name="authentication" type="BYTEA"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-5">
+        <createTable tableName="permission">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-6">
+        <createTable tableName="permission_role">
+            <column name="permission_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-7">
+        <createTable tableName="role">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-8">
+        <createTable tableName="role_user">
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-9">
+        <createTable tableName="userdb">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(24)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOL"/>
+            <column name="account_expired" type="BOOL"/>
+            <column name="credentials_expired" type="BOOL"/>
+            <column name="account_locked" type="BOOL"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-10">
+        <addPrimaryKey columnNames="id" constraintName="litige_pkey" tableName="litige"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-11">
+        <addPrimaryKey columnNames="client_id" constraintName="oauth_client_details_pkey" tableName="oauth_client_details"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-12">
+        <addPrimaryKey columnNames="id" constraintName="permission_pkey" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-13">
+        <addPrimaryKey columnNames="permission_id, role_id" constraintName="permission_role_pkey" tableName="permission_role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-14">
+        <addPrimaryKey columnNames="id" constraintName="role_pkey" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-15">
+        <addPrimaryKey columnNames="role_id, user_id" constraintName="role_user_pkey" tableName="role_user"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-16">
+        <addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-17">
+        <addUniqueConstraint columnNames="name" constraintName="permission_name_key" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-18">
+        <addUniqueConstraint columnNames="name" constraintName="role_name_key" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-19">
+        <addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-20">
+        <addUniqueConstraint columnNames="name" constraintName="userdb_username_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-21">
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="permission_role" constraintName="permission_role_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-22">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="permission_role" constraintName="permission_role_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-23">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user" constraintName="role_user_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097344371-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="role_user" constraintName="role_user_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-1">
+        <createTable tableName="litige">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objet" type="VARCHAR(200)"/>
+            <column name="localite" type="VARCHAR(200)"/>
+            <column name="creation" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="requerant" type="VARCHAR(200)"/>
+            <column name="agent" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-2">
+        <createTable tableName="oauth_access_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="authentication_id" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="user_name" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="client_id" type="VARCHAR(256)"/>
+            <column name="authentication" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="refresh_token" type="VARCHAR(256)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-3">
+        <createTable tableName="oauth_client_details">
+            <column name="client_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="resource_ids" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="client_secret" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="scope" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorized_grant_types" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="web_server_redirect_uri" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorities" type="VARCHAR(255)"/>
+            <column name="access_token_validity" type="INT"/>
+            <column name="refresh_token_validity" type="INT"/>
+            <column defaultValue="NULL::character varying" name="additional_information" type="VARCHAR(4096)"/>
+            <column defaultValue="NULL::character varying" name="autoapprove" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-4">
+        <createTable tableName="oauth_refresh_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column name="authentication" type="BYTEA"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-5">
+        <createTable tableName="permission">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-6">
+        <createTable tableName="permission_role">
+            <column name="permission_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-7">
+        <createTable tableName="role">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-8">
+        <createTable tableName="role_user">
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-9">
+        <createTable tableName="userdb">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(24)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOL"/>
+            <column name="account_expired" type="BOOL"/>
+            <column name="credentials_expired" type="BOOL"/>
+            <column name="account_locked" type="BOOL"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-10">
+        <addPrimaryKey columnNames="id" constraintName="litige_pkey" tableName="litige"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-11">
+        <addPrimaryKey columnNames="client_id" constraintName="oauth_client_details_pkey" tableName="oauth_client_details"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-12">
+        <addPrimaryKey columnNames="id" constraintName="permission_pkey" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-13">
+        <addPrimaryKey columnNames="permission_id, role_id" constraintName="permission_role_pkey" tableName="permission_role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-14">
+        <addPrimaryKey columnNames="id" constraintName="role_pkey" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-15">
+        <addPrimaryKey columnNames="role_id, user_id" constraintName="role_user_pkey" tableName="role_user"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-16">
+        <addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-17">
+        <addUniqueConstraint columnNames="name" constraintName="permission_name_key" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-18">
+        <addUniqueConstraint columnNames="name" constraintName="role_name_key" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-19">
+        <addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-20">
+        <addUniqueConstraint columnNames="name" constraintName="userdb_username_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-21">
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="permission_role" constraintName="permission_role_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-22">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="permission_role" constraintName="permission_role_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-23">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user" constraintName="role_user_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097867240-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="role_user" constraintName="role_user_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-1">
+        <createTable tableName="litige">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objet" type="VARCHAR(200)"/>
+            <column name="localite" type="VARCHAR(200)"/>
+            <column name="creation" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="requerant" type="VARCHAR(200)"/>
+            <column name="agent" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-2">
+        <createTable tableName="oauth_access_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="authentication_id" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="user_name" type="VARCHAR(256)"/>
+            <column defaultValue="NULL::character varying" name="client_id" type="VARCHAR(256)"/>
+            <column name="authentication" type="BYTEA"/>
+            <column defaultValue="NULL::character varying" name="refresh_token" type="VARCHAR(256)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-3">
+        <createTable tableName="oauth_client_details">
+            <column name="client_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="resource_ids" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="client_secret" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="scope" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorized_grant_types" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="web_server_redirect_uri" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="authorities" type="VARCHAR(255)"/>
+            <column name="access_token_validity" type="INT"/>
+            <column name="refresh_token_validity" type="INT"/>
+            <column defaultValue="NULL::character varying" name="additional_information" type="VARCHAR(4096)"/>
+            <column defaultValue="NULL::character varying" name="autoapprove" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-4">
+        <createTable tableName="oauth_refresh_token">
+            <column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)"/>
+            <column name="token" type="BYTEA"/>
+            <column name="authentication" type="BYTEA"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-5">
+        <createTable tableName="permission">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-6">
+        <createTable tableName="permission_role">
+            <column name="permission_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-7">
+        <createTable tableName="role">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-8">
+        <createTable tableName="role_user">
+            <column name="role_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-9">
+        <createTable tableName="userdb">
+            <column name="id" type="numeric(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(24)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOL"/>
+            <column name="account_expired" type="BOOL"/>
+            <column name="credentials_expired" type="BOOL"/>
+            <column name="account_locked" type="BOOL"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-10">
+        <addPrimaryKey columnNames="id" constraintName="litige_pkey" tableName="litige"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-11">
+        <addPrimaryKey columnNames="client_id" constraintName="oauth_client_details_pkey" tableName="oauth_client_details"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-12">
+        <addPrimaryKey columnNames="id" constraintName="permission_pkey" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-13">
+        <addPrimaryKey columnNames="permission_id, role_id" constraintName="permission_role_pkey" tableName="permission_role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-14">
+        <addPrimaryKey columnNames="id" constraintName="role_pkey" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-15">
+        <addPrimaryKey columnNames="role_id, user_id" constraintName="role_user_pkey" tableName="role_user"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-16">
+        <addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-17">
+        <addUniqueConstraint columnNames="name" constraintName="permission_name_key" tableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-18">
+        <addUniqueConstraint columnNames="name" constraintName="role_name_key" tableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-19">
+        <addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-20">
+        <addUniqueConstraint columnNames="name" constraintName="userdb_username_key" tableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-21">
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="permission_role" constraintName="permission_role_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="permission"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-22">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="permission_role" constraintName="permission_role_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-23">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user" constraintName="role_user_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578097910517-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="role_user" constraintName="role_user_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="userdb"/>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-1">
+        <insert catalogName="litige" tableName="litige" >
+            <column name="id" valueNumeric="1"/>
+            <column name="objet" value="object 1&#10;"/>
+            <column name="localite" value="Yaoundé"/>
+            <column name="creation" valueDate="2019-12-25 00:00:00.0"/>
+            <column name="requerant" value="Keyte"/>
+            <column name="agent" value="Marcel"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-2">
+        <insert catalogName="litige" tableName="oauth_access_token">
+            <column name="token_id" value="c6315d0c881b7e41fc3cd69a89e11746"/>
+            <column name="token" value="[B@4b1a43d8"/>
+            <column name="authentication_id" value="c5046c30081fa72bbc0ffc34bd9505b2"/>
+            <column name="user_name" value="admin@example.com"/>
+            <column name="client_id" value="adminapp"/>
+            <column name="authentication" value="[B@6fa69af7"/>
+            <column name="refresh_token" value="9f684ed2b9bd1088621d81111f66a2e7"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_access_token">
+            <column name="token_id" value="dd65ee5372776b260a201c78cf67681a"/>
+            <column name="token" value="[B@73545b80"/>
+            <column name="authentication_id" value="116636928c2fef3364c8d47d8598f372"/>
+            <column name="user_name" value="admin@example.com"/>
+            <column name="client_id" value="adminapp"/>
+            <column name="authentication" value="[B@6d469831"/>
+            <column name="refresh_token" value="ae5b64005375affd26d475a64a0214d3"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_access_token">
+            <column name="token_id" value="bf0b3d9588fc975c0bb38cd3d7454859"/>
+            <column name="token" value="[B@74db12c2"/>
+            <column name="authentication_id" value="11a0a28e3918766a30d0bfd806ea8333"/>
+            <column name="user_name" value="admin"/>
+            <column name="client_id" value="adminapp"/>
+            <column name="authentication" value="[B@2ff15f8c"/>
+            <column name="refresh_token" value="9c3a82bb57cdf0f0a1a988095890b414"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_access_token">
+            <column name="token_id" value="0cdb39bc8eecfff42f483323c55c013d"/>
+            <column name="token" value="[B@7ea899a9"/>
+            <column name="authentication_id" value="31af2f05a3268896bc45d5c53c13cf42"/>
+            <column name="user_name" value="admin"/>
+            <column name="client_id" value="adminapp"/>
+            <column name="authentication" value="[B@2776015d"/>
+            <column name="refresh_token" value="a07cefbb677ca03c78b3ba7e56f19d1a"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-3">
+        <insert catalogName="litige" tableName="oauth_client_details">
+            <column name="client_id" value="adminapp"/>
+            <column name="resource_ids" value="mw/adminapp,ms/admin,ms/user"/>
+            <column name="client_secret" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"/>
+            <column name="scope" value="admin,user"/>
+            <column name="authorized_grant_types" value="authorization_code,password,refresh_token,implicit"/>
+            <column name="web_server_redirect_uri"/>
+            <column name="authorities"/>
+            <column name="access_token_validity" valueNumeric="900"/>
+            <column name="refresh_token_validity" valueNumeric="3600"/>
+            <column name="additional_information" value="{}"/>
+            <column name="autoapprove"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-4">
+        <insert catalogName="litige" tableName="oauth_refresh_token">
+            <column name="token_id" value="9c3a82bb57cdf0f0a1a988095890b414"/>
+            <column name="token" value="[B@1460c81d"/>
+            <column name="authentication" value="[B@38b5f25"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_refresh_token">
+            <column name="token_id" value="a07cefbb677ca03c78b3ba7e56f19d1a"/>
+            <column name="token" value="[B@327ed9f5"/>
+            <column name="authentication" value="[B@67594471"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_refresh_token">
+            <column name="token_id" value="9f684ed2b9bd1088621d81111f66a2e7"/>
+            <column name="token" value="[B@756b58a7"/>
+            <column name="authentication" value="[B@2cc04358"/>
+        </insert>
+        <insert catalogName="litige" tableName="oauth_refresh_token">
+            <column name="token_id" value="ae5b64005375affd26d475a64a0214d3"/>
+            <column name="token" value="[B@68b58644"/>
+            <column name="authentication" value="[B@45e22def"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-5">
+        <insert catalogName="litige" tableName="permission">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="can_delete_user"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="can_create_user"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="can_update_user"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission">
+            <column name="id" valueNumeric="4"/>
+            <column name="name" value="can_read_user"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-6">
+        <insert catalogName="litige" tableName="permission_role">
+            <column name="permission_id" valueNumeric="1"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission_role">
+            <column name="permission_id" valueNumeric="2"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission_role">
+            <column name="permission_id" valueNumeric="3"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission_role">
+            <column name="permission_id" valueNumeric="4"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="permission_role">
+            <column name="permission_id" valueNumeric="4"/>
+            <column name="role_id" valueNumeric="2"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-7">
+        <insert catalogName="litige" tableName="role">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="ADMIN"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="role">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="USER"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-8">
+        <insert catalogName="litige" tableName="role_user">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="role_user">
+            <column name="role_id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="role_user">
+            <column name="role_id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="created_on" valueDate="2019-12-25 00:00:00.0"/>
+            <column name="updated_on" valueDate="2019-12-25 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Guillaume (generated)" id="1578098400899-9">
+        <insert catalogName="litige" tableName="userdb">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="admin"/>
+            <column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"/>
+            <column name="email" value="admin@example.com"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="account_expired" valueBoolean="false"/>
+            <column name="credentials_expired" valueBoolean="false"/>
+            <column name="account_locked" valueBoolean="false"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+        <insert catalogName="litige" tableName="userdb">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="user"/>
+            <column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"/>
+            <column name="email" value="user@example.com"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="account_expired" valueBoolean="false"/>
+            <column name="credentials_expired" valueBoolean="false"/>
+            <column name="account_locked" valueBoolean="false"/>
+            <column name="created_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="updated_on" valueDate="1970-01-01 00:00:00.0"/>
+            <column name="version" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

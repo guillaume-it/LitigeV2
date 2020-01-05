@@ -22,9 +22,9 @@ spring:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
    datasource:
-      url: jdbc:postgresql://localhost:5432/oauth2?useSSL=false
-      username: postgres
-      password: postgres
+      url: jdbc:postgresql://localhost:5432/litige?useSSL=false
+      username: litige
+      password: litige
       driver-class-name: org.postgresql.Driver
       tomcat:
          test-while-idle: true

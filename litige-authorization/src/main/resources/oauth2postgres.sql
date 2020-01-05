@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS userdb;
 DROP TABLE IF EXISTS litige;
+DROP TABLE IF EXISTS databasechangelog;
+DROP TABLE IF EXISTS databasechangeloglock;
 commit;
 
 CREATE TABLE oauth_access_token (
@@ -45,7 +47,7 @@ CREATE TABLE oauth_client_details (
   PRIMARY KEY (client_id)
 );
 
-INSERT INTO oauth_client_details VALUES ('adminapp','mw/adminapp,ms/admin,ms/user','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','role_admin,role_superadmin','authorization_code,password,refresh_token,implicit',NULL,NULL,900,3600,'{}',NULL);
+INSERT INTO oauth_client_details VALUES ('adminapp','mw/adminapp,ms/admin,ms/user','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','role_admin','authorization_code,password,refresh_token,implicit',NULL,NULL,900,3600,'{}',NULL);
 
 CREATE TABLE permission (
   id NUMERIC(19,0) NOT NULL,
@@ -105,12 +107,12 @@ CREATE TABLE userdb (
   updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   version numeric(20)  NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
-  UNIQUE (username),
+  UNIQUE (name),
   UNIQUE (email)
 );
 
-INSERT INTO userdb (id,username,password,email,enabled,account_expired,credentials_expired,account_locked,created_on,updated_on,version) VALUES (1,'admin','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','admin@example.com',true,false,false,false,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
-INSERT INTO userdb (id,username,password,email,enabled,account_expired,credentials_expired,account_locked,created_on,updated_on,version) VALUES (2,'user','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','user@example.com',true,false,false,false,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
+INSERT INTO userdb (id,name,password,email,enabled,account_expired,credentials_expired,account_locked,created_on,updated_on,version) VALUES (1,'admin','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','admin@example.com',true,false,false,false,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
+INSERT INTO userdb (id,name,password,email,enabled,account_expired,credentials_expired,account_locked,created_on,updated_on,version) VALUES (2,'user','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','user@example.com',true,false,false,false,'1970-01-01 00:00:00','1970-01-01 00:00:00',0);
 
 CREATE TABLE role_user (
   role_id NUMERIC(19,0)  NOT NULL,

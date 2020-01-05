@@ -1,0 +1,70 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet author="Guillaume (generated)" id="1578097344371-9">
+		<createTable tableName="userdb">
+			<column name="id" type="numeric(19)">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(24)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(200)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="enabled" type="BOOL" />
+			<column name="account_expired" type="BOOL" />
+			<column name="credentials_expired" type="BOOL" />
+			<column name="account_locked" type="BOOL" />
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097344371-16">
+		<addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb" />
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097344371-19">
+		<addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb" />
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097344371-20">
+		<addUniqueConstraint columnNames="name" constraintName="userdb_username_key" tableName="userdb" />
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578098400899-9">
+		<insert catalogName="litige" tableName="userdb">
+			<column name="id" valueNumeric="1" />
+			<column name="name" value="admin" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="admin@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="userdb">
+			<column name="id" valueNumeric="2" />
+			<column name="name" value="user" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="user@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,11 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet author="Guillaume (generated)" id="1578097344371-4">
+		<createTable tableName="oauth_refresh_token">
+			<column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)" />
+			<column name="token" type="BYTEA" />
+			<column name="authentication" type="BYTEA" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>

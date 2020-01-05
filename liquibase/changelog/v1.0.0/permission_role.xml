@@ -1,0 +1,74 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet author="Guillaume (generated)" id="1578097344371-6">
+		<createTable tableName="permission_role">
+			<column name="permission_id" type="numeric(19)">
+				<constraints nullable="false" />
+			</column>
+			<column name="role_id" type="numeric(19)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097344371-13">
+		<addPrimaryKey columnNames="permission_id, role_id" constraintName="permission_role_pkey"
+			tableName="permission_role" />
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097867240-21">
+		<addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="permission_role"
+			constraintName="permission_role_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="permission" />
+	</changeSet>
+	<changeSet author="Guillaume (generated)" id="1578097867240-22">
+		<addForeignKeyConstraint baseColumnNames="role_id" baseTableName="permission_role"
+			constraintName="permission_role_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role" />
+	</changeSet>	
+	<changeSet author="Guillaume (generated)" id="1578098400899-6">
+		<insert catalogName="litige" tableName="permission_role">
+			<column name="permission_id" valueNumeric="1" />
+			<column name="role_id" valueNumeric="1" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="permission_role">
+			<column name="permission_id" valueNumeric="2" />
+			<column name="role_id" valueNumeric="1" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="permission_role">
+			<column name="permission_id" valueNumeric="3" />
+			<column name="role_id" valueNumeric="1" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="permission_role">
+			<column name="permission_id" valueNumeric="4" />
+			<column name="role_id" valueNumeric="1" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="permission_role">
+			<column name="permission_id" valueNumeric="4" />
+			<column name="role_id" valueNumeric="2" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>
