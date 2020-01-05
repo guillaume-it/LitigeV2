@@ -1,7 +1,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-	<changeSet author="Guillaume (generated)" id="1578097344371-9">
+	<changeSet author="Guillaume (generated)" id="userdb-1">
 		<createTable tableName="userdb">
 			<column name="id" type="numeric(19)">
 				<constraints nullable="false" />
@@ -30,16 +30,16 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-16">
+	<changeSet author="Guillaume (generated)" id="userdb-2">
 		<addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-19">
+	<changeSet author="Guillaume (generated)" id="userdb-3">
 		<addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-20">
+	<changeSet author="Guillaume (generated)" id="userdb-4">
 		<addUniqueConstraint columnNames="name" constraintName="userdb_username_key" tableName="userdb" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578098400899-9">
+	<changeSet author="Guillaume (generated)" id="userdb-6">
 		<insert catalogName="litige" tableName="userdb">
 			<column name="id" valueNumeric="1" />
 			<column name="name" value="admin" />
