@@ -12,3 +12,8 @@ mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
 ```
 mvn liquibase:dropAll
 ```
+
+## Load data
+```
+mvn liquibase:update
+```
