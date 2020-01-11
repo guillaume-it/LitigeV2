@@ -1,13 +1,20 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	
+	<changeSet author="Guillaume (generated)" id="userdb-7">
+		<createSequence cycle="true"  incrementBy="1"
+			 schemaName="public" sequenceName="seq_user_id" startValue="3" />
+	</changeSet>
+	
 	<changeSet author="Guillaume (generated)" id="userdb-1">
 		<createTable tableName="userdb">
-			<column name="id" type="numeric(19)">
+		
+			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_user_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="name" type="VARCHAR(24)">
-				<constraints nullable="false" />
+				<constraints nullable="true" />
 			</column>
 			<column name="password" type="VARCHAR(200)">
 				<constraints nullable="false" />
@@ -33,6 +40,7 @@
 	<changeSet author="Guillaume (generated)" id="userdb-2">
 		<addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb" />
 	</changeSet>
+		
 	<changeSet author="Guillaume (generated)" id="userdb-3">
 		<addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb" />
 	</changeSet>

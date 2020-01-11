@@ -43,17 +43,10 @@ export class UserService {
   findByEmail(email: string): Observable<User> {
     const params = new HttpParams().set('email', email);
 
-    return this.crudService.get(
-      environment.authUrl + '/users/findByEmail',
-      params
-    );
+    return this.crudService.get(environment.authUrl + '/users/findByEmail', params);
   }
 
-  changePassword(
-    id: number,
-    oldPassword: string,
-    newPassword: string
-  ): Observable<boolean> {
+  changePassword(id: number, oldPassword: string, newPassword: string): Observable<boolean> {
     console.log(`change password ${id} ${oldPassword} ${newPassword}`);
     return (
       this.crudService
@@ -78,7 +71,7 @@ export class UserService {
   signin(email: string, password: string): Observable<User> {
     console.log(`signin ${email} ${password}`);
     return this.crudService.post<User>(
-      environment.authUrl + 'signin',
+      environment.authUrl + '/users/signin',
       new HttpParams().set('email', email).set('password', password)
     );
   }
@@ -86,20 +79,18 @@ export class UserService {
   validateEmail(email: string): Observable<boolean> {
     console.log(`validateEmail ${email}`);
     return this.crudService.post<boolean>(
-      environment.authUrl + '/signin/validateEmail',
+      environment.authUrl + '/users/validateEmail',
       new HttpParams().set('email', email)
     );
   }
 
   update(user: User): Observable<boolean> {
-    return this.crudService
-      .putObjet<User, boolean>(environment.authUrl + '/users/' + user.id, user)
-      .pipe(
-        map(res => {
-          console.log(`updated ${user.constructor.name} ${user.id}`);
-          return true;
-        })
-      );
+    return this.crudService.putObjet<User, boolean>(environment.authUrl + '/users/' + user.id, user).pipe(
+      map(res => {
+        console.log(`updated ${user.constructor.name} ${user.id}`);
+        return true;
+      })
+    );
   }
 
   // prepareData(item: User): Object {

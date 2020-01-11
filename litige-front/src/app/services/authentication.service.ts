@@ -91,7 +91,7 @@ export class AuthenticationService {
   interceptUrl(req: HttpRequest<any>): boolean {
     return (
       req.url.startsWith(this.config.config.serverUrl) &&
-      !req.url.startsWith(this.config.config.authUrl + '/signin') &&
+      !req.url.startsWith(this.config.config.authUrl + '/auth') &&
       !req.headers.get('Authorization')
     );
   }

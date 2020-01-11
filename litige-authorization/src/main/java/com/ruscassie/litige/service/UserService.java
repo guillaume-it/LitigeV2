@@ -3,6 +3,7 @@ package com.ruscassie.litige.service;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -16,18 +17,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.ruscassie.litige.dto.User;
 import com.ruscassie.litige.entity.Role;
 import com.ruscassie.litige.error.EntityNotFoundException;
+import com.ruscassie.litige.repository.RoleRepository;
 import com.ruscassie.litige.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
+	private JdbcClientDetailsService jdbcClientDetailsService;
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -88,13 +101,11 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(final String input) {
+		this.log.error("loadUserByUsername: " + input);
 		Optional<com.ruscassie.litige.entity.User> user = null;
 
-//		if (input.contains("@"))
 		user = userRepository.findByEmail(input);
-		System.err.println(user.toString());
-//		else
-//			user = userRepository.findByUsername(input);
+		this.log.error("loadUserByUsername: " + user);
 
 		if (!user.isPresent())
 			throw new BadCredentialsException("Bad credentials");
@@ -121,21 +132,32 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User signin(final String email, final String password) {
-		final Role role = new Role();
-		role.setName("user");
-		final com.ruscassie.litige.entity.User u = new com.ruscassie.litige.entity.User();
+		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
+		final Role roleUser = roleRepository.findByName("role_user");
+		final Role roleAdmin = roleRepository.findByName("role_admin");
 
-		u.setId(null);
-		u.setEmail(email);
-		u.setPassword(passwordEncoder.encode(password));
-		u.setRoles(Arrays.asList(role));
-		return serviceMapper.mapEntityToDto(userRepository.save(u), User.class);
+		user.setEmail(email);
+		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
+		user.setRoles(Arrays.asList(roleUser, roleAdmin));
+
+		userRepository.save(user);
+
+		final BaseClientDetails client = new BaseClientDetails();
+		client.setClientId(user.getId().toString());
+		client.setClientSecret(user.getPassword());
+		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
+		client.setScope(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
+		client.setAccessTokenValiditySeconds(5 * 60);
+		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
+
+		jdbcClientDetailsService.addClientDetails(client);
+
+		return serviceMapper.mapEntityToDto(user, User.class);
 	}
 
 	public void update(final Long id, @Valid final User res) {
 		final com.ruscassie.litige.entity.User u = userRepository.findById(id).orElseThrow(
 				() -> new EntityNotFoundException(com.ruscassie.litige.entity.User.class, "id", id.toString()));
-		// res.setGlee(u.getGlee());
 
 		final com.ruscassie.litige.entity.User save = serviceMapper.mapDtoToEntity(res,
 				com.ruscassie.litige.entity.User.class);

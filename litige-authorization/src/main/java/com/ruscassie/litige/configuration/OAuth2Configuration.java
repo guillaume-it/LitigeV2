@@ -23,9 +23,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpointAuthenticationFilter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -34,10 +36,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import com.ruscassie.litige.entity.User;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
-
 	class CustomOauth2RequestFactory extends DefaultOAuth2RequestFactory {
 		@Autowired
 		private TokenStore tokenStore;
@@ -49,6 +53,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 		@Override
 		public TokenRequest createTokenRequest(final Map<String, String> requestParameters,
 				final ClientDetails authenticatedClient) {
+			System.err.println("createTokenRequest: " + requestParameters + " Clien details: " + authenticatedClient);
 			if (requestParameters.get("grant_type").equals("refresh_token")) {
 				final OAuth2Authentication authentication = tokenStore.readAuthenticationForRefreshToken(
 						tokenStore.readRefreshToken(requestParameters.get("refresh_token")));
@@ -95,6 +100,16 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
+
+	@Bean
+	public JdbcClientDetailsService clientDetailsService() {
+		return new JdbcClientDetailsService(dataSource);
+	}
+
+	@Bean
+	public ClientRegistrationService clientRegistrationService() {
+		return new JdbcClientDetailsService(dataSource);
+	}
 
 	@Override
 	public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {

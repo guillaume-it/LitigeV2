@@ -35,12 +35,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
+		// @formatter:off
 		http.csrf().disable().exceptionHandling()
 				.authenticationEntryPoint(
 						(request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-				.and().logout().logoutUrl("/oauth/logout").logoutSuccessHandler(customLogoutSuccessHandler).and()
-				.authorizeRequests().antMatchers("/auth/uaa").anonymous().and().authorizeRequests()
-				.antMatchers("/auth/**").authenticated().and().httpBasic();
+				.and()
+				.logout().logoutUrl("/oauth/logout").logoutSuccessHandler(customLogoutSuccessHandler)
+				.and()
+				.authorizeRequests().antMatchers("/auth/uaa").anonymous()
+				.and()
+				.authorizeRequests().antMatchers("/auth/**").authenticated()
+				.and()
+				.httpBasic();
+		// @formatter:on
 	}
 
 	@Bean
