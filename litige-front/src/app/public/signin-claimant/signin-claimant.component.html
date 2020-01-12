@@ -1,9 +1,27 @@
 <mat-card>
   <mat-card-title>
-    Sign In
+    Sign In claimant
   </mat-card-title>
   <form [formGroup]="signinForm" (ngSubmit)="signin()">
     <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Prénom" formControlName="firstName" />
+        <mat-error *ngIf="!signinForm.hasError('required')">
+          Please enter a first name
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="name" />
+        <mat-error *ngIf="!signinForm.hasError('required')">
+          Please enter a name
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Téléphone" formControlName="phone" />
+        <mat-error *ngIf="!signinForm.hasError('required')">
+          Please enter a phone
+        </mat-error>
+      </mat-form-field>
       <mat-form-field>
         <input type="email" placeholder="Email" matInput formControlName="email" />
         <mat-error *ngFor="let error of signinForm.get('email').errors | keyvalue | slice: 0:1">

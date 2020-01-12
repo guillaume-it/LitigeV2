@@ -46,6 +46,12 @@ public class User implements UserDetails {
 	private String name;
 
 	@Column
+	private String firstName;
+
+	@Column
+	private String phone;
+
+	@Column
 	private String password;
 
 	@Column

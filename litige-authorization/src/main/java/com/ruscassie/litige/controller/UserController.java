@@ -105,6 +105,13 @@ class UserController {
 		return userService.signin(email, password);
 	}
 
+	@PostMapping("/signin-claimant")
+	User signinClaimant(@RequestParam final String email, @RequestParam final String password,
+			@RequestParam final String firstName, @RequestParam final String name, @RequestParam final String phone) {
+
+		return userService.signinClaimant(email, password, firstName, name, phone);
+	}
+
 	@PutMapping("/{id}")
 	@PreAuthorize("!hasAuthority('USER') || (authentication.principal == @userRepository.findById(#id).orElse(new net.reliqs.gleeometer.users.User()).email)")
 	void update(@PathVariable final Long id, @Valid @RequestBody final User res) {

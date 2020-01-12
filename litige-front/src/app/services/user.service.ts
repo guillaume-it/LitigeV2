@@ -67,7 +67,18 @@ export class UserService {
         .pipe(map(() => true))
     );
   }
-
+  signinClaimant(email: string, password: string, firstName: string, name: string, phone: string): Observable<User> {
+    console.log(`signin ${email} ${password}`);
+    return this.crudService.post<User>(
+      environment.authUrl + '/users/signin-claimant',
+      new HttpParams()
+        .set('email', email)
+        .set('password', password)
+        .set('firstName', firstName)
+        .set('name', name)
+        .set('phone', phone)
+    );
+  }
   signin(email: string, password: string): Observable<User> {
     console.log(`signin ${email} ${password}`);
     return this.crudService.post<User>(

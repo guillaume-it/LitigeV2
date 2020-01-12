@@ -5,6 +5,7 @@ import { LoginComponent } from './public/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SigninComponent } from './public/signin/signin.component';
 import { Role } from './models/user';
+import { SigninClaimantComponent } from './public/signin-claimant/signin-claimant.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'signin', component: SigninComponent }
+      { path: 'signin', component: SigninComponent },
+      { path: 'signin-claimant', component: SigninClaimantComponent }
     ]
   },
   { path: '', redirectTo: '/litige', pathMatch: 'full' },

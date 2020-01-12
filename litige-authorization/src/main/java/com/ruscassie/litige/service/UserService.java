@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
@@ -125,12 +126,25 @@ public class UserService implements UserDetailsService {
 //
 //	}
 
+	private void oauthClient(final com.ruscassie.litige.entity.User user) {
+		final BaseClientDetails client = new BaseClientDetails();
+		client.setClientId(user.getEmail().toString());
+		client.setClientSecret(user.getPassword());
+		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
+		client.setScope(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
+		client.setAccessTokenValiditySeconds(5 * 60);
+		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
+
+		jdbcClientDetailsService.addClientDetails(client);
+	}
+
 	public User save(@Valid final User user) {
 		return serviceMapper.mapEntityToDto(
 				userRepository.save(serviceMapper.mapDtoToEntity(user, com.ruscassie.litige.entity.User.class)),
 				User.class);
 	}
 
+	@Transactional(rollbackOn = Exception.class)
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
 		final Role roleUser = roleRepository.findByName("role_user");
@@ -140,19 +154,32 @@ public class UserService implements UserDetailsService {
 		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
 		user.setRoles(Arrays.asList(roleUser, roleAdmin));
 
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 
-		final BaseClientDetails client = new BaseClientDetails();
-		client.setClientId(user.getId().toString());
-		client.setClientSecret(user.getPassword());
-		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
-		client.setScope(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
-		client.setAccessTokenValiditySeconds(5 * 60);
-		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
-
-		jdbcClientDetailsService.addClientDetails(client);
+		oauthClient(user);
 
 		return serviceMapper.mapEntityToDto(user, User.class);
+	}
+
+	@Transactional(rollbackOn = Exception.class)
+	public User signinClaimant(final String email, final String password, final String firstName, final String name,
+			final String phone) {
+
+		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
+		final Role roleClaimant = roleRepository.findByName("role_claimant");
+		user.setName(name);
+		user.setFirstName(firstName);
+		user.setPhone(phone);
+		user.setEmail(email);
+		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
+		user.setRoles(Arrays.asList(roleClaimant));
+
+		userRepository.saveAndFlush(user);
+
+		oauthClient(user);
+
+		return serviceMapper.mapEntityToDto(user, User.class);
+
 	}
 
 	public void update(final Long id, @Valid final User res) {
@@ -164,7 +191,7 @@ public class UserService implements UserDetailsService {
 		save.setPassword(u.getPassword());
 
 		userRepository.save(save);
-
+		userRepository.flush();
 	}
 
 }
