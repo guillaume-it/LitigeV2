@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Litige } from 'src/app/models/litige';
-import { LitigeServive } from 'src/app/services/litige.service';
+import { LitigeServive } from 'src/app/services/litige-service';
 
 @Component({
   selector: 'app-litige-detail',

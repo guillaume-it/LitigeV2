@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user-service';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';

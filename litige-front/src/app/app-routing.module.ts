@@ -20,6 +20,7 @@ const routes: Routes = [
         data: { roles: [Role.ADMIN, Role.USER, Role.USER_MANAGER] }
       },
       { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+      { path: 'claim', loadChildren: './claim/claim.module#ClaimModule' },
       { path: '', loadChildren: './litige/litige.module#LitigeModule' }
     ]
   },

@@ -8,9 +8,9 @@ import {
 } from '@angular/material';
 import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
 import { User } from 'src/app/models/user';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthenticationService } from 'src/app/services/authentication-service';
 import { formatError } from 'src/app/services/store-service';
-import { UserService, UserServiceFilter } from 'src/app/services/user.service';
+import { UserService, UserServiceFilter } from 'src/app/services/user-service';
 import { ChangePasswordComponent } from 'src/app/shared/change-password/change-password.component';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
 

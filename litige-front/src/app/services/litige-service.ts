@@ -1,4 +1,4 @@
-import { CrudService } from './crud.service';
+import { CrudService } from './crud-service';
 import { Injectable } from '@angular/core';
 import { Litige } from '../models/litige';
 import { Observable } from 'rxjs';

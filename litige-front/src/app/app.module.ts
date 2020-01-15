@@ -7,28 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ConfigService, configServiceInitializerFactory } from './services/config.service';
-import { TokenInterceptor } from './services/token.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { PublicModule } from './public/public.module';
-
+import { ConfigService, configServiceInitializerFactory, TokenInterceptor } from './services';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    ProfileComponent,
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    HttpClientModule,
-    JwtModule,
-    SharedModule,
-    PublicModule,
-    AppRoutingModule
-  ],
+  declarations: [AppComponent, NavbarComponent, ProfileComponent],
+  imports: [BrowserAnimationsModule, HttpClientModule, JwtModule, SharedModule, PublicModule, AppRoutingModule],
   providers: [
-    ConfigService, {
+    ConfigService,
+    {
       provide: APP_INITIALIZER,
       useFactory: configServiceInitializerFactory,
       deps: [ConfigService],
@@ -37,6 +25,6 @@ import { PublicModule } from './public/public.module';
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

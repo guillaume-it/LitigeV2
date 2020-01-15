@@ -1,7 +1,8 @@
 export enum Role {
   USER = 'USER',
   ADMIN = 'ADMIN',
-  USER_MANAGER = 'USER_MANAGER'
+  USER_MANAGER = 'USER_MANAGER',
+  CLAIMANT = 'CLAIMANT'
 }
 
 export class User {

@@ -3,17 +3,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule,
-  MatFormFieldModule, MatIconModule, MatInputModule, MatNativeDateModule, MatPaginatorModule,
-  MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule, MatProgressSpinnerModule
+  MatButtonModule,
+  MatCardModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
+  MatToolbarModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
-  declarations: [
-    ChangePasswordComponent
-  ],
+  declarations: [ChangePasswordComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -32,12 +43,11 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatCardModule,
     MatExpansionModule,
     MatSelectModule,
-    OwlDateTimeModule, OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     MatProgressSpinnerModule
   ],
-  entryComponents: [
-    ChangePasswordComponent
-  ],
+  entryComponents: [ChangePasswordComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -58,9 +68,10 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
-    OwlDateTimeModule, OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     MatProgressSpinnerModule,
     ChangePasswordComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {}
