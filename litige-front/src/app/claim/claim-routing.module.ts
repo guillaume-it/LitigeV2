@@ -4,6 +4,7 @@ import { Role } from '../models';
 import { AuthGuard } from '../auth.guard';
 import { ClaimDetailComponent } from './claim-detail';
 import { ClaimListComponent } from './claim-list';
+import { ClaimCreateComponent } from './claim-create/claim-create.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: '{id}',
         component: ClaimDetailComponent
+      },
+      {
+        path: 'create',
+        component: ClaimCreateComponent
       }
     ]
   }
