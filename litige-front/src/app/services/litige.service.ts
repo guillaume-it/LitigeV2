@@ -1,4 +1,4 @@
-import { CrudService } from './crud-service';
+import { CrudService } from './crud.service';
 import { Injectable } from '@angular/core';
 import { Litige } from '../models/litige';
 import { Observable } from 'rxjs';
@@ -9,7 +9,10 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LitigeServive {
+export class LitigeService {
+  create(value: Litige): Observable<Litige> {
+    return this.crudService.post(environment.serverUrl + url.litiges, value);
+  }
   constructor(private crudService: CrudService) {}
 
   loadPages(): Observable<Page<Litige>> {

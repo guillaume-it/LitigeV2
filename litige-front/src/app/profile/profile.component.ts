@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
 import { User } from 'src/app/models/user';
-import { AuthenticationService } from 'src/app/services/authentication-service';
-import { UserService } from 'src/app/services/user-service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
 import { ChangePasswordComponent } from 'src/app/shared/change-password/change-password.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { formatError } from '../services/store-service';
+import { formatError } from '../services/store.service';
 
 @Component({
   selector: 'app-profile',

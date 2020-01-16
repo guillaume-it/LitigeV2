@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { UserService } from 'src/app/services/user-service';
+import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { User } from 'src/app/models/user';
-import { formatError } from 'src/app/services/store-service';
+import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({

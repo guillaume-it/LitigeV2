@@ -35,8 +35,8 @@ export class CrudService {
     return this.http.put<T>(url, params);
   }
 
-  post<T>(url: string, params: HttpParams): Observable<T> {
+  post<T>(url: string, objet: any): Observable<T> {
     console.log(url);
-    return this.http.post<T>(url, params);
+    return this.http.post<T>(url, JSON.stringify(objet));
   }
 }

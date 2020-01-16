@@ -1,11 +1,10 @@
 import { environment } from 'src/environments/environment';
-import { CrudService } from './crud-service';
+import { CrudService } from './crud.service';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { url } from './url';
 import { Page } from '../models/page';
 
 export class UserServiceFilter {

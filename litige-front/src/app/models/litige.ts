@@ -1,9 +1,11 @@
-import { AbstractResource } from '../services/store-service';
+import { AbstractResource } from '../services/store.service';
+import { User } from './user';
 
 export class Litige implements AbstractResource {
   id: number;
   creation: Date;
   objet: string;
-  localite: string;
-  requerant: string;
+  message: string;
+  agent: User;
+  requerant: User;
 }

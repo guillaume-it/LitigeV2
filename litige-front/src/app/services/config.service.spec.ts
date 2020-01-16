@@ -1,11 +1,12 @@
-import { LitigeServive } from './litige-service';
 import { TestBed } from '@angular/core/testing';
 
-describe('LitigeServive', () => {
+import { ConfigService } from './config.service';
+
+describe('ConfigService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: LitigeServive = TestBed.get(LitigeServive);
+    const service: ConfigService = TestBed.get(ConfigService);
     expect(service).toBeTruthy();
   });
 });

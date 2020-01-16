@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-title>
+    Déclarer un litige
+  </mat-card-title>
+  <form [formGroup]="claimForm" (ngSubmit)="createLitige()">
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Objet" formControlName="object" />
+        <mat-error *ngIf="!claimForm.hasError('required')">
+          Please enter an object
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Message" formControlName="message" />
+        <mat-error *ngIf="!claimForm.hasError('required')">
+          Please enter a message
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button [disabled]="!claimForm.valid">Cancel</button>
+      <button mat-button type="submit" [disabled]="!claimForm.valid">Save</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

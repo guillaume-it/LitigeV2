@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Role, User } from './models/user';
-import { AuthenticationService } from './services/authentication-service';
+import { AuthenticationService } from './services/authentication.service';
 
 @Injectable({
   providedIn: 'root'

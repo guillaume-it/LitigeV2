@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Litige } from 'src/app/models/litige';
-import { LitigeServive } from 'src/app/services/litige-service';
+import { LitigeService } from 'src/app/services/litige.service';
 
 @Component({
   selector: 'app-litige-detail',
@@ -8,7 +8,7 @@ import { LitigeServive } from 'src/app/services/litige-service';
   styleUrls: ['./litige-detail.component.scss']
 })
 export class LitigeDetailComponent implements OnInit {
-  constructor(private litigeServive: LitigeServive) {}
+  constructor(private litigeServive: LitigeService) {}
   litige: Litige;
   ngOnInit() {
     this.litigeServive.getLitige().subscribe(litige => {

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ruscassie.litige.dto.Litige;
 import com.ruscassie.litige.service.LitigeService;
+import com.ruscassie.litige.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +28,16 @@ public class LitigeController {
 	@Autowired
 	private LitigeService litigeService;
 
+	@Autowired
+	private UserService userService;
+
+	// @PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Litige create(@RequestBody final Litige litige) {
+	public Litige create(@RequestBody final Litige litige, @AuthenticationPrincipal final User user) {
+
+		// final Optional<com.ruscassie.litige.dto.User> userDto =
+		// userService.findByEmail(user.getUsername());
+		// litige.setRequerant(userDto.get());
 		return litigeService.save(litige);
 	}
 
@@ -39,7 +50,7 @@ public class LitigeController {
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
 		final Litige li = new Litige();
-		li.setAgent("agent");
+		// li.setAgent("agent");
 		return li;
 	}
 

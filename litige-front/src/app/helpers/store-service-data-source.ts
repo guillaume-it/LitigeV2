@@ -1,7 +1,7 @@
 import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { StoreService, AbstractResource, formatError } from '../services/store-service';
+import { StoreService, AbstractResource, formatError } from '../services/store.service';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { MatPaginator, MatSort, MatSnackBar } from '@angular/material';
 

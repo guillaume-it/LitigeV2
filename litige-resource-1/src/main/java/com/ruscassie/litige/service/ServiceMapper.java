@@ -1,6 +1,7 @@
 package com.ruscassie.litige.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.dozer.DozerBeanMapper;
@@ -20,6 +21,13 @@ public class ServiceMapper<DTO, ENTITY> {
 
 	}
 
+	public Optional<DTO> mapEntityToDto(final Optional<ENTITY> entity, final Class<DTO> destinationClass) {
+		if (entity.isPresent()) {
+			return Optional.of(mapper.map(entity.get(), destinationClass));
+		}
+		return Optional.empty();
+	}
+
 	public Page<DTO> mapper(final Page<ENTITY> pageableEntity, final Class<DTO> destinationClass) {
 
 		final List<DTO> users = pageableEntity.getContent().stream().map(user -> {
@@ -31,4 +39,5 @@ public class ServiceMapper<DTO, ENTITY> {
 
 		return pageableDto;
 	}
+
 }

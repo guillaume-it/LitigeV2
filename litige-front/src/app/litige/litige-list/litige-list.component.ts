@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LitigeServive } from 'src/app/services/litige-service';
+import { LitigeService } from 'src/app/services/litige.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Litige } from 'src/app/models';
 
@@ -15,7 +15,7 @@ export class LitigeListComponent implements OnInit {
   dataSource: MatTableDataSource<Litige>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(private litigeServive: LitigeServive) {}
+  constructor(private litigeServive: LitigeService) {}
 
   ngOnInit() {
     this.displayedColumns = ['id', 'creation', 'objet', 'localite', 'requerant'];

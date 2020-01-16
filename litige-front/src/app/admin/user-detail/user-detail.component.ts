@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { User, Role } from 'src/app/models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user-service';
+import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
 import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
-import { formatError } from 'src/app/services/store-service';
-import { AuthenticationService } from 'src/app/services/authentication-service';
+import { formatError } from 'src/app/services/store.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-user-detail',

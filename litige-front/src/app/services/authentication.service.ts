@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { CrudService } from './crud-service';
+import { CrudService } from './crud.service';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -7,9 +7,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
 import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 import { Role, User } from '../models/user';
-import { ConfigService } from './config-service';
+import { ConfigService } from './config.service';
 import { TokenInterceptor } from './token-interceptor';
-import { UserService } from './user-service';
+import { UserService } from './user.service';
 
 const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';

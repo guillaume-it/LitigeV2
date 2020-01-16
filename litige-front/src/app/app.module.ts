@@ -9,11 +9,19 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from './shared/shared.module';
 import { PublicModule } from './public/public.module';
-import { ConfigService, configServiceInitializerFactory, TokenInterceptor } from './services';
+import { ConfigService, configServiceInitializerFactory, TokenInterceptor, ServiceModule } from './services';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, ProfileComponent],
-  imports: [BrowserAnimationsModule, HttpClientModule, JwtModule, SharedModule, PublicModule, AppRoutingModule],
+  imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    JwtModule,
+    SharedModule,
+    PublicModule,
+    AppRoutingModule,
+    ServiceModule
+  ],
   providers: [
     ConfigService,
     {

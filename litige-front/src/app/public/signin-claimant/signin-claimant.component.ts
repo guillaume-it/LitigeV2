@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user-service';
+import { UserService } from 'src/app/services/user.service';
 import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
 import { MatSnackBar } from '@angular/material';
-import { formatError } from 'src/app/services/store-service';
+import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({

@@ -11,9 +11,9 @@ public class Litige {
 
 	private Long id;
 	private String objet;
-	private String localite;
+	private String message;
 	private Date creation;
-	private String requerant;
-	private String agent;
+	private User requerant;
+	private User agent;
 
 }
