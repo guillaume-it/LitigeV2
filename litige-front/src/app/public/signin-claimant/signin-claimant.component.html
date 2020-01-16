@@ -2,49 +2,25 @@
   <mat-card-title>
     Sign In claimant
   </mat-card-title>
-  <form [formGroup]="signinForm" (ngSubmit)="signin()">
+  <form [formGroup]="claimForm" (ngSubmit)="signin()">
     <mat-card-content>
       <mat-form-field>
-        <input matInput placeholder="Prénom" formControlName="firstName" />
-        <mat-error *ngIf="!signinForm.hasError('required')">
-          Please enter a first name
+        <input matInput placeholder="Objet" formControlName="object" />
+        <mat-error *ngIf="!claimForm.hasError('required')">
+          Please enter an Object
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Nom" formControlName="name" />
-        <mat-error *ngIf="!signinForm.hasError('required')">
-          Please enter a name
+        <input matInput placeholder="Message" formControlName="message" />
+        <mat-error *ngIf="!claimForm.hasError('required')">
+          Please enter a message
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Téléphone" formControlName="phone" />
-        <mat-error *ngIf="!signinForm.hasError('required')">
-          Please enter a phone
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input type="email" placeholder="Email" matInput formControlName="email" />
-        <mat-error *ngFor="let error of signinForm.get('email').errors | keyvalue | slice: 0:1">
-          {{ error.key === 'email' ? 'Email format not valid' : '' }}
-          {{ error.key === 'required' ? 'Email is required' : '' }}
-          {{ error.key === 'emailTaken' ? 'Email is already taken' : '' }}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input type="password" placeholder="Password" matInput formControlName="password" />
-        <mat-error *ngFor="let error of signinForm.get('password').errors | keyvalue | slice: 0:1">
-          {{ error.key === 'required' ? 'Password is required' : '' }}
-        </mat-error>
-      </mat-form-field>
-
-      <div class="spinner" *ngIf="loading$ | async">
-        <mat-spinner></mat-spinner>
-      </div>
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-button type="submit" [disabled]="!signinForm.valid">Save</button>
+      <button mat-button [disabled]="!claimForm.valid">Annuler</button>
+      <button mat-button type="submit" [disabled]="!claimForm.valid">Demande</button>
     </mat-card-actions>
   </form>
 </mat-card>
