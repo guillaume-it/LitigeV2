@@ -112,10 +112,12 @@ class UserController {
 		return userService.signinClaimant(email, password, firstName, name, phone);
 	}
 
-	@PutMapping("/{id}")
-	@PreAuthorize("!hasAuthority('USER') || (authentication.principal == @userRepository.findById(#id).orElse(new net.reliqs.gleeometer.users.User()).email)")
-	void update(@PathVariable final Long id, @Valid @RequestBody final User res) {
-		userService.update(id, res);
+	// || (authentication.principal == @userRepository.findById(#id).orElse(new
+	// net.reliqs.gleeometer.users.User()).email)"
+	@PutMapping
+	@PreAuthorize("!hasAuthority('USER')")
+	void update(@Valid @RequestBody final User user) {
+		userService.update(user);
 	}
 
 }

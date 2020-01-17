@@ -8,15 +8,9 @@ export enum Role {
 export class User {
   id: number;
   email: string;
+  password: string;
+  phone: string;
   role: Role;
-  minGleePerDay: number;
-
-  constructor(data: any = null) {
-    if (data) {
-      this.id = Number(data.id);
-      this.email = String(data.email);
-      this.role = Role[String(data.role)];
-      this.minGleePerDay = Number(data.minGleePerDay);
-    }
-  }
+  firstName: string;
+  name: string;
 }

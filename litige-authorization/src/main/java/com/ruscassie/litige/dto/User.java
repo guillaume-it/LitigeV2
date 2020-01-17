@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class User {
 
-	private long id;
+	private Long id;
 
 	private String firstName;
 

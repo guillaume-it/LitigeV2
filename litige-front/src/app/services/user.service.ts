@@ -68,15 +68,15 @@ export class UserService {
   }
   signinClaimant(email: string, password: string, firstName: string, name: string, phone: string): Observable<User> {
     console.log(`signin ${email} ${password}`);
-    return this.crudService.post<User>(
-      environment.authUrl + '/users/signin-claimant',
-      new HttpParams()
-        .set('email', email)
-        .set('password', password)
-        .set('firstName', firstName)
-        .set('name', name)
-        .set('phone', phone)
-    );
+    const user = new User();
+
+    user.email = email;
+    user.password = password;
+    user.firstName = firstName;
+    user.name = name;
+    user.phone = phone;
+
+    return this.crudService.post<User>(environment.authUrl + '/users/signin-claimant', user);
   }
   signin(email: string, password: string): Observable<User> {
     console.log(`signin ${email} ${password}`);
@@ -95,7 +95,7 @@ export class UserService {
   }
 
   update(user: User): Observable<boolean> {
-    return this.crudService.putObjet<User, boolean>(environment.authUrl + '/users/' + user.id, user).pipe(
+    return this.crudService.put<User>(environment.authUrl + '/users/', user).pipe(
       map(res => {
         console.log(`updated ${user.constructor.name} ${user.id}`);
         return true;

@@ -4,6 +4,7 @@
     <a mat-button routerLink="/litige" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)">Litige</a>
     <a mat-button routerLink="/admin/users" *ngIf="!(authentication.hasRole('USER') | async)">Users</a>
     <a mat-button routerLink="/claim" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)">Claim</a>
+    <a mat-button routerLink="/claim/create">Déclarer un litige</a>
 
     <span class="filler"></span>
 

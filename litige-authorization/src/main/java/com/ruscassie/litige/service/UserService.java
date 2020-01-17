@@ -182,9 +182,10 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public void update(final Long id, @Valid final User res) {
-		final com.ruscassie.litige.entity.User u = userRepository.findById(id).orElseThrow(
-				() -> new EntityNotFoundException(com.ruscassie.litige.entity.User.class, "id", id.toString()));
+	public void update(@Valid final User res) {
+		final com.ruscassie.litige.entity.User u = userRepository.findById(res.getId())
+				.orElseThrow(() -> new EntityNotFoundException(com.ruscassie.litige.entity.User.class, "id",
+						res.getId().toString()));
 
 		final com.ruscassie.litige.entity.User save = serviceMapper.mapDtoToEntity(res,
 				com.ruscassie.litige.entity.User.class);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pageable } from '../models/pageable';
 import { Observable } from 'rxjs';
 import { Page } from '../models/page';
@@ -28,15 +28,19 @@ export class CrudService {
     return this.http.get<Page<T>>(url, { params });
   }
 
-  putObjet<P, R>(url: string, data: P): Observable<R> {
-    return this.http.put<R>(url, data);
-  }
-  put<T>(url: string, params: HttpParams): Observable<T> {
-    return this.http.put<T>(url, params);
+  put<T>(url: string, objet: any): Observable<T> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    console.log(url);
+    return this.http.put<T>(url, objet, { headers });
   }
 
   post<T>(url: string, objet: any): Observable<T> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
     console.log(url);
-    return this.http.post<T>(url, JSON.stringify(objet));
+    return this.http.post<T>(url, objet, { headers });
   }
 }

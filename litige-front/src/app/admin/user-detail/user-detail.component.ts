@@ -37,18 +37,10 @@ export class UserDetailComponent implements OnInit {
     this.userForm = new FormGroup({
       email: new FormControl(this.user.email, {
         validators: [Validators.required, Validators.email],
-        asyncValidators: createUniqueEmailValidator(
-          this.userService,
-          this.snackBar,
-          this.user.email
-        ),
+        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.user.email),
         updateOn: 'blur'
       }),
-      role: new FormControl(this.user.role, Validators.required),
-      minGleePerDay: new FormControl(
-        this.user.minGleePerDay,
-        Validators.required
-      )
+      role: new FormControl(this.user.role, Validators.required)
     });
   }
 
@@ -70,25 +62,18 @@ export class UserDetailComponent implements OnInit {
           this.snackBar.open(`User ${res.email} created.`);
           this.dialogRef.close(user);
         },
-        err =>
-          this.snackBar.open(`User creation failed due to ${formatError(err)}.`)
+        err => this.snackBar.open(`User creation failed due to ${formatError(err)}.`)
       );
     } else {
       this.dataSource.update(this.index, user).subscribe(
         res => {
           this.snackBar.open(`User ${user.email} updated.`);
           this.dialogRef.close(user);
-          if (
-            user.id === this.currentUser.id &&
-            this.authentication.currentUserUpdateForceLogout(user)
-          ) {
-            this.snackBar.open(
-              `Changed email or role of the current user: forced logout`
-            );
+          if (user.id === this.currentUser.id && this.authentication.currentUserUpdateForceLogout(user)) {
+            this.snackBar.open(`Changed email or role of the current user: forced logout`);
           }
         },
-        err =>
-          this.snackBar.open(`User update failed due to ${formatError(err)}.`)
+        err => this.snackBar.open(`User update failed due to ${formatError(err)}.`)
       );
     }
   }

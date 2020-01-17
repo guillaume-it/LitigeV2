@@ -17,7 +17,6 @@ import { formatError } from '../services/store.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
   profileForm: FormGroup;
   private currentUser: User;
   private dialogRef: MatDialogRef<ChangePasswordComponent>;
@@ -28,11 +27,11 @@ export class ProfileComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private authentication: AuthenticationService,
+    private authentication: AuthenticationService
   ) {
     this.loadingSubject = new BehaviorSubject<boolean>(false);
     this.loading$ = this.loadingSubject.asObservable();
-   }
+  }
 
   ngOnInit() {
     console.log('init profile');
@@ -44,13 +43,11 @@ export class ProfileComponent implements OnInit {
   private init(user: User) {
     console.log(`init profile after user retrieved ${user.email}`);
     this.profileForm = new FormGroup({
-      email: new FormControl(user.email,
-        {
-          validators: [Validators.required, Validators.email],
-          asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, user.email),
-          updateOn: 'blur'
-        }),
-      minGleePerDay: new FormControl(user.minGleePerDay, Validators.required),
+      email: new FormControl(user.email, {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, user.email),
+        updateOn: 'blur'
+      })
     });
   }
 
@@ -69,19 +66,18 @@ export class ProfileComponent implements OnInit {
   submit() {
     this.loadingSubject.next(true);
     this.currentUser.email = this.profileForm.get('email').value;
-    this.currentUser.minGleePerDay = Number(this.profileForm.get('minGleePerDay').value);
-    this.userService.update(this.currentUser).subscribe(() => {
-      this.snackBar.open(`User updated.`);
-      console.log(this.currentUser);
-      this.loadingSubject.next(false);
-      if (this.authentication.currentUserUpdateForceLogout(this.currentUser)) {
-        if (this.dialogRef) {
-          this.dialogRef.close();
+    this.userService.update(this.currentUser).subscribe(
+      () => {
+        this.snackBar.open(`User updated.`);
+        console.log(this.currentUser);
+        this.loadingSubject.next(false);
+        if (this.authentication.currentUserUpdateForceLogout(this.currentUser)) {
+          if (this.dialogRef) {
+            this.dialogRef.close();
+          }
         }
-      }
-    },
-    err => this.snackBar.open(`User update failed due to ${formatError(err)}.`)
+      },
+      err => this.snackBar.open(`User update failed due to ${formatError(err)}.`)
     );
   }
-
 }
