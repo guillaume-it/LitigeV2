@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ruscassie.litige.dto.Litige;
+import com.ruscassie.litige.mapper.LitigeMapper;
+import com.ruscassie.litige.mapper.UserMapper;
 import com.ruscassie.litige.repository.LitigeRepository;
 
 @Service
@@ -28,9 +30,11 @@ public class LitigeService {
 		return serviceMapper.mapEntityToDto(litigeRepository.findById(id).get(), Litige.class);
 	}
 
-	public Litige save(final Litige user) {
-		return serviceMapper.mapEntityToDto(
-				litigeRepository.save(serviceMapper.mapDtoToEntity(user, com.ruscassie.litige.entity.Litige.class)),
-				Litige.class);
+	public Litige save(final Litige litige) {
+		final com.ruscassie.litige.entity.Litige eLitige = LitigeMapper.mapper(litige);
+		eLitige.setAgent(UserMapper.mapper(litige.getAgent()));
+		eLitige.setRequerant(UserMapper.mapper(litige.getRequerant()));
+
+		return serviceMapper.mapEntityToDto(litigeRepository.save(eLitige), Litige.class);
 	}
 }

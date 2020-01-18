@@ -11,9 +11,9 @@ public class User {
 
 	private String firstName;
 
-	private String lastName;
+	private String name;
 
-	private String username;
+	private String phone;
 
 	private String email;
 

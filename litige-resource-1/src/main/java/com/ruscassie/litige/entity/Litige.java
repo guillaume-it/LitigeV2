@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,9 +32,12 @@ public class Litige {
 	private String message;
 	@Column
 	private Date creation;
-	@Column
-	private String requerant;
-	@Column
-	private String agent;
+
+	@ManyToOne()
+	@JoinColumn(name = "id", insertable = false, updatable = false)
+	private User requerant;
+	@ManyToOne()
+	@JoinColumn(name = "id", insertable = false, updatable = false)
+	private User agent;
 
 }

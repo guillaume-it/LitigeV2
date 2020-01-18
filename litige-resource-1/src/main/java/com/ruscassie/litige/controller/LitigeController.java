@@ -1,11 +1,13 @@
 package com.ruscassie.litige.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +35,11 @@ public class LitigeController {
 
 	// @PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Litige create(@RequestBody final Litige litige, @AuthenticationPrincipal final User user) {
+	public Litige create(@RequestBody final Litige litige) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		// final Optional<com.ruscassie.litige.dto.User> userDto =
-		// userService.findByEmail(user.getUsername());
-		// litige.setRequerant(userDto.get());
+		final Optional<com.ruscassie.litige.dto.User> userDto = userService.findByEmail(auth.getName());
+		litige.setRequerant(userDto.get());
 		return litigeService.save(litige);
 	}
 
@@ -46,12 +48,12 @@ public class LitigeController {
 		litigeService.delete(id);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
-		final Litige li = new Litige();
-		// li.setAgent("agent");
-		return li;
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		return litigeService.findOne(id);
 	}
 
 	@PreAuthorize("hasAuthority('USER')")

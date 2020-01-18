@@ -17,9 +17,15 @@
 			<column name="objet" type="VARCHAR(200)" />
 			<column name="message" type="VARCHAR(200)" />
 			<column name="creation" type="TIMESTAMP(29) WITHOUT TIME ZONE" />
-			<column name="requerant" type="VARCHAR(200)" />
-			<column name="agent" type="VARCHAR(200)" />
+			<column name="requerant" type="numeric(19)" />
+			<column name="agent" type="numeric(19)" />			
 		</createTable>
+		<addForeignKeyConstraint baseColumnNames="requerant"
+			baseTableName="litige" constraintName="fk_litige_requerant_user_id"
+			referencedColumnNames="id" referencedTableName="userdb" />
+			<addForeignKeyConstraint baseColumnNames="agent"
+			baseTableName="litige" constraintName="fk_litige_agent_user_id"
+			referencedColumnNames="id" referencedTableName="userdb" />
 	</changeSet>
 	    <changeSet author="Guillaume (generated)" id="1578097344371-10">
         <addPrimaryKey columnNames="id" constraintName="litige_pkey" tableName="litige"/>
@@ -30,8 +36,8 @@
             <column name="objet" value="object 1&#10;"/>
             <column name="message" value="Yaoundé"/>
             <column name="creation" valueDate="2019-12-25 00:00:00.0"/>
-            <column name="requerant" value="Keyte"/>
-            <column name="agent" value="Marcel"/>
+            <column name="requerant" value="3"/>
+            <column name="agent" value="4"/>
         </insert>
     </changeSet>
     
