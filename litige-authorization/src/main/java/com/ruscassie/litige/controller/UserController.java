@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.dto.Role;
+import com.ruscassie.litige.dto.RoleEnum;
 import com.ruscassie.litige.dto.User;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.service.UserService;
@@ -44,7 +44,7 @@ class UserController {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		final String role = authentication.getAuthorities().iterator().next().getAuthority();
-		if (role.equals(Role.USER.name())) {
+		if (role.equals(RoleEnum.USER.name())) {
 			return userService.findAllByEmail(authentication.getName(), pageable);
 		}
 		return userService.findAll(pageable);
@@ -96,7 +96,7 @@ class UserController {
 			final OAuth2Authentication authentication) {
 		final String auth = (String) authentication.getUserAuthentication().getPrincipal();
 		final String role = authentication.getAuthorities().iterator().next().getAuthority();
-		if (role.equals(Role.USER.name())) {
+		if (role.equals(RoleEnum.USER.name())) {
 			return userService.findAllByEmailContainsAndEmail(email, auth, pageable);
 		}
 		return userService.findByEmailContains(email, pageable);

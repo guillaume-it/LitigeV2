@@ -25,8 +25,8 @@
 	</changeSet>
 	<changeSet author="Guillaume (generated)" id="1578249455698-2">
 		<insert tableName="oauth_client_details">
-			<column name="client_id" value="adminapp" />
-			<column name="resource_ids" value="mw/adminapp,ms/admin,ms/user" />
+			<column name="client_id" value="ClientIdResource" />
+			<column name="resource_ids" value="litige/resource,litige/admin,litige/user" />
 			<column name="client_secret" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
 			<column name="scope" value="role_admin" />
 			<column name="authorized_grant_types" value="authorization_code,password,refresh_token,implicit" />

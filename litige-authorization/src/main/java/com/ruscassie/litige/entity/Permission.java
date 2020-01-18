@@ -10,12 +10,16 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
+@Setter
 public class Permission implements Serializable {
 
 	/**

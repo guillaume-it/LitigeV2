@@ -33,7 +33,7 @@ public class LitigeController {
 	@Autowired
 	private UserService userService;
 
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('role_admin')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Litige create(@RequestBody final Litige litige) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -48,7 +48,7 @@ public class LitigeController {
 		litigeService.delete(id);
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('role_admin')")
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -56,7 +56,7 @@ public class LitigeController {
 		return litigeService.findOne(id);
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('role_admin')")
 	@GetMapping(value = "")
 	public Page<Litige> list(final Pageable pageable) {
 		return litigeService.findAll(pageable);

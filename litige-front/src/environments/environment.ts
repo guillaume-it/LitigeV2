@@ -7,7 +7,7 @@ export const environment = {
   serverUrl: 'http://localhost:9092/api/',
   loginUrl: 'http://localhost:9092/auth/oauth/token ',
   authUrl: 'http://localhost:9092/auth',
-  clientId: 'adminapp',
+  clientId: 'ClientIdResource',
   clientSecret: 'password',
   scope: 'admin'
 };

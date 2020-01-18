@@ -1,5 +1,7 @@
 package com.ruscassie.litige.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +19,5 @@ public class User {
 
 	private String email;
 
-	private Role role;
+	private List<Role> roles;
 }

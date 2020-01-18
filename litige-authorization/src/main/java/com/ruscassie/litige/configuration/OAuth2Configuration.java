@@ -53,7 +53,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 		@Override
 		public TokenRequest createTokenRequest(final Map<String, String> requestParameters,
 				final ClientDetails authenticatedClient) {
-			System.err.println("createTokenRequest: " + requestParameters + " Clien details: " + authenticatedClient);
 			if (requestParameters.get("grant_type").equals("refresh_token")) {
 				final OAuth2Authentication authentication = tokenStore.readAuthenticationForRefreshToken(
 						tokenStore.readRefreshToken(requestParameters.get("refresh_token")));

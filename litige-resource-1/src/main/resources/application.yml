@@ -6,7 +6,7 @@ server:
       enabled: false
 management:
    security:
-      enabled: false
+      enabled: true
 auth-server:
    url: http://localhost:9093
 spring:

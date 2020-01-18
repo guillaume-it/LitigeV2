@@ -39,13 +39,13 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(final ResourceServerSecurityConfigurer resources) throws Exception {
-		resources.resourceId("mw/adminapp").tokenStore(tokenStore());
+		resources.resourceId("litige/resource").tokenStore(tokenStore());
 	}
 
 	@Bean
 	public ResourceServerTokenServices tokenService() {
 		final RemoteTokenServices tokenServices = new RemoteTokenServices();
-		tokenServices.setClientId("adminapp");
+		tokenServices.setClientId("ClientIdResource");
 		tokenServices.setClientSecret("password");
 		tokenServices.setCheckTokenEndpointUrl(authEndpoint + "/auth/oauth/check_token");
 		return tokenServices;

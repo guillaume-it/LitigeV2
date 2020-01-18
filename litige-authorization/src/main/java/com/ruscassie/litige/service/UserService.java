@@ -23,7 +23,6 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.stereotype.Service;
 
 import com.ruscassie.litige.dto.User;
-import com.ruscassie.litige.entity.Role;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.repository.RoleRepository;
 import com.ruscassie.litige.repository.UserRepository;
@@ -86,7 +85,8 @@ public class UserService implements UserDetailsService {
 	public Optional<User> findByEmail(final String email) {
 
 		final Optional<com.ruscassie.litige.entity.User> entity = userRepository.findByEmail(email);
-		return Optional.of(serviceMapper.mapEntityToDto(entity.get(), User.class));
+		final User dto = serviceMapper.mapEntityToDto(entity.get(), User.class);
+		return Optional.of(dto);
 
 	}
 
@@ -147,8 +147,8 @@ public class UserService implements UserDetailsService {
 	@Transactional(rollbackOn = Exception.class)
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
-		final Role roleUser = roleRepository.findByName("role_user");
-		final Role roleAdmin = roleRepository.findByName("role_admin");
+		final com.ruscassie.litige.entity.Role roleUser = roleRepository.findByName("role_user");
+		final com.ruscassie.litige.entity.Role roleAdmin = roleRepository.findByName("role_admin");
 
 		user.setEmail(email);
 		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
@@ -166,7 +166,7 @@ public class UserService implements UserDetailsService {
 			final String phone) {
 
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
-		final Role roleClaimant = roleRepository.findByName("role_claimant");
+		final com.ruscassie.litige.entity.Role roleClaimant = roleRepository.findByName("role_claimant");
 		user.setLastName(lastName);
 		user.setFirstName(firstName);
 		user.setPhone(phone);
