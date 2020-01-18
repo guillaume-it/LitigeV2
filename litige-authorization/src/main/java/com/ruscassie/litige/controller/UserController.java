@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,12 +40,12 @@ class UserController {
 	private UserService userService;
 
 	@GetMapping
-	Page<User> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable,
-			final OAuth2Authentication authentication) {
-		final String auth = (String) authentication.getUserAuthentication().getPrincipal();
+	Page<User> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable) {
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 		final String role = authentication.getAuthorities().iterator().next().getAuthority();
 		if (role.equals(Role.USER.name())) {
-			return userService.findAllByEmail(auth, pageable);
+			return userService.findAllByEmail(authentication.getName(), pageable);
 		}
 		return userService.findAll(pageable);
 	}

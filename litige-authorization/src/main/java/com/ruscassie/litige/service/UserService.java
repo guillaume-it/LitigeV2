@@ -162,12 +162,12 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional(rollbackOn = Exception.class)
-	public User signinClaimant(final String email, final String password, final String firstName, final String name,
+	public User signinClaimant(final String email, final String password, final String firstName, final String lastName,
 			final String phone) {
 
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
 		final Role roleClaimant = roleRepository.findByName("role_claimant");
-		user.setName(name);
+		user.setLastName(lastName);
 		user.setFirstName(firstName);
 		user.setPhone(phone);
 		user.setEmail(email);

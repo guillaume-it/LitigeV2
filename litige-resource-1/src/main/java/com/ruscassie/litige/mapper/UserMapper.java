@@ -12,7 +12,7 @@ public class UserMapper {
 		entity.setEmail(dto.getEmail());
 		entity.setFirstName(dto.getFirstName());
 		entity.setId(dto.getId());
-		entity.setName(dto.getName());
+		entity.setLastName(dto.getLastName());
 		entity.setPhone(dto.getPhone());
 
 		return entity;
@@ -26,7 +26,7 @@ public class UserMapper {
 		dto.setEmail(entity.getEmail());
 		dto.setFirstName(entity.getFirstName());
 		dto.setId(entity.getId());
-		dto.setName(entity.getName());
+		dto.setLastName(entity.getLastName());
 		dto.setPhone(entity.getPhone());
 
 		return dto;

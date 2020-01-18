@@ -33,7 +33,7 @@ public class LitigeController {
 	@Autowired
 	private UserService userService;
 
-	// @PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Litige create(@RequestBody final Litige litige) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -56,7 +56,7 @@ public class LitigeController {
 		return litigeService.findOne(id);
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(value = "")
 	public Page<Litige> list(final Pageable pageable) {
 		return litigeService.findAll(pageable);
