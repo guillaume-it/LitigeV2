@@ -33,7 +33,7 @@ public class LitigeController {
 	@Autowired
 	private UserService userService;
 
-	@PreAuthorize("hasAuthority('role_admin')")
+	@PreAuthorize("hasAuthority('can_create_claim')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Litige create(@RequestBody final Litige litige) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -43,12 +43,13 @@ public class LitigeController {
 		return litigeService.save(litige);
 	}
 
+	@PreAuthorize("hasAuthority('can_delete_claim')")
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable(value = "id") final Long id) {
 		litigeService.delete(id);
 	}
 
-	@PreAuthorize("hasAuthority('role_admin')")
+	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(path = "/{id}")
 	public Litige findOne(@PathVariable final long id) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -56,12 +57,13 @@ public class LitigeController {
 		return litigeService.findOne(id);
 	}
 
-	@PreAuthorize("hasAuthority('role_admin')")
+	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(value = "")
 	public Page<Litige> list(final Pageable pageable) {
 		return litigeService.findAll(pageable);
 	}
 
+	@PreAuthorize("hasAuthority('can_update_claim')")
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public Litige update(@PathVariable final long id, @RequestBody final Litige litige) {
 		litige.setId(id);

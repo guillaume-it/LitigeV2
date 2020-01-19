@@ -28,7 +28,7 @@
 			<column name="client_id" value="ClientIdResource" />
 			<column name="resource_ids" value="litige/resource,litige/admin,litige/user" />
 			<column name="client_secret" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
-			<column name="scope" value="role_admin" />
+			<column name="scope" value="scope_litige_access" />
 			<column name="authorized_grant_types" value="authorization_code,password,refresh_token,implicit" />
 			<column name="web_server_redirect_uri" />
 			<column name="authorities" />
