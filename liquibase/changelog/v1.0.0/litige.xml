@@ -16,7 +16,7 @@
 			</column>
 			<column name="objet" type="VARCHAR(200)" />
 			<column name="message" type="VARCHAR(200)" />
-			<column name="creation" type="TIMESTAMP(29) WITHOUT TIME ZONE" />
+			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
 			<column name="requerant" type="numeric(19)" />
 			<column name="agent" type="numeric(19)" />			
 		</createTable>

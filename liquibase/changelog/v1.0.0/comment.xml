@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="comment-1">
+		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_comment_id"
+			startValue="2" />
+	</changeSet>
+	<changeSet author="Guillaume" id="comment-2">
+		<createTable tableName="comment">
+			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_comment_id">
+				<constraints nullable="false" />
+			</column>
+			<column name="message" type="VARCHAR(500)" />
+			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
+			<column name="agent" type="numeric(19)" />
+			<column name="litige" type="numeric(19)" />
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="litige" baseTableName="comment"
+			constraintName="fk_comment_litige_id" referencedColumnNames="id" referencedTableName="litige" />
+		<addForeignKeyConstraint baseColumnNames="agent" baseTableName="comment"
+			constraintName="fk_comment_agent_user_id" referencedColumnNames="id" referencedTableName="userdb" />
+	</changeSet>
+	<changeSet author="Guillaume" id="comment-3">
+		<addPrimaryKey columnNames="id" constraintName="comment_pkey" tableName="comment" />
+	</changeSet>
+</databaseChangeLog>

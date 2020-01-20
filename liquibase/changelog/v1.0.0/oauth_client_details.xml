@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-	<changeSet author="Guillaume (generated)" id="1578097344371-3">
+	<changeSet author="Guillaume" id="1578097344371-3">
 		<createTable tableName="oauth_client_details">
 			<column name="client_id" type="VARCHAR(255)">
 				<constraints nullable="false" />
@@ -19,11 +19,11 @@
 			<column defaultValue="NULL::character varying" name="autoapprove" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-11">
+	<changeSet author="Guillaume" id="1578097344371-11">
 		<addPrimaryKey columnNames="client_id" constraintName="oauth_client_details_pkey"
 			tableName="oauth_client_details" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578249455698-2">
+	<changeSet author="Guillaume" id="1578249455698-2">
 		<insert tableName="oauth_client_details">
 			<column name="client_id" value="ClientIdResource" />
 			<column name="resource_ids" value="litige/resource,litige/admin,litige/user" />

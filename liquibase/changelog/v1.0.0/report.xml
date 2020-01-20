@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="report-1">
+		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_report_id"
+			startValue="1" />
+	</changeSet>
+	<changeSet author="Guillaume" id="report-2">
+		<createTable tableName="report">
+			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_report_id">
+				<constraints nullable="false" />
+			</column>
+			<column name="summary" type="VARCHAR(500)" />
+			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
+			<column name="agent" type="numeric(19)" />
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="agent" baseTableName="report"
+			constraintName="fk_case_agent_user_id" referencedColumnNames="id" referencedTableName="userdb" />
+	</changeSet>
+	<changeSet author="Guillaume" id="report-3">
+		<addPrimaryKey columnNames="id" constraintName="report_pkey" tableName="report" />
+	</changeSet>
+</databaseChangeLog>

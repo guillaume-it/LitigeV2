@@ -11,5 +11,11 @@
 	<include file="liquibase/changelog/v1.0.0/permission_role.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/role_user.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/litige.xml" relativeToChangelogFile="false" />
+
+	<include file="liquibase/changelog/v1.0.0/case.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/comment.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/report.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/session.xml" relativeToChangelogFile="false" />
+
 </databaseChangeLog>
  

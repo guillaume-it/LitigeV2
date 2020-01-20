@@ -1,7 +1,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-	<changeSet author="Guillaume (generated)" id="1578097344371-5">
+	<changeSet author="Guillaume" id="1578097344371-5">
 		<createTable tableName="permission">
 			<column name="id" type="numeric(19)">
 				<constraints nullable="false" />
@@ -9,10 +9,10 @@
 			<column name="name" type="VARCHAR(60)">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITH TIME ZONE">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITH TIME ZONE">
 				<constraints nullable="false" />
 			</column>
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
@@ -20,14 +20,14 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-12">
+	<changeSet author="Guillaume" id="1578097344371-12">
 		<addPrimaryKey columnNames="id" constraintName="permission_pkey" tableName="permission" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578097344371-17">
+	<changeSet author="Guillaume" id="1578097344371-17">
 		<addUniqueConstraint columnNames="name" constraintName="permission_name_key"
 			tableName="permission" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="1578098400899-5">
+	<changeSet author="Guillaume" id="1578098400899-5">
 		<!-- <insert catalogName="litige" tableName="permission"> -->
 		<!-- <column name="id" valueNumeric="1" /> -->
 		<!-- <column name="name" value="can_delete_user" /> -->

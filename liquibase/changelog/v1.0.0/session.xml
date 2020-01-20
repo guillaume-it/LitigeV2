@@ -1,0 +1,33 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	
+	<changeSet author="Guillaume" id="session-1">
+		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_session_id"
+			startValue="1" />
+	</changeSet>
+	<changeSet author="Guillaume"
+		id="session-2">
+		<createTable tableName="session">
+			<column name="id" type="numeric(19)"  defaultValueSequenceNext="seq_session_id">
+				<constraints nullable="false" />
+			</column>
+			<column name="objet" type="VARCHAR(200)" />
+			<column name="message" type="VARCHAR(200)" />
+			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
+			<column name="president" type="numeric(19)" />
+			<column name="reporter" type="numeric(19)" />			
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="president"
+			baseTableName="session" constraintName="fk_session_president_user_id"
+			referencedColumnNames="id" referencedTableName="userdb" />
+			<addForeignKeyConstraint baseColumnNames="reporter"
+			baseTableName="session" constraintName="fk_session_agent_user_id"
+			referencedColumnNames="id" referencedTableName="userdb" />
+	</changeSet>
+	    <changeSet author="Guillaume" id="session-3">
+        <addPrimaryKey columnNames="id" constraintName="session_pkey" tableName="session"/>
+    </changeSet>    
+</databaseChangeLog>

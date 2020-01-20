@@ -2,12 +2,12 @@
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-	<changeSet author="Guillaume (generated)" id="userdb-7">
+	<changeSet author="Guillaume" id="userdb-7">
 		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_user_id"
 			startValue="5" />
 	</changeSet>
 
-	<changeSet author="Guillaume (generated)" id="userdb-1">
+	<changeSet author="Guillaume" id="userdb-1">
 		<createTable tableName="userdb">
 
 			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_user_id">
@@ -32,10 +32,10 @@
 			<column name="account_expired" type="BOOL" />
 			<column name="credentials_expired" type="BOOL" />
 			<column name="account_locked" type="BOOL" />
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITH TIME ZONE">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITHOUT TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITH TIME ZONE">
 				<constraints nullable="false" />
 			</column>
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
@@ -43,14 +43,14 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="userdb-2">
+	<changeSet author="Guillaume" id="userdb-2">
 		<addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb" />
 	</changeSet>
 
-	<changeSet author="Guillaume (generated)" id="userdb-3">
+	<changeSet author="Guillaume" id="userdb-3">
 		<addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb" />
 	</changeSet>
-	<changeSet author="Guillaume (generated)" id="userdb-6">
+	<changeSet author="Guillaume" id="userdb-6">
 		<insert catalogName="litige" tableName="userdb">
 			<column name="id" valueNumeric="1" />
 			<column name="first_name" value="first name admin" />
