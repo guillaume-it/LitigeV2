@@ -8,14 +8,12 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Id
           </mat-header-cell>
-          <mat-cell *matCellDef="let litige">
-            {{ litige.id }}
-          </mat-cell>
+          <mat-cell *matCellDef="let litige">{{ litige.id }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="creation">
           <mat-header-cell *matHeaderCellDef>
-            Date
+            Date de création
           </mat-header-cell>
           <mat-cell *matCellDef="let litige">
             {{ litige.creation | date: 'short' }}
@@ -33,20 +31,16 @@
 
         <ng-container matColumnDef="localite">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Localite
+            Agent
           </mat-header-cell>
-          <mat-cell *matCellDef="let litige">
-            {{ litige.localite }}
-          </mat-cell>
+          <mat-cell *matCellDef="let litige"> {{ litige.agent.firstName }} {{ litige.agent.lastName }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="requerant">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Requerant
           </mat-header-cell>
-          <mat-cell *matCellDef="let litige">
-            {{ litige.requerant }}
-          </mat-cell>
+          <mat-cell *matCellDef="let litige"> {{ litige.requerant | json }} {{ litige.requerant.lastName }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -69,7 +63,7 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="'/litige/1'"> </mat-row>
       </mat-table>
 
       <div class="spinner" *ngIf="dataSource?.data === undefined">

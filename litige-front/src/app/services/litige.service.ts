@@ -26,7 +26,7 @@ export class LitigeService {
       }
     });
   }
-  getLitige(): Observable<Litige> {
-    return this.crudService.get(environment.serverUrl + url.litiges + '1');
+  getLitige(id): Observable<Litige> {
+    return this.crudService.get(environment.serverUrl + url.litiges + '/' + id);
   }
 }
