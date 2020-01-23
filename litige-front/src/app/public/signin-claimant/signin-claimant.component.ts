@@ -13,25 +13,34 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./signin-claimant.component.scss']
 })
 export class SigninClaimantComponent implements OnInit {
-  signinForm: FormGroup;
+  formGroup: FormGroup;
   private loadingSubject: BehaviorSubject<boolean>;
   loading$: Observable<boolean>;
+  step = 0;
 
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
   constructor(private router: Router, private userService: UserService, private snackBar: MatSnackBar) {
     this.loadingSubject = new BehaviorSubject<boolean>(false);
     this.loading$ = this.loadingSubject.asObservable();
   }
 
   ngOnInit() {
-    this.signinForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
-      email: new FormControl('', {
-        validators: [Validators.required],
-        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar),
-        updateOn: 'blur'
-      }),
+    this.formGroup = new FormGroup({});
+
+    this.claimantForm = new FormGroup({
+      address: new FormControl('', Validators.required),
+      objet: new FormControl('', Validators.required),
+      message: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
   }
@@ -39,11 +48,11 @@ export class SigninClaimantComponent implements OnInit {
   signin() {
     this.userService
       .signinClaimant(
-        this.signinForm.get('email').value,
-        this.signinForm.get('password').value,
-        this.signinForm.get('firstName').value,
-        this.signinForm.get('name').value,
-        this.signinForm.get('phone').value
+        this.claimantForm.get('email').value,
+        this.claimantForm.get('password').value,
+        this.claimantForm.get('firstName').value,
+        this.claimantForm.get('name').value,
+        this.claimantForm.get('phone').value
       )
       .subscribe(
         newUser => {

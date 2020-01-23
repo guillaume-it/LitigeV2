@@ -1,17 +1,29 @@
-
 .mat-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 12px;
 }
 
 .mat-card-content {
-    display: flex;
-    flex-direction: column;    
+  display: flex;
+  flex-direction: column;
 }
 
 .mat-card-actions {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-form-field {
+  margin-right: 12px;
 }

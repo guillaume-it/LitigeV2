@@ -1,0 +1,20 @@
+<div [formGroup]="identificationFormGroup">
+  <mat-form-field>
+    <input matInput placeholder="Prénom" formControlName="firstName" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Nom" formControlName="lastName" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Téléphone" formControlName="phone" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="email" formControlName="email" />
+  </mat-form-field>
+  <mat-form-field>
+    <input type="password" placeholder="Password" matInput formControlName="password" />
+    <mat-error *ngFor="let error of identificationFormGroup.get('password').errors | keyvalue | slice: 0:1">
+      {{ error.key === 'required' ? 'Password is required' : '' }}
+    </mat-error>
+  </mat-form-field>
+</div>

@@ -1,7 +1,6 @@
-import { AbstractResource } from '../services/store.service';
 import { User } from './user';
 
-export class Litige implements AbstractResource {
+export class Litige {
   id: number;
   creation: Date;
   objet: string;
