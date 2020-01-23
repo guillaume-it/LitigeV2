@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "userdb")
+@Entity(name = "users")
 @NoArgsConstructor
 @EqualsAndHashCode
 public class User implements UserDetails {

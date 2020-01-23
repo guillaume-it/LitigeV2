@@ -2,13 +2,13 @@
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-	<changeSet author="Guillaume" id="userdb-7">
+	<changeSet author="Guillaume" id="users-7">
 		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_user_id"
 			startValue="5" />
 	</changeSet>
 
-	<changeSet author="Guillaume" id="userdb-1">
-		<createTable tableName="userdb">
+	<changeSet author="Guillaume" id="users-1">
+		<createTable tableName="users">
 
 			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_user_id">
 				<constraints nullable="false" />
@@ -43,15 +43,15 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet author="Guillaume" id="userdb-2">
-		<addPrimaryKey columnNames="id" constraintName="userdb_pkey" tableName="userdb" />
+	<changeSet author="Guillaume" id="users-2">
+		<addPrimaryKey columnNames="id" constraintName="users_pkey" tableName="users" />
 	</changeSet>
 
-	<changeSet author="Guillaume" id="userdb-3">
-		<addUniqueConstraint columnNames="email" constraintName="userdb_email_key" tableName="userdb" />
+	<changeSet author="Guillaume" id="users-3">
+		<addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users" />
 	</changeSet>
-	<changeSet author="Guillaume" id="userdb-6">
-		<insert catalogName="litige" tableName="userdb">
+	<changeSet author="Guillaume" id="users-6">
+		<insert  tableName="users">
 			<column name="id" valueNumeric="1" />
 			<column name="first_name" value="first name admin" />
 			<column name="phone" value="phone admin" />		
@@ -66,7 +66,7 @@
 			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="version" valueNumeric="0" />
 		</insert>
-		<insert catalogName="litige" tableName="userdb">
+		<insert  tableName="users">
 			<column name="id" valueNumeric="2" />
 			<column name="first_name" value="first name user" />
 			<column name="phone" value="phone user" />	
@@ -81,7 +81,7 @@
 			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="version" valueNumeric="0" />
 		</insert>
-		<insert catalogName="litige" tableName="userdb">
+		<insert catalogName="litige" tableName="users">
 			<column name="id" valueNumeric="3" />
 			<column name="first_name" value="Keyte" />
 			<column name="phone" value="phone user" />	
@@ -96,7 +96,7 @@
 			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="version" valueNumeric="0" />
 		</insert>
-		<insert catalogName="litige" tableName="userdb">
+		<insert catalogName="litige" tableName="users">
 			<column name="id" valueNumeric="4" />
 			<column name="first_name" value="Marcel" />
 			<column name="phone" value="phone user" />	

@@ -39,7 +39,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(final ResourceServerSecurityConfigurer resources) throws Exception {
-		resources.resourceId("litige/resource").tokenStore(tokenStore());
+		resources.resourceId("claim/resource").tokenStore(tokenStore());
 	}
 
 	@Bean

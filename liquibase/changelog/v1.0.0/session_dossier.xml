@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="session_dossier-1">
+		<createTable tableName="session_dossier">
+			<column name="session_id" type="numeric(19)">
+				<constraints nullable="false" />
+			</column>
+			<column name="dossier_id" type="numeric(19)">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+	</changeSet>
+	<changeSet author="Guillaume" id="session_dossier-2">
+		<addPrimaryKey columnNames="session_id, dossier_id" constraintName="session_dossier_pkey" tableName="session_dossier" />
+	</changeSet>
+	<changeSet author="Guillaume" id="session_dossier-3">
+		<addForeignKeyConstraint baseColumnNames="session_id" baseTableName="session_dossier"
+			constraintName="session_dossier_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+			referencedColumnNames="id" referencedTableName="session" />
+	</changeSet>
+	<changeSet author="Guillaume" id="session_dossier-4">
+		<addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="session_dossier"
+			constraintName="session_dossier_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+			referencedColumnNames="id" referencedTableName="dossier" />
+	</changeSet>
+</databaseChangeLog>

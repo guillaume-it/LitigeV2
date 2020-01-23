@@ -17,15 +17,15 @@
 			<column name="objet" type="VARCHAR(200)" />
 			<column name="message" type="VARCHAR(200)" />
 			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="president" type="numeric(19)" />
-			<column name="reporter" type="numeric(19)" />			
+			<column name="president_id" type="numeric(19)" />
+			<column name="reporter_id" type="numeric(19)" />			
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="president"
+		<addForeignKeyConstraint baseColumnNames="president_id"
 			baseTableName="session" constraintName="fk_session_president_user_id"
-			referencedColumnNames="id" referencedTableName="userdb" />
-			<addForeignKeyConstraint baseColumnNames="reporter"
+			referencedColumnNames="id" referencedTableName="users" />
+			<addForeignKeyConstraint baseColumnNames="reporter_id"
 			baseTableName="session" constraintName="fk_session_agent_user_id"
-			referencedColumnNames="id" referencedTableName="userdb" />
+			referencedColumnNames="id" referencedTableName="users" />
 	</changeSet>
 	    <changeSet author="Guillaume" id="session-3">
         <addPrimaryKey columnNames="id" constraintName="session_pkey" tableName="session"/>

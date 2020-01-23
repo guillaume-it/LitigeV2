@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.dto.Litige;
+import com.ruscassie.litige.dto.Claim;
 import com.ruscassie.litige.service.LitigeService;
 import com.ruscassie.litige.service.UserService;
 
@@ -35,7 +35,7 @@ public class LitigeController {
 
 	@PreAuthorize("hasAuthority('can_create_claim')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Litige create(@RequestBody final Litige litige) {
+	public Claim create(@RequestBody final Claim litige) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		final Optional<com.ruscassie.litige.dto.User> userDto = userService.findByEmail(auth.getName());
@@ -51,7 +51,7 @@ public class LitigeController {
 
 	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(path = "/{id}")
-	public Litige findOne(@PathVariable final long id) {
+	public Claim findOne(@PathVariable final long id) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		return litigeService.findOne(id);
@@ -59,13 +59,13 @@ public class LitigeController {
 
 	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(value = "")
-	public Page<Litige> list(final Pageable pageable) {
+	public Page<Claim> list(final Pageable pageable) {
 		return litigeService.findAll(pageable);
 	}
 
 	@PreAuthorize("hasAuthority('can_update_claim')")
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Litige update(@PathVariable final long id, @RequestBody final Litige litige) {
+	public Claim update(@PathVariable final long id, @RequestBody final Claim litige) {
 		litige.setId(id);
 		return litigeService.save(litige);
 	}

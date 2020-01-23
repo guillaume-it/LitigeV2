@@ -4,7 +4,7 @@
 
 	<changeSet author="Guillaume" id="comment-1">
 		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_comment_id"
-			startValue="2" />
+			startValue="1" />
 	</changeSet>
 	<changeSet author="Guillaume" id="comment-2">
 		<createTable tableName="comment">
@@ -13,15 +13,18 @@
 			</column>
 			<column name="message" type="VARCHAR(500)" />
 			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="agent" type="numeric(19)" />
-			<column name="litige" type="numeric(19)" />
+			<column name="update" type="TIMESTAMP(29) WITH TIME ZONE" />
+			<column name="agent_id" type="numeric(19)" />
+			<column name="dossier_id" type="numeric(19)" />
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="litige" baseTableName="comment"
-			constraintName="fk_comment_litige_id" referencedColumnNames="id" referencedTableName="litige" />
-		<addForeignKeyConstraint baseColumnNames="agent" baseTableName="comment"
-			constraintName="fk_comment_agent_user_id" referencedColumnNames="id" referencedTableName="userdb" />
-	</changeSet>
-	<changeSet author="Guillaume" id="comment-3">
+
 		<addPrimaryKey columnNames="id" constraintName="comment_pkey" tableName="comment" />
+
+		<addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="comment"
+			constraintName="fk_comment_dossier_id" referencedColumnNames="id" referencedTableName="dossier" />
+
+		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="comment"
+			constraintName="fk_comment_agent_user_id" referencedColumnNames="id" referencedTableName="users" />
 	</changeSet>
+
 </databaseChangeLog>

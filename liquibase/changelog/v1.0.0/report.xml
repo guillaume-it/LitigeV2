@@ -13,10 +13,13 @@
 			</column>
 			<column name="summary" type="VARCHAR(500)" />
 			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="agent" type="numeric(19)" />
+			<column name="agent_id" type="numeric(19)" />
+			<column name="dossier_id" type="numeric(19)" />
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="agent" baseTableName="report"
-			constraintName="fk_case_agent_user_id" referencedColumnNames="id" referencedTableName="userdb" />
+		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="report"
+			constraintName="fk_report_agent_user_id" referencedColumnNames="id" referencedTableName="users" />
+		<addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="report"
+			constraintName="fk_report_dossier_id" referencedColumnNames="id" referencedTableName="dossier" />
 	</changeSet>
 	<changeSet author="Guillaume" id="report-3">
 		<addPrimaryKey columnNames="id" constraintName="report_pkey" tableName="report" />

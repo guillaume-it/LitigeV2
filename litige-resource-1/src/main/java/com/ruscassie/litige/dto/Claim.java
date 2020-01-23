@@ -1,18 +1,18 @@
 package com.ruscassie.litige.dto;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class Litige {
+public class Claim {
 
 	private Long id;
 	private String objet;
 	private String message;
-	private Date creation;
+	private ZonedDateTime creation;
 	private User requerant;
 	private User agent;
 

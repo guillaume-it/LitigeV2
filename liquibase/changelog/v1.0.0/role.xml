@@ -27,21 +27,21 @@
 		<addUniqueConstraint columnNames="name" constraintName="role_name_key" tableName="role" />
 	</changeSet>
 	<changeSet author="Guillaume" id="1578098400899-7">
-		<insert catalogName="litige" tableName="role">
+		<insert tableName="role">
 			<column name="id" valueNumeric="1" />
 			<column name="name" value="role_admin" />
 			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="version" valueNumeric="0" />
 		</insert>
-		<insert catalogName="litige" tableName="role">
+		<insert tableName="role">
 			<column name="id" valueNumeric="2" />
 			<column name="name" value="role_agent" />
 			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
 			<column name="version" valueNumeric="0" />
 		</insert>
-		<insert catalogName="litige" tableName="role">
+		<insert tableName="role">
 			<column name="id" valueNumeric="3" />
 			<column name="name" value="role_claimant" />
 			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
