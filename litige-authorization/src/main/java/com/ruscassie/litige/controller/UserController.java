@@ -88,6 +88,7 @@ class UserController {
 	@GetMapping("/{id}")
 	@PostAuthorize("!hasAuthority('USER') || (returnObject != null && returnObject.email == authentication.principal)")
 	User one(@PathVariable final Long id) {
+
 		return userService.findById(id).orElseThrow(() -> new EntityNotFoundException(User.class, "id", id.toString()));
 	}
 

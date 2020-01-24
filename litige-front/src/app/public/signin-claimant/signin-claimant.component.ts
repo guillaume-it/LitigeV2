@@ -36,23 +36,16 @@ export class SigninClaimantComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({});
-
-    this.claimantForm = new FormGroup({
-      address: new FormControl('', Validators.required),
-      objet: new FormControl('', Validators.required),
-      message: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
-    });
   }
 
   signin() {
     this.userService
       .signinClaimant(
-        this.claimantForm.get('email').value,
-        this.claimantForm.get('password').value,
-        this.claimantForm.get('firstName').value,
-        this.claimantForm.get('name').value,
-        this.claimantForm.get('phone').value
+        this.formGroup.get('email').value,
+        this.formGroup.get('password').value,
+        this.formGroup.get('firstName').value,
+        this.formGroup.get('name').value,
+        this.formGroup.get('phone').value
       )
       .subscribe(
         newUser => {

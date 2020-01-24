@@ -3,12 +3,6 @@ server:
    use-forward-headers: false
    servlet:
       context-path: /auth
-      
-      
-      
-      
-      
-      
 spring:
    profiles: default
    application:
@@ -31,7 +25,20 @@ spring:
          validation-query: SELECT 1
       initialization-mode: never
       platform: postgres
-      
+   mail:
+      host: smtp.gmail.com
+      port: 587
+      username: arsel.cm@gmail.com
+      password: xdGnKL4m5x8wiJkMd8bx
+      properties:
+         mail:
+            smtp:
+               auth: true
+               connectiontimeout: 5000
+               timeout: 5000
+               writetimeout: 5000
+               starttls:
+                  enable: true
 eureka:
    instance:
       hostname: localhost
@@ -39,7 +46,6 @@ eureka:
    client:
       serviceUrl:
          defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-
 logging:
-  level:
-    root: INFO
+   level:
+      root: INFO
