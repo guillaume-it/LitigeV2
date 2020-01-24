@@ -1,5 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from './../../../services/user.service';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { User } from 'src/app/models';
+import { Router } from '@angular/router';
+import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-identification',
@@ -7,25 +12,41 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./identification.component.scss']
 })
 export class IdentificationComponent implements OnInit {
-  @Input() formGroup: FormGroup;
-  private formGroupName = 'identificationFormGroup';
+  formGroup = new FormGroup({
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    phone: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required)
+  });
 
-  constructor() {}
+  constructor(private userService: UserService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.formGroup.addControl(
-      this.formGroupName,
-      new FormGroup({
-        firstName: new FormControl('', Validators.required),
-        lastName: new FormControl('', Validators.required),
-        phone: new FormControl('', Validators.required),
-        email: new FormControl('', Validators.required),
-        password: new FormControl('', Validators.required)
+      'email',
+      new FormControl('', {
+        validators: [Validators.required, Validators.email]
+        // asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.formGroup.get('email').value),
+        // updateOn: 'blur'
       })
     );
   }
+  create() {
+    const user = new User();
+    user.firstName = this.formGroup.get('firstName').value;
+    user.lastName = this.formGroup.get('lastName').value;
+    user.phone = this.formGroup.get('phone').value;
+    user.email = this.formGroup.get('email').value;
+    user.password = this.formGroup.get('password').value;
 
-  get identificationFormGroup(): FormGroup {
-    return this.formGroup.get(this.formGroupName) as FormGroup;
+    this.userService.signinClaimant(user).subscribe(
+      res => {
+        this.router.navigate(['validation-email']);
+      },
+      err => {
+        console.log(err);
+        // TODO manage error
+      }
+    );
   }
 }

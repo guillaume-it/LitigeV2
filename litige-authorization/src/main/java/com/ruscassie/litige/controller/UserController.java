@@ -109,11 +109,9 @@ class UserController {
 	}
 
 	@PostMapping("/signin-claimant")
-	User signinClaimant(@RequestParam final String email, @RequestParam final String password,
-			@RequestParam final String firstName, @RequestParam final String lastName,
-			@RequestParam final String phone) {
+	User signinClaimant(@Valid @RequestBody final User user) {
 
-		return userService.signinClaimant(email, password, firstName, lastName, phone);
+		return userService.signinClaimant(user);
 	}
 
 	// || (authentication.principal == @userRepository.findById(#id).orElse(new

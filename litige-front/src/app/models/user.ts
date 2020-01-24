@@ -1,7 +1,6 @@
 export enum Role {
-  USER = 'USER',
+  AGENT = 'AGENT',
   ADMIN = 'ADMIN',
-  USER_MANAGER = 'USER_MANAGER',
   CLAIMANT = 'CLAIMANT'
 }
 
@@ -12,5 +11,5 @@ export class User {
   phone: string;
   role: Role;
   firstName: string;
-  name: string;
+  lastName: string;
 }

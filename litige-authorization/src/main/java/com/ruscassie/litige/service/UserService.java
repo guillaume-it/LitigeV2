@@ -133,7 +133,8 @@ public class UserService implements UserDetailsService {
 		client.setClientId(user.getEmail().toString());
 		client.setClientSecret(user.getPassword());
 		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
-		client.setScope(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
+		client.setScope(user.getRoles().stream().filter(role -> role.getName().startsWith("scope_"))
+				.map(role -> role.getName()).collect(Collectors.toList()));
 		client.setAccessTokenValiditySeconds(5 * 60);
 		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
 
@@ -164,25 +165,24 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional(rollbackOn = Exception.class)
-	public User signinClaimant(final String email, final String password, final String firstName, final String lastName,
-			final String phone) {
+	public User signinClaimant(final User user) {
 
-		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
+		final com.ruscassie.litige.entity.User eUser = new com.ruscassie.litige.entity.User();
 		final com.ruscassie.litige.entity.Role roleClaimant = roleRepository.findByName("role_claimant");
-		user.setLastName(lastName);
-		user.setFirstName(firstName);
-		user.setPhone(phone);
-		user.setEmail(email);
-		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
-		user.setRoles(Arrays.asList(roleClaimant));
-		user.setTokenActiveAccount(UUID.randomUUID().toString());
+		eUser.setLastName(user.getLastName());
+		eUser.setFirstName(user.getFirstName());
+		eUser.setPhone(user.getPhone());
+		eUser.setEmail(user.getEmail());
+		eUser.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+		eUser.setRoles(Arrays.asList(roleClaimant));
+		eUser.setTokenActiveAccount(UUID.randomUUID().toString());
 
-		emailService.sendEmailValidAccount(user);
-		userRepository.saveAndFlush(user);
+		emailService.sendEmailValidAccount(eUser);
+		userRepository.saveAndFlush(eUser);
 
-		oauthClient(user);
+		oauthClient(eUser);
 
-		return serviceMapper.mapEntityToDto(user, User.class);
+		return serviceMapper.mapEntityToDto(eUser, User.class);
 
 	}
 

@@ -9,7 +9,7 @@ import { ClaimCreateComponent } from './claim-create';
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.CLAIMANT, Role.ADMIN, Role.USER, Role.USER_MANAGER] },
+    data: { roles: [Role.CLAIMANT, Role.ADMIN, Role.AGENT] },
     canActivateChild: [AuthGuard],
     children: [
       {

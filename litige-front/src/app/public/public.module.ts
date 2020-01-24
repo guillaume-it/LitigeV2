@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './signin/signin.component';
+import { SendEmailValidationComponent } from './signin-claimant/send-email-validation/send-email-validation.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SigninComponent } from './signin/signin.component';
     SigninClaimantComponent,
     IdentificationComponent,
     AddressComponent,
-    ClaimCreateComponent
+    ClaimCreateComponent,
+    SendEmailValidationComponent
   ],
   imports: [SharedModule]
 })

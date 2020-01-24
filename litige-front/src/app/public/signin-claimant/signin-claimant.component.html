@@ -1,7 +1,9 @@
 <mat-card>
-  <mat-card-title>
-    Votre problème vous électrise? Ecrivez-nous !!
-  </mat-card-title>
+  <mat-card-header>
+    <mat-card-title>
+      Votre problème vous électrise? Ecrivez-nous !!
+    </mat-card-title>
+  </mat-card-header>
   <form [formGroup]="formGroup" (ngSubmit)="signin()">
     <mat-card-content>
       <mat-accordion class="example-headers-align">
@@ -11,7 +13,7 @@
               Comment vous appelez-vous ?
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-identification [formGroup]="formGroup"></app-identification>
+          <!-- <app-identification [formGroup]="formGroup"></app-identification> -->
           <mat-action-row>
             <button mat-button color="primary" (click)="nextStep()">Next</button>
           </mat-action-row>
