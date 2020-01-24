@@ -41,6 +41,9 @@
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
 				<constraints nullable="false" />
 			</column>
+			<column name="token_active_account" type="VARCHAR(200)">
+				<constraints nullable="true" />
+			</column>
 		</createTable>
 	</changeSet>
 	<changeSet author="Guillaume" id="users-2">

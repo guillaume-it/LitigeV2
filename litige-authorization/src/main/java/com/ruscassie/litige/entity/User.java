@@ -1,5 +1,6 @@
 package com.ruscassie.litige.entity;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class User implements UserDetails {
-
+//https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/User.html
 	/**
 	 *
 	 */
@@ -66,11 +68,18 @@ public class User implements UserDetails {
 	@Column(name = "credentials_expired")
 	private boolean credentialsNonExpired;
 
+	@Column(name = "created_on")
+	@CreationTimestamp
+	private ZonedDateTime createdOn;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "role_user", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "role_id", referencedColumnName = "id") })
 	private List<Role> roles;
+
+	@Column
+	private String tokenActiveAccount;
 
 	/*
 	 * Get roles and permissions and add them as a Set of GrantedAuthority

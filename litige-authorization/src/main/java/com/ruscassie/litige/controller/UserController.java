@@ -110,9 +110,10 @@ class UserController {
 
 	@PostMapping("/signin-claimant")
 	User signinClaimant(@RequestParam final String email, @RequestParam final String password,
-			@RequestParam final String firstName, @RequestParam final String name, @RequestParam final String phone) {
+			@RequestParam final String firstName, @RequestParam final String lastName,
+			@RequestParam final String phone) {
 
-		return userService.signinClaimant(email, password, firstName, name, phone);
+		return userService.signinClaimant(email, password, firstName, lastName, phone);
 	}
 
 	// || (authentication.principal == @userRepository.findById(#id).orElse(new
@@ -123,4 +124,9 @@ class UserController {
 		userService.update(user);
 	}
 
+	@GetMapping("/valid-account")
+	void validAccount(@RequestParam final String email, @RequestParam final String tokenActiveAccount) {
+
+		userService.validAccount(email, tokenActiveAccount);
+	}
 }

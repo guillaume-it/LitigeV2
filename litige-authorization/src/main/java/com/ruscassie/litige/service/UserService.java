@@ -3,6 +3,7 @@ package com.ruscassie.litige.service;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -41,6 +42,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private JdbcClientDetailsService jdbcClientDetailsService;
+
+	@Autowired
+	private EmailService emailService;
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -100,22 +104,6 @@ public class UserService implements UserDetailsService {
 		return Optional.of(serviceMapper.mapEntityToDto(entity.get(), User.class));
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(final String input) {
-		this.log.error("loadUserByUsername: " + input);
-		Optional<com.ruscassie.litige.entity.User> user = null;
-
-		user = userRepository.findByEmail(input);
-		this.log.error("loadUserByUsername: " + user);
-
-		if (!user.isPresent())
-			throw new BadCredentialsException("Bad credentials");
-
-		new AccountStatusUserDetailsChecker().check(user.get());
-
-		return user.get();
-	}
-
 //	@Override
 //	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 //		final com.ruscassie.litige.entity.User user = userRepository.findByEmail(username)
@@ -125,6 +113,20 @@ public class UserService implements UserDetailsService {
 //				Arrays.asList(authority));
 //
 //	}
+
+	@Override
+	public UserDetails loadUserByUsername(final String input) {
+		Optional<com.ruscassie.litige.entity.User> user = null;
+
+		user = userRepository.findByEmail(input);
+
+		if (!user.isPresent())
+			throw new BadCredentialsException("Bad credentials");
+
+		new AccountStatusUserDetailsChecker().check(user.get());
+
+		return user.get();
+	}
 
 	private void oauthClient(final com.ruscassie.litige.entity.User user) {
 		final BaseClientDetails client = new BaseClientDetails();
@@ -147,12 +149,12 @@ public class UserService implements UserDetailsService {
 	@Transactional(rollbackOn = Exception.class)
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
-		final com.ruscassie.litige.entity.Role roleUser = roleRepository.findByName("role_user");
+		final com.ruscassie.litige.entity.Role roleAgent = roleRepository.findByName("role_agent");
 		final com.ruscassie.litige.entity.Role roleAdmin = roleRepository.findByName("role_admin");
 
 		user.setEmail(email);
 		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
-		user.setRoles(Arrays.asList(roleUser, roleAdmin));
+		user.setRoles(Arrays.asList(roleAgent, roleAdmin));
 
 		userRepository.saveAndFlush(user);
 
@@ -173,7 +175,9 @@ public class UserService implements UserDetailsService {
 		user.setEmail(email);
 		user.setPassword("{bcrypt}" + passwordEncoder.encode(password));
 		user.setRoles(Arrays.asList(roleClaimant));
+		user.setTokenActiveAccount(UUID.randomUUID().toString());
 
+		emailService.sendEmailValidAccount(user);
 		userRepository.saveAndFlush(user);
 
 		oauthClient(user);
@@ -193,6 +197,18 @@ public class UserService implements UserDetailsService {
 
 		userRepository.save(save);
 		userRepository.flush();
+	}
+
+	public boolean validAccount(final String email, final String tokenActiveAccount) {
+		final Optional<com.ruscassie.litige.entity.User> user = userRepository.findByEmail(email);
+		if (user.isPresent()) {
+			if (user.get().getTokenActiveAccount().equals(tokenActiveAccount)) {
+				user.get().setEnabled(true);
+
+				return userRepository.save(user.get()) != null;
+			}
+		}
+		return false;
 	}
 
 }
