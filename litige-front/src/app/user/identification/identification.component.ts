@@ -11,10 +11,20 @@ import { UserService } from 'src/app/services';
 })
 export class IdentificationComponent implements OnInit {
   formGroup = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    firstName: new FormControl('', [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(20),
+      Validators.pattern('^([a-zA-Z]|-)+$')
+    ]),
+    lastName: new FormControl('', [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(20),
+      Validators.pattern('^([a-zA-Z]|-)+$')
+    ]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^(\\+237|237)?[0-9]{9}$')]),
+    password: new FormControl('', [Validators.required, Validators.min(8), Validators.max(20)])
   });
 
   constructor(private userService: UserService, private router: Router) {}

@@ -13,10 +13,10 @@
 			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_user_id">
 				<constraints nullable="false" />
 			</column>
-			<column name="last_name" type="VARCHAR(50)">
+			<column name="last_name" type="VARCHAR(20)">
 				<constraints nullable="true" />
 			</column>
-			<column name="first_name" type="VARCHAR(50)">
+			<column name="first_name" type="VARCHAR(20)">
 				<constraints nullable="true" />
 			</column>
 			<column name="phone" type="VARCHAR(12)">
@@ -25,7 +25,7 @@
 			<column name="password" type="VARCHAR(200)">
 				<constraints nullable="false" />
 			</column>
-			<column name="email" type="VARCHAR(255)">
+			<column name="email" type="VARCHAR(70)">
 				<constraints nullable="false" />
 			</column>
 			<column name="enabled" type="BOOL" />
