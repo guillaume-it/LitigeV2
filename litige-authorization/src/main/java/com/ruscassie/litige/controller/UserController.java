@@ -1,5 +1,9 @@
 package com.ruscassie.litige.controller;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
@@ -7,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -40,32 +46,33 @@ class UserController {
 	private UserService userService;
 
 	@GetMapping
-	Page<User> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable) {
+	public ResponseEntity<Page<User>> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable) {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		final String role = authentication.getAuthorities().iterator().next().getAuthority();
 		if (role.equals(RoleEnum.USER.name())) {
-			return userService.findAllByEmail(authentication.getName(), pageable);
+			return new ResponseEntity<Page<User>>(userService.findAllByEmail(authentication.getName(), pageable),
+					HttpStatus.OK);
 		}
-		return userService.findAll(pageable);
+		return new ResponseEntity<Page<User>>(userService.findAll(pageable), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}/changePassword")
 	@PreAuthorize("!hasAuthority('USER') || (#oldPassword != null && !#oldPassword.isEmpty() && authentication.principal == @userRepository.findById(#id).orElse(new net.reliqs.gleeometer.users.User()).email)")
-	void changePassword(@PathVariable final Long id, @RequestParam(required = false) final String oldPassword,
+	public void changePassword(@PathVariable final Long id, @RequestParam(required = false) final String oldPassword,
 			@Valid @Size(min = 3) @RequestParam final String newPassword) {
 		userService.changePassword(id, oldPassword, newPassword);
 	}
 
 	@PostMapping
 	@PreAuthorize("!hasAuthority('USER')")
-	User create(@Valid @RequestBody final User res) {
-		return userService.save(res);
+	ResponseEntity<User> create(@Valid @RequestBody final User res) {
+		return new ResponseEntity<User>(userService.save(res), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	@PreAuthorize("!hasAuthority('USER')")
-	void delete(@PathVariable final Long id) {
+	public void delete(@PathVariable final Long id) {
 		if (userService.existsById(id)) {
 			userService.deleteById(id);
 		} else {
@@ -74,57 +81,67 @@ class UserController {
 	}
 
 	@PostMapping("/validateEmail")
-	Boolean emailExists(@RequestParam final String email) {
-		return userService.existsByEmail(email);
+	public ResponseEntity<Boolean> emailExists(@RequestParam final String email) {
+		return new ResponseEntity<Boolean>(userService.existsByEmail(email), HttpStatus.OK);
 	}
 
 	@GetMapping("/findByEmail")
 	@PreAuthorize("(hasAuthority('ADMIN') || hasAuthority('USER') ) && (authentication.principal == #email)")
-	User findByEmail(@RequestParam final String email) {
-		return userService.findByEmail(email)
-				.orElseThrow(() -> new EntityNotFoundException(User.class, "email", email));
+	public ResponseEntity<User> findByEmail(@RequestParam final String email) {
+		final Optional<User> user = userService.findByEmail(email);
+		if (user.isPresent())
+			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/{id}")
 	@PostAuthorize("!hasAuthority('USER') || (returnObject != null && returnObject.email == authentication.principal)")
-	User one(@PathVariable final Long id) {
-
-		return userService.findById(id).orElseThrow(() -> new EntityNotFoundException(User.class, "id", id.toString()));
+	public ResponseEntity<User> one(@PathVariable final Long id) {
+		final Optional<User> user = userService.findById(id);
+		if (user.isPresent())
+			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/search")
-	Page<User> search(@RequestParam final String email, final Pageable pageable,
+	public ResponseEntity<Page<User>> search(@RequestParam final String email, final Pageable pageable,
 			final OAuth2Authentication authentication) {
 		final String auth = (String) authentication.getUserAuthentication().getPrincipal();
 		final String role = authentication.getAuthorities().iterator().next().getAuthority();
 		if (role.equals(RoleEnum.USER.name())) {
-			return userService.findAllByEmailContainsAndEmail(email, auth, pageable);
+			return new ResponseEntity<Page<User>>(userService.findAllByEmailContainsAndEmail(email, auth, pageable),
+					HttpStatus.OK);
 		}
-		return userService.findByEmailContains(email, pageable);
+		return new ResponseEntity<Page<User>>(userService.findByEmailContains(email, pageable), HttpStatus.OK);
 	}
 
 	@PostMapping("/signin")
-	User signin(@RequestParam final String email, @RequestParam final String password) {
-		return userService.signin(email, password);
+	public ResponseEntity<User> signin(@RequestParam final String email, @RequestParam final String password) {
+		return new ResponseEntity<User>(userService.signin(email, password), HttpStatus.OK);
 	}
 
 	@PostMapping("/signin-claimant")
-	User signinClaimant(@Valid @RequestBody final User user) {
-
-		return userService.signinClaimant(user);
+	public ResponseEntity<User> signinClaimant(@RequestBody final User user) throws MessagingException, IOException {
+		return new ResponseEntity<User>(userService.signinClaimant(user), HttpStatus.OK);
 	}
 
 	// || (authentication.principal == @userRepository.findById(#id).orElse(new
 	// net.reliqs.gleeometer.users.User()).email)"
 	@PutMapping
 	@PreAuthorize("!hasAuthority('USER')")
-	void update(@Valid @RequestBody final User user) {
+	public void update(@Valid @RequestBody final User user) {
 		userService.update(user);
 	}
 
-	@GetMapping("/valid-account")
-	void validAccount(@RequestParam final String email, @RequestParam final String tokenActiveAccount) {
+	@GetMapping("/validate-account")
+	public ResponseEntity<User> validAccount(@RequestParam final String email, @RequestParam final String token) {
 
-		userService.validAccount(email, tokenActiveAccount);
+		final Optional<User> user = userService.validAccount(email, token);
+		if (user.isPresent())
+			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 }

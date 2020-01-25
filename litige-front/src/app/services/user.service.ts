@@ -15,22 +15,7 @@ export class UserServiceFilter {
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private crudService: CrudService) {
-    console.log('init userservice');
-    // super(User, http, config.config.serverUrl + 'users', config.config.serverUrl + 'users/search');
-    // this.signinUrl = config.config.authUrl + 'signin' + ;
-  }
-
-  // prepareData(item: User): Object {
-  //   return item;
-  // }
-  // applyFilter(url: string, filter: UserServiceFilter, params: HttpParams): { url: string; params: HttpParams; } {
-  //   if (filter && filter.email) {
-  //     url = this.searchUrl;
-  //     params = params.set('email', filter.email);
-  //   }
-  //   return { url, params };
-  // }
+  constructor(private crudService: CrudService) {}
 
   delete(i: number): Observable<boolean> {
     throw new Error('Method not implemented.');
@@ -47,24 +32,15 @@ export class UserService {
 
   changePassword(id: number, oldPassword: string, newPassword: string): Observable<boolean> {
     console.log(`change password ${id} ${oldPassword} ${newPassword}`);
-    return (
-      this.crudService
-        .put<boolean>(
-          environment.authUrl + `/users/${id}/changePassword`,
-          new HttpParams()
-            .set('id', String(id))
-            .set('oldPassword', oldPassword)
-            .set('newPassword', newPassword)
-        )
-        // return this.http
-        //   .put<void>(
-        //     this.collectionUrl + `/${id}/changePassword`,
-        //     new HttpParams()
-        //       .set('id', String(id))
-        //       .set('oldPassword', oldPassword)
-        //       .set('newPassword', newPassword)
-        .pipe(map(() => true))
-    );
+    return this.crudService
+      .put<boolean>(
+        environment.authUrl + `/users/${id}/changePassword`,
+        new HttpParams()
+          .set('id', String(id))
+          .set('oldPassword', oldPassword)
+          .set('newPassword', newPassword)
+      )
+      .pipe(map(() => true));
   }
 
   signinClaimant(user: User): Observable<User> {
@@ -80,10 +56,16 @@ export class UserService {
   }
 
   validateEmail(email: string): Observable<boolean> {
-    console.log(`validateEmail ${email}`);
     return this.crudService.post<boolean>(
       environment.authUrl + '/users/validateEmail',
       new HttpParams().set('email', email)
+    );
+  }
+
+  validateAccount(email: string, token: string): Observable<User> {
+    return this.crudService.get<User>(
+      environment.authUrl + '/users/validate-account',
+      new HttpParams().set('email', email).set('token', token)
     );
   }
 
@@ -95,18 +77,4 @@ export class UserService {
       })
     );
   }
-
-  // prepareData(item: User): Object {
-  //   return item;
-  // }
-  // update(model: T): Observable<boolean> {
-  //   const url = this.collectionUrl + '/' + model.id;
-  //   const data = this.prepareData(model);
-  //   return this.http.put(url, data).pipe(
-  //     map(res => {
-  //       console.log(`updated ${model.constructor.name} ${model.id}`);
-  //       return true;
-  //     })
-  //   );
-  // }
 }

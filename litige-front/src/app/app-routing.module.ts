@@ -8,6 +8,7 @@ import { SigninComponent } from './public/signin/signin.component';
 import { Role } from './models/user';
 import { SigninClaimantComponent } from './public/signin-claimant/signin-claimant.component';
 import { SendEmailValidationComponent } from './public/signin-claimant/send-email-validation/send-email-validation.component';
+import { LinkEmailValidationComponent } from './public/signin-claimant/link-email-validation/link-email-validation.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'signin', component: SigninComponent },
       { path: 'signin-claimant', component: IdentificationComponent },
-      { path: 'validation-email', component: SendEmailValidationComponent }
+      { path: 'send-validation-email', component: SendEmailValidationComponent },
+      { path: 'link-validation-email/:email/:token', component: LinkEmailValidationComponent }
     ]
   },
   { path: '', redirectTo: '/litige', pathMatch: 'full' },

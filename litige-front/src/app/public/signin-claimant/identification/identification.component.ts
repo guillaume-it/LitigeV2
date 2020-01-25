@@ -2,9 +2,7 @@ import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models';
-import { Router } from '@angular/router';
-import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
-import { MatSnackBar } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-identification',
@@ -19,7 +17,7 @@ export class IdentificationComponent implements OnInit {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private userService: UserService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit() {
     this.formGroup.addControl(
@@ -41,7 +39,7 @@ export class IdentificationComponent implements OnInit {
 
     this.userService.signinClaimant(user).subscribe(
       res => {
-        this.router.navigate(['validation-email']);
+        this.router.navigate(['send-validation-email']);
       },
       err => {
         console.log(err);

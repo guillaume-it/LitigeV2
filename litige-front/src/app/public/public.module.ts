@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './signin/signin.component';
 import { SendEmailValidationComponent } from './signin-claimant/send-email-validation/send-email-validation.component';
+import { LinkEmailValidationComponent } from './signin-claimant/link-email-validation/link-email-validation.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SendEmailValidationComponent } from './signin-claimant/send-email-valid
     IdentificationComponent,
     AddressComponent,
     ClaimCreateComponent,
-    SendEmailValidationComponent
+    SendEmailValidationComponent,
+    LinkEmailValidationComponent
   ],
   imports: [SharedModule]
 })

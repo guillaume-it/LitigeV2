@@ -1,12 +1,14 @@
 package com.ruscassie.litige.service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
+import javax.mail.MessagingException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
@@ -22,9 +24,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ruscassie.litige.dto.User;
+import com.ruscassie.litige.entity.Permission;
 import com.ruscassie.litige.error.EntityNotFoundException;
+import com.ruscassie.litige.mapper.UserMapper;
 import com.ruscassie.litige.repository.RoleRepository;
 import com.ruscassie.litige.repository.UserRepository;
 
@@ -133,11 +138,13 @@ public class UserService implements UserDetailsService {
 		client.setClientId(user.getEmail().toString());
 		client.setClientSecret(user.getPassword());
 		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
-		client.setScope(user.getRoles().stream().filter(role -> role.getName().startsWith("scope_"))
+		final List<Permission> permissions = user.getRoles().stream().flatMap(role -> role.getPermissions().stream())
+				.collect(Collectors.toList());
+		client.setScope(permissions.stream().filter(permission -> permission.getName().startsWith("scope_"))
 				.map(role -> role.getName()).collect(Collectors.toList()));
 		client.setAccessTokenValiditySeconds(5 * 60);
 		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
-
+		client.setResourceIds(Arrays.asList("claim/resource"));
 		jdbcClientDetailsService.addClientDetails(client);
 	}
 
@@ -147,7 +154,7 @@ public class UserService implements UserDetailsService {
 				User.class);
 	}
 
-	@Transactional(rollbackOn = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
 		final com.ruscassie.litige.entity.Role roleAgent = roleRepository.findByName("role_agent");
@@ -164,8 +171,8 @@ public class UserService implements UserDetailsService {
 		return serviceMapper.mapEntityToDto(user, User.class);
 	}
 
-	@Transactional(rollbackOn = Exception.class)
-	public User signinClaimant(final User user) {
+	@Transactional(rollbackFor = Exception.class)
+	public User signinClaimant(final User user) throws MessagingException, IOException {
 
 		final com.ruscassie.litige.entity.User eUser = new com.ruscassie.litige.entity.User();
 		final com.ruscassie.litige.entity.Role roleClaimant = roleRepository.findByName("role_claimant");
@@ -177,12 +184,15 @@ public class UserService implements UserDetailsService {
 		eUser.setRoles(Arrays.asList(roleClaimant));
 		eUser.setTokenActiveAccount(UUID.randomUUID().toString());
 
-		emailService.sendEmailValidAccount(eUser);
 		userRepository.saveAndFlush(eUser);
+
+		emailService.sendEmailValidAccount(eUser);
 
 		oauthClient(eUser);
 
-		return serviceMapper.mapEntityToDto(eUser, User.class);
+		final User dto = serviceMapper.mapEntityToDto(eUser, User.class);
+		dto.setPassword(null);
+		return dto;
 
 	}
 
@@ -199,16 +209,16 @@ public class UserService implements UserDetailsService {
 		userRepository.flush();
 	}
 
-	public boolean validAccount(final String email, final String tokenActiveAccount) {
+	public Optional<User> validAccount(final String email, final String tokenActiveAccount) {
 		final Optional<com.ruscassie.litige.entity.User> user = userRepository.findByEmail(email);
 		if (user.isPresent()) {
 			if (user.get().getTokenActiveAccount().equals(tokenActiveAccount)) {
 				user.get().setEnabled(true);
 
-				return userRepository.save(user.get()) != null;
+				return Optional.of(UserMapper.mapper(userRepository.save(user.get())));
 			}
 		}
-		return false;
+		return Optional.empty();
 	}
 
 }

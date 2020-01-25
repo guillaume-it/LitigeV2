@@ -6,7 +6,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,34 +18,35 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
-	public void sendEmailValidAccount(final User user) {
+//	public void sendEmailValidAccount(final User user) {
+//
+//		final SimpleMailMessage msg = new SimpleMailMessage();
+//		msg.setTo(user.getEmail());
+//
+//		msg.setSubject("Activation de votre compte Arsel");
+//		msg.setText(user.getTokenActiveAccount() + "  " + user.getEmail());
+//
+//		javaMailSender.send(msg);
+//
+//	}
 
-		final SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo(user.getEmail());
-
-		msg.setSubject("Activation de votre compte Arsel");
-		msg.setText(user.getTokenActiveAccount() + "  " + user.getEmail());
-
-		javaMailSender.send(msg);
-
-	}
-
-	void sendEmailWithAttachment(final User user) throws MessagingException, IOException {
+	public void sendEmailValidAccount(final User user) throws MessagingException, IOException {
 
 		final MimeMessage msg = javaMailSender.createMimeMessage();
 
 		// true = multipart message
 		final MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
-		helper.setTo(user.getEmail());
-
+		// helper.setTo(user.getEmail());
+		helper.setTo("guillaume.ruscassie@outlook.fr");
 		helper.setSubject("Activation de votre compte Arsel");
 
 		// default = text/plain
 		// helper.setText("Check attachment for image!");
 
 		// true = text/html
-		helper.setText("<h1>Check attachment for image!</h1>", true);
+		helper.setText("<a href=\"http://localhost:4200/link-validation-email/" + user.getEmail() + "/"
+				+ user.getTokenActiveAccount() + ">Link</a>", true);
 
 		// hard coded a file path
 		// FileSystemResource file = new FileSystemResource(new

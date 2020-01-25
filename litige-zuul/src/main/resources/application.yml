@@ -1,45 +1,44 @@
 spring:
-  application:
-    name: zuul
-  profiles: default
-  mvc:
-     dispatch-options-request: true
-      
+   application:
+      name: zuul
+   profiles: default
+   mvc:
+      dispatch-options-request: true
 server:
-  port: 9092
-  
+   port: 9092
 endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
-
+   restart:
+      enabled: true
+   shutdown:
+      enabled: true
+   health:
+      sensitive: false
 logging:
-  level:
-    root: INFO   
-
+   level:
+      root: INFO
 zuul:
-  debug:
-    request: true
-  ignoredServices: '*'
-  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
-  routes:
-    resource-server-1:
-      sensitiveHeaders:
-      path: /api/**
-      serviceId: resource-server-1  
-      stripPrefix: false
-    auth-server:
-      sensitiveHeaders:
-      path: /auth/**
-      serviceId: auth-server
-      stripPrefix: false
+   debug:
+      request: true
+   ignoredServices: '*'
+   ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+   routes:
+      resource-server-1:
+         sensitiveHeaders: null
+         path: /api/**
+         serviceId: resource-server-1
+         stripPrefix: false
+      auth-server:
+         sensitiveHeaders: null
+         path: /auth/**
+         serviceId: auth-server
+         stripPrefix: false
+ribbon:
+   ConnectTimeout: 3000
+   ReadTimeout: 60000
 eureka:
-  instance:
-    hostname: localhost
-    port: 9091
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+   instance:
+      hostname: localhost
+      port: 9091
+   client:
+      serviceUrl:
+         defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/

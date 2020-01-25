@@ -3,6 +3,7 @@ server:
    use-forward-headers: false
    servlet:
       context-path: /auth
+
 spring:
    profiles: default
    application:
@@ -39,6 +40,9 @@ spring:
                writetimeout: 5000
                starttls:
                   enable: true
+   mvc:
+      async:
+         request-timeout: 5000
 eureka:
    instance:
       hostname: localhost
