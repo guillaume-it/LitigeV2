@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Role } from 'src/app/models';
-import { AuthGuard } from 'src/app/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,11 +10,11 @@ const routes: Routes = [
       { path: 'signin-claimant', loadChildren: './identification/identification.module#IdentificationModule' },
       {
         path: 'send-email-validation',
-        loadChildren: './send-email-alidation/send-email-validation.module#SendEmailValidationModule'
+        loadChildren: './send-email-validation/send-email-validation.module#SendEmailValidationModule'
       },
       {
         path: 'link-validation-email/:email/:token',
-        loadChildren: './link-validation-email/link-validation-email.module#LoginModule'
+        loadChildren: './link-email-validation/link-email-validation.module#LinkEmailValidationModule'
       }
     ]
   }
