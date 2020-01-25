@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { MatSnackBar } from '@angular/material';
 
@@ -11,11 +10,9 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
   loggedUser$: Observable<User>;
 
-  constructor(private authentication: AuthenticationService, private snackBar: MatSnackBar) {
-  }
+  constructor(public authentication: AuthenticationService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     console.log('init navbar');

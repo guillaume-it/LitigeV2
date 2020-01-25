@@ -1,14 +1,13 @@
 <mat-toolbar color="primary">
   <span>Litige</span>
   <ng-container *ngIf="loggedUser$ | async">
-    <a mat-button routerLink="/litige" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)">Litige</a>
-    <a mat-button routerLink="/admin/users" *ngIf="!(authentication.hasRole('USER') | async)">Users</a>
-    <a mat-button routerLink="/claim" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)">Claim</a>
-    <a mat-button routerLink="/claim/create">Déclarer un litige</a>
+    <a mat-button [routerLink]="['/claim/list']" *ngIf="!(authentication.hasRole('ADMIN') | async)">Claim</a>
+    <a mat-button [routerLink]="['/admin/users']" *ngIf="!(authentication.hasRole('ADMIN') | async)">Users</a>
+    <a mat-button [routerLink]="['/claim/create']">Déclarer un litige</a>
 
     <span class="filler"></span>
 
-    <a mat-button routerLink="/profile">{{ (loggedUser$ | async)?.email }} {{ (loggedUser$ | async)?.role }}</a>
+    <a mat-button [routerLink]="['/profile']">{{ (loggedUser$ | async)?.email }} {{ (loggedUser$ | async)?.role }}</a>
 
     <button mat-button (click)="logout()">Logout</button>
   </ng-container>
@@ -16,8 +15,8 @@
   <ng-container *ngIf="!(loggedUser$ | async)">
     <span class="filler"></span>
 
-    <button mat-button routerLink="/signin">Sign in</button>
-    <button mat-button routerLink="/signin-claimant">Sign in Claimant</button>
-    <button mat-button routerLink="/login">Login</button>
+    <button mat-button [routerLink]="['/user/signin-agent']">Sign in as Agent</button>
+    <button mat-button [routerLink]="['/user/signin-claimant']">Sign in as Claimant</button>
+    <button mat-button [routerLink]="['/user/login']">Login</button>
   </ng-container>
 </mat-toolbar>

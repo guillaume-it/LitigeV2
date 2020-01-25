@@ -109,16 +109,6 @@ public class UserService implements UserDetailsService {
 		return Optional.of(serviceMapper.mapEntityToDto(entity.get(), User.class));
 	}
 
-//	@Override
-//	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-//		final com.ruscassie.litige.entity.User user = userRepository.findByEmail(username)
-//				.orElseThrow(() -> new RuntimeException("User not found: " + username));
-//		final GrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles().get(0).getName());
-//		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-//				Arrays.asList(authority));
-//
-//	}
-
 	@Override
 	public UserDetails loadUserByUsername(final String input) {
 		Optional<com.ruscassie.litige.entity.User> user = null;

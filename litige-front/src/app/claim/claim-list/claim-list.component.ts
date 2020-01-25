@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Litige } from 'src/app/models';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { LitigeService } from 'src/app/services';
 
 @Component({
   selector: 'app-claim-list',
@@ -6,7 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./claim-list.component.scss']
 })
 export class ClaimListComponent implements OnInit {
-  constructor() {}
+  displayedColumns: string[];
 
-  ngOnInit() {}
+  current: Litige;
+  dataSource: MatTableDataSource<Litige>;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  constructor(private litigeServive: LitigeService) {}
+
+  ngOnInit() {
+    this.displayedColumns = ['id', 'creation', 'objet', 'localite', 'requerant'];
+    this.litigeServive.loadPages().subscribe(page => {
+      this.dataSource = new MatTableDataSource<Litige>(page.content);
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  create() {}
 }

@@ -1,8 +1,8 @@
-import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services';
 
 @Component({
   selector: 'app-identification',

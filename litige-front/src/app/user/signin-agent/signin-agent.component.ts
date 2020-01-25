@@ -8,11 +8,11 @@ import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  selector: 'app-signin-agent',
+  templateUrl: './signin-agent.component.html',
+  styleUrls: ['./signin-agent.component.scss']
 })
-export class SigninComponent implements OnInit {
+export class SigninAgentComponent implements OnInit {
   signinForm: FormGroup;
   private loadingSubject: BehaviorSubject<boolean>;
   loading$: Observable<boolean>;

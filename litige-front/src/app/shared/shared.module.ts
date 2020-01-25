@@ -53,7 +53,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatToolbarModule,
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,

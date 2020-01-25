@@ -13,11 +13,11 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: '',
+        path: 'list',
         component: ClaimListComponent
       },
       {
-        path: '{id}',
+        path: 'detail/:id',
         component: ClaimDetailComponent
       },
       {

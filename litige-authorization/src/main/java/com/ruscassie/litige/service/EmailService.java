@@ -45,7 +45,7 @@ public class EmailService {
 		// helper.setText("Check attachment for image!");
 
 		// true = text/html
-		helper.setText("<a href=\"http://localhost:4200/link-validation-email/" + user.getEmail() + "/"
+		helper.setText("<a href=\"http://localhost:4200/signin/link-validation-email/" + user.getEmail() + "/"
 				+ user.getTokenActiveAccount() + ">Link</a>", true);
 
 		// hard coded a file path

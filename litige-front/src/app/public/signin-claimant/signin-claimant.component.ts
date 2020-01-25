@@ -6,6 +6,7 @@ import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validat
 import { MatSnackBar } from '@angular/material';
 import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from 'src/app/models';
 
 @Component({
   selector: 'app-signin-claimant',
@@ -39,27 +40,24 @@ export class SigninClaimantComponent implements OnInit {
   }
 
   signin() {
-    this.userService
-      .signinClaimant(
-        this.formGroup.get('email').value,
-        this.formGroup.get('password').value,
-        this.formGroup.get('firstName').value,
-        this.formGroup.get('name').value,
-        this.formGroup.get('phone').value
-      )
-      .subscribe(
-        newUser => {
-          console.log(`after signin ${newUser}`);
-          this.loadingSubject.next(false);
-          if (newUser) {
-            this.snackBar.open(`User ${newUser.email} successfully created.`);
-            this.router.navigate(['/login']);
-          }
-        },
-        err => {
-          this.snackBar.open(`User creation failed due to ${formatError(err)}.`);
-          this.loadingSubject.next(false);
+    const user = new User();
+    user.email = this.formGroup.get('email').value;
+    user.password = this.formGroup.get('password').value;
+    user.firstName = this.formGroup.get('firstName').value;
+    user.lastName = this.formGroup.get('name').value;
+    user.phone = this.formGroup.get('phone').value;
+    this.userService.signinClaimant(user).subscribe(
+      newUser => {
+        this.loadingSubject.next(false);
+        if (newUser) {
+          this.snackBar.open(`User ${newUser.email} successfully created.`);
+          this.router.navigate(['/login']);
         }
-      );
+      },
+      err => {
+        this.snackBar.open(`User creation failed due to ${formatError(err)}.`);
+        this.loadingSubject.next(false);
+      }
+    );
   }
 }
