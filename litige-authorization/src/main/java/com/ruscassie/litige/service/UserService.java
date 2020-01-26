@@ -176,8 +176,8 @@ public class UserService implements UserDetailsService {
 
 		userRepository.saveAndFlush(eUser);
 
-		emailService.sendEmailValidAccount(eUser);
-
+		// emailService.sendEmailValidAccount(eUser);
+		emailService.prepareAndSend(eUser);
 		oauthClient(eUser);
 
 		final User dto = serviceMapper.mapEntityToDto(eUser, User.class);
