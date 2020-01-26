@@ -24,8 +24,8 @@ const routes: Routes = [
     path: '',
     children: [{ path: 'user', loadChildren: './user/user.module#UserModule' }]
   },
-  { path: '', redirectTo: '/litige', pathMatch: 'full' },
-  { path: '**', redirectTo: '/litige', pathMatch: 'full' }
+  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({

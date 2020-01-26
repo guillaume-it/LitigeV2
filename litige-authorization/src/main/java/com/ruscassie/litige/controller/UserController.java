@@ -66,8 +66,8 @@ class UserController {
 
 	@PostMapping
 	@PreAuthorize("!hasAuthority('USER')")
-	ResponseEntity<User> create(@Valid @RequestBody final User res) {
-		return new ResponseEntity<User>(userService.save(res), HttpStatus.OK);
+	ResponseEntity<User> create(@Valid @RequestBody final User user) {
+		return new ResponseEntity<User>(userService.save(user), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

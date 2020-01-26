@@ -49,7 +49,7 @@ export class IdentificationComponent implements OnInit {
 
     this.userService.signinClaimant(user).subscribe(
       res => {
-        this.router.navigate(['send-validation-email']);
+        this.router.navigate(['/user', 'send-email-validation']);
       },
       err => {
         console.log(err);
