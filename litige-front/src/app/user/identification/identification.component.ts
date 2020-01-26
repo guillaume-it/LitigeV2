@@ -12,6 +12,7 @@ import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validat
   styleUrls: ['./identification.component.scss']
 })
 export class IdentificationComponent implements OnInit {
+  loading = false;
   user: User;
   formGroup = new FormGroup({
     firstName: new FormControl('', [
@@ -49,7 +50,7 @@ export class IdentificationComponent implements OnInit {
     user.phone = this.formGroup.get('phone').value;
     user.email = this.formGroup.get('email').value;
     user.password = this.formGroup.get('password').value;
-
+    this.loading = true;
     this.userService.signinClaimant(user).subscribe(
       res => {
         this.router.navigate(['/user', 'send-email-validation']);

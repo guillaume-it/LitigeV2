@@ -51,9 +51,10 @@
         </mat-error>
       </mat-form-field>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="!loading">
       <button mat-button [disabled]="!formGroup.valid">Annuler</button>
       <button mat-button type="submit" [disabled]="!formGroup.valid">Créer</button>
     </mat-card-actions>
+    <mat-spinner *ngIf="loading"></mat-spinner>
   </form>
 </mat-card>

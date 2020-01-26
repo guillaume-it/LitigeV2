@@ -176,7 +176,6 @@ public class UserService implements UserDetailsService {
 
 		userRepository.saveAndFlush(eUser);
 
-		// emailService.sendEmailValidAccount(eUser);
 		emailService.prepareAndSend(eUser);
 		oauthClient(eUser);
 
@@ -199,12 +198,13 @@ public class UserService implements UserDetailsService {
 		userRepository.flush();
 	}
 
+	// TODO make a batch to clear unactivate account
 	public Optional<User> validAccount(final String email, final String tokenActiveAccount) {
 		final Optional<com.ruscassie.litige.entity.User> user = userRepository.findByEmail(email);
 		if (user.isPresent()) {
 			if (user.get().getTokenActiveAccount().equals(tokenActiveAccount)) {
 				user.get().setEnabled(true);
-
+				user.get().setTokenActiveAccount(null);
 				return Optional.of(UserMapper.mapper(userRepository.save(user.get())));
 			}
 		}
