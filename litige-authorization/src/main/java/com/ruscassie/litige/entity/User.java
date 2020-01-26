@@ -15,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,19 +44,29 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(columnDefinition = "NUMERIC(19,0)")
 	private Long id;
-
+	@Size(min = 4, max = 70)
+	@NotEmpty()
+	@Email()
 	@Column
 	private String email;
 
+	@Size(min = 3, max = 20)
+	@NotEmpty()
+	@Pattern(regexp = "^([a-zA-Z]|-)+$")
 	@Column
 	private String lastName;
 
+	@NotEmpty()
+	@Size(min = 3, max = 20)
+	@Pattern(regexp = "^([a-zA-Z]|-)+$")
 	@Column
 	private String firstName;
-
+	@Size(min = 12, max = 14)
+	@NotEmpty()
+	@Pattern(regexp = "^(\\+237|237)?[0-9]{9}$")
 	@Column
 	private String phone;
-
+	@Size(min = 3, max = 200)
 	@Column
 	private String password;
 

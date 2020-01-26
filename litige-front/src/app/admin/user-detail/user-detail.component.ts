@@ -36,9 +36,9 @@ export class UserDetailComponent implements OnInit {
   ngOnInit() {
     this.userForm = new FormGroup({
       email: new FormControl(this.user.email, {
-        validators: [Validators.required, Validators.email],
-        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.user.email),
-        updateOn: 'blur'
+        validators: [Validators.required, Validators.email]
+        // asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.user.email),
+        // updateOn: 'blur'
       }),
       role: new FormControl(this.user.role, Validators.required)
     });

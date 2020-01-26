@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services';
+import { MatSnackBar } from '@angular/material';
+import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
 
 @Component({
   selector: 'app-identification',
@@ -10,32 +12,33 @@ import { UserService } from 'src/app/services';
   styleUrls: ['./identification.component.scss']
 })
 export class IdentificationComponent implements OnInit {
+  user: User;
   formGroup = new FormGroup({
     firstName: new FormControl('', [
       Validators.required,
-      Validators.min(3),
-      Validators.max(20),
+      Validators.minLength(3),
+      Validators.maxLength(20),
       Validators.pattern('^([a-zA-Z]|-)+$')
     ]),
     lastName: new FormControl('', [
       Validators.required,
-      Validators.min(3),
-      Validators.max(20),
+      Validators.minLength(3),
+      Validators.maxLength(20),
       Validators.pattern('^([a-zA-Z]|-)+$')
     ]),
     phone: new FormControl('', [Validators.required, Validators.pattern('^(\\+237|237)?[0-9]{9}$')]),
-    password: new FormControl('', [Validators.required, Validators.min(8), Validators.max(20)])
+    password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
   });
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.formGroup.addControl(
       'email',
       new FormControl('', {
-        validators: [Validators.required, Validators.email]
-        // asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.formGroup.get('email').value),
-        // updateOn: 'blur'
+        validators: [Validators.required, Validators.email],
+        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.formGroup.get('email')),
+        updateOn: 'blur'
       })
     );
   }

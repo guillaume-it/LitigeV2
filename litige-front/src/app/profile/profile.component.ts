@@ -44,9 +44,9 @@ export class ProfileComponent implements OnInit {
     console.log(`init profile after user retrieved ${user.email}`);
     this.profileForm = new FormGroup({
       email: new FormControl(user.email, {
-        validators: [Validators.required, Validators.email],
-        asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, user.email),
-        updateOn: 'blur'
+        validators: [Validators.required, Validators.email]
+        //  asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, user.email),
+        // updateOn: 'blur'
       })
     });
   }
