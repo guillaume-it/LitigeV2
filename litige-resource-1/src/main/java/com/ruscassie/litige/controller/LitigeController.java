@@ -8,8 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/litiges")
 @Slf4j
-//@Validated
+@Validated
 public class LitigeController {
 
 	@Autowired
@@ -34,13 +37,13 @@ public class LitigeController {
 	private UserService userService;
 
 	@PreAuthorize("hasAuthority('can_create_claim')")
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Claim create(@RequestBody final Claim litige) {
+	@PostMapping()
+	public Claim create(@RequestBody final Claim claim) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		final Optional<com.ruscassie.litige.dto.User> userDto = userService.findByEmail(auth.getName());
-		litige.setRequerant(userDto.get());
-		return litigeService.save(litige);
+		claim.setRequerant(userDto.get());
+		return litigeService.save(claim);
 	}
 
 	@PreAuthorize("hasAuthority('can_delete_claim')")
@@ -52,8 +55,6 @@ public class LitigeController {
 	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(path = "/{id}")
 	public Claim findOne(@PathVariable final long id) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
 		return litigeService.findOne(id);
 	}
 
@@ -64,10 +65,13 @@ public class LitigeController {
 	}
 
 	@PreAuthorize("hasAuthority('can_update_claim')")
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Claim update(@PathVariable final long id, @RequestBody final Claim litige) {
-		litige.setId(id);
-		return litigeService.save(litige);
+	@PutMapping()
+	public Claim update(@RequestBody final Claim claim) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		final Optional<com.ruscassie.litige.dto.User> userDto = userService.findByEmail(auth.getName());
+		claim.setRequerant(userDto.get());
+		return litigeService.save(claim);
 	}
 
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { ProfileComponent } from './profile/profile.component';
 import { Role } from './models/user';
 // https://angular.io/guide/router#preloading-background-loading-of-feature-areas
 const routes: Routes = [
@@ -11,11 +10,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        data: { roles: [Role.ADMIN, Role.AGENT, Role.CLAIMANT] }
-      },
       { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
       { path: 'claim', loadChildren: './claim/claim.module#ClaimModule' }
     ]
@@ -29,7 +23,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -10,9 +10,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class LitigeService {
-  create(value: Litige): Observable<Litige> {
-    return this.crudService.post(environment.serverUrl + url.litiges, value);
-  }
   constructor(private crudService: CrudService) {}
 
   loadPages(): Observable<Page<Litige>> {
@@ -28,5 +25,11 @@ export class LitigeService {
   }
   getLitige(id): Observable<Litige> {
     return this.crudService.get(environment.serverUrl + url.litiges + '/' + id);
+  }
+  create(value: Litige): Observable<Litige> {
+    return this.crudService.post(environment.serverUrl + url.litiges, value);
+  }
+  update(value: Litige): Observable<Litige> {
+    return this.crudService.put(environment.serverUrl + url.litiges, value);
   }
 }

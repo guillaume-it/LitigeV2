@@ -20,8 +20,6 @@ public class LitigeService {
 	@Autowired
 	private ClaimRepository litigeRepository;
 
-	final ServiceMapper<Claim, com.ruscassie.litige.entity.Claim> serviceMapper = new ServiceMapper<>();
-
 	public void delete(final long id) {
 		litigeRepository.deleteById(id);
 	}
@@ -41,7 +39,7 @@ public class LitigeService {
 	}
 
 	public Claim findOne(final long id) {
-		return serviceMapper.mapEntityToDto(litigeRepository.findById(id).get(), Claim.class);
+		return LitigeMapper.mapper(litigeRepository.findById(id).get());
 	}
 
 	public Claim save(final Claim litige) {
@@ -49,6 +47,6 @@ public class LitigeService {
 		eLitige.setAgent(UserMapper.mapper(litige.getAgent()));
 		eLitige.setClaimant(UserMapper.mapper(litige.getRequerant()));
 
-		return serviceMapper.mapEntityToDto(litigeRepository.save(eLitige), Claim.class);
+		return LitigeMapper.mapper(litigeRepository.save(eLitige));
 	}
 }

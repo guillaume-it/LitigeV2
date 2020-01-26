@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Role } from '../models';
 import { AuthGuard } from '../auth.guard';
-import { ClaimDetailComponent } from './claim-detail';
 import { ClaimListComponent } from './claim-list';
-import { ClaimCreateComponent } from './claim-create';
+import { ClaimEditComponent } from './claim-edit';
+import { ScreenState } from '../models/screen-state';
 
 const routes: Routes = [
   {
@@ -17,12 +17,12 @@ const routes: Routes = [
         component: ClaimListComponent
       },
       {
-        path: 'detail/:id',
-        component: ClaimDetailComponent
+        path: ScreenState.DETAIL + '/:id',
+        component: ClaimEditComponent
       },
       {
-        path: 'create',
-        component: ClaimCreateComponent
+        path: ScreenState.CREATE,
+        component: ClaimEditComponent
       }
     ]
   }

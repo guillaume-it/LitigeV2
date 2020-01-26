@@ -1,11 +1,11 @@
 import { SharedModule } from '../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClaimCreateComponent } from './claim-create.component';
+import { ClaimEditComponent } from './claim-edit.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule],
-  declarations: [ClaimCreateComponent],
-  exports: [ClaimCreateComponent]
+  declarations: [ClaimEditComponent],
+  exports: [ClaimEditComponent]
 })
-export class ClaimCreateModule {}
+export class ClaimEditModule {}

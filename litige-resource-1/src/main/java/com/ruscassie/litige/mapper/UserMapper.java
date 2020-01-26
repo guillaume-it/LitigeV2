@@ -1,5 +1,7 @@
 package com.ruscassie.litige.mapper;
 
+import java.util.Optional;
+
 import com.ruscassie.litige.dto.User;
 
 public class UserMapper {
@@ -30,6 +32,13 @@ public class UserMapper {
 		dto.setPhone(entity.getPhone());
 
 		return dto;
+	}
+
+	public static Optional<User> mapper(final Optional<com.ruscassie.litige.entity.User> entity) {
+		if (entity.isPresent()) {
+			return Optional.of(mapper(entity.get()));
+		}
+		return Optional.empty();
 	}
 
 }

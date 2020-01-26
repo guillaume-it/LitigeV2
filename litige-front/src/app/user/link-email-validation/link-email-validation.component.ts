@@ -9,7 +9,7 @@ import { User } from 'src/app/models';
   styleUrls: ['./link-email-validation.component.scss']
 })
 export class LinkEmailValidationComponent implements OnInit {
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private userService: UserService, private route: ActivatedRoute) {}
   user: User;
   ngOnInit() {
     this.route.paramMap.subscribe(params => {

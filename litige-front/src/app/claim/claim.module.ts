@@ -1,10 +1,9 @@
-import { ClaimCreateModule } from './claim-create';
+import { ClaimEditModule } from './claim-edit';
 import { NgModule } from '@angular/core';
-import { ClaimDetailModule } from './claim-detail';
 import { ClaimantListModule } from './claim-list';
 import { ClaimRoutingModule } from './claim-routing.module';
 
 @NgModule({
-  imports: [ClaimRoutingModule, ClaimDetailModule, ClaimantListModule, ClaimCreateModule]
+  imports: [ClaimRoutingModule, ClaimEditModule, ClaimantListModule]
 })
 export class ClaimModule {}

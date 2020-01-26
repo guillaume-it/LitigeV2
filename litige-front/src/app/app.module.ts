@@ -5,15 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from './shared/shared.module';
 import { PublicModule } from './public/public.module';
 import { ConfigService, configServiceInitializerFactory, TokenInterceptor, ServiceModule } from './services';
 import { NavBarModule } from './navbar/navbar.module';
 
 @NgModule({
-  declarations: [AppComponent, ProfileComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
