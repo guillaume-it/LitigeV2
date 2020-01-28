@@ -20,8 +20,6 @@ import {
   MatToolbarModule,
   MatProgressSpinnerModule
 } from '@angular/material';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -42,8 +40,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     MatExpansionModule,
     MatSelectModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     MatProgressSpinnerModule
   ],
   exports: [
@@ -65,8 +61,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     MatProgressSpinnerModule
   ]
 })
