@@ -5,16 +5,24 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: 'login', loadChildren: './login/login.module#LoginModule' },
-      { path: 'signin-agent', loadChildren: './signin-agent/signin-agent.module#SigninAgentModule' },
-      { path: 'signin-claimant', loadChildren: './identification/identification.module#IdentificationModule' },
+      { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+      {
+        path: 'signin-agent',
+        loadChildren: () => import('./signin-agent/signin-agent.module').then(m => m.SigninAgentModule)
+      },
+      {
+        path: 'signin-claimant',
+        loadChildren: () => import('./identification/identification.module').then(m => m.IdentificationModule)
+      },
       {
         path: 'send-email-validation',
-        loadChildren: './send-email-validation/send-email-validation.module#SendEmailValidationModule'
+        loadChildren: () =>
+          import('./send-email-validation/send-email-validation.module').then(m => m.SendEmailValidationModule)
       },
       {
         path: 'link-validation-email/:email/:token',
-        loadChildren: './link-email-validation/link-email-validation.module#LinkEmailValidationModule'
+        loadChildren: () =>
+          import('./link-email-validation/link-email-validation.module').then(m => m.LinkEmailValidationModule)
       }
     ]
   }
