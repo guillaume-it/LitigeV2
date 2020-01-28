@@ -24,6 +24,7 @@
           Please enter a message
         </mat-error>
       </mat-form-field>
+      <app-upload></app-upload>
     </mat-card-content>
     <mat-card-actions *ngIf="!loading && (state === screenState.EDIT || state === screenState.CREATE)">
       <button mat-button type="button" (click)="ngCancel()">Annuler</button>

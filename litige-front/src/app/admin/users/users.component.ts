@@ -1,18 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  MatDialog,
-  MatPaginator,
-  MatSnackBar,
-  MatSort,
-  MatTableDataSource
-} from '@angular/material';
-import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
-import { User } from 'src/app/models/user';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { formatError } from 'src/app/services/store.service';
-import { UserService, UserServiceFilter } from 'src/app/services/user.service';
-import { ChangePasswordComponent } from 'src/app/shared/change-password/change-password.component';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
+import { User } from 'src/app/models';
+import { UserServiceFilter, UserService, AuthenticationService } from 'src/app/services';
+import { ChangePasswordComponent } from 'src/app/user/change-password';
 
 @Component({
   selector: 'app-users',
@@ -78,8 +70,7 @@ export class UsersComponent implements OnInit {
           this.snackBar.open(`User deleted.`);
         }
       },
-      err =>
-        this.snackBar.open(`User deletion failed due to ${formatError(err)}.`)
+      err => this.snackBar.open(`User deletion failed due to ${formatError(err)}.`)
     );
   }
 

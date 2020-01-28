@@ -21,10 +21,9 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [ChangePasswordComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -45,9 +44,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatSelectModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule
   ],
-  entryComponents: [ChangePasswordComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -70,7 +69,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     MatProgressSpinnerModule,
-    ChangePasswordComponent
+    BrowserAnimationsModule
   ]
 })
 export class SharedModule {}

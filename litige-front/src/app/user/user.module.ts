@@ -5,6 +5,7 @@ import { LoginModule } from './login';
 import { SigninAgentModule } from './signin-agent';
 import { SendEmailValidationModule } from './send-email-validation';
 import { LinkEmailValidationModule } from './link-email-validation';
+import { ChangePasswordModule } from './change-password';
 
 @NgModule({
   imports: [
@@ -13,8 +14,16 @@ import { LinkEmailValidationModule } from './link-email-validation';
     SigninAgentModule,
     SendEmailValidationModule,
     LinkEmailValidationModule,
-    LoginModule
+    LoginModule,
+    ChangePasswordModule
   ],
-  exports: [SigninRoutingModule, SigninAgentModule, SendEmailValidationModule, LinkEmailValidationModule, LoginModule]
+  exports: [
+    SigninRoutingModule,
+    SigninAgentModule,
+    SendEmailValidationModule,
+    LinkEmailValidationModule,
+    LoginModule,
+    ChangePasswordModule
+  ]
 })
 export class UserModule {}

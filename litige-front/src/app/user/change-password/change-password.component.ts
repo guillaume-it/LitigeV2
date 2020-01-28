@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/models';
+import { UserService, formatError } from 'src/app/services';
 
 @Component({
   selector: 'app-change-password',
