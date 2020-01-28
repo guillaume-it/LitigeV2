@@ -44,8 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSelectModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatProgressSpinnerModule,
-    BrowserAnimationsModule
+    MatProgressSpinnerModule
   ],
   exports: [
     CommonModule,
@@ -68,8 +67,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSnackBarModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatProgressSpinnerModule,
-    BrowserAnimationsModule
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule {}
