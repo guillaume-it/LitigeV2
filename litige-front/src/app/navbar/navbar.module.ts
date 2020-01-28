@@ -1,7 +1,8 @@
 import { SharedModule } from 'src/app/shared';
 import { NavbarComponent } from './navbar.component';
 import { NgModule } from '@angular/core';
-import { MatToolbarModule, MatButtonModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 

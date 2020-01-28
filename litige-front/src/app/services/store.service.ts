@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { SortDirection } from '@angular/material';
+import { SortDirection } from '@angular/material/sort';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 

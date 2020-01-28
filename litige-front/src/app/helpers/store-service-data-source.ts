@@ -3,7 +3,9 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { StoreService, AbstractResource, formatError } from '../services/store.service';
 import { CollectionViewer } from '@angular/cdk/collections';
-import { MatPaginator, MatSort, MatSnackBar } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 
 export class StoreServiceDataSource<T extends AbstractResource> extends DataSource<T> {
 

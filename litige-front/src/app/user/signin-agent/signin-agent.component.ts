@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatError } from 'src/app/services/store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
