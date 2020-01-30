@@ -42,7 +42,8 @@ spring:
          max-file-size: 16MB
          max-request-size: 16MB
          location: ./uploads
-        
+storage:
+   location: ./uploads        
 eureka:
    instance:
       hostname: localhost
