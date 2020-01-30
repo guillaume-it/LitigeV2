@@ -1,3 +1,4 @@
 export const url = {
-  litiges: 'litiges'
+  litiges: 'litiges',
+  files: 'files'
 };

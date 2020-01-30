@@ -4,6 +4,10 @@ spring:
    profiles: default
    mvc:
       dispatch-options-request: true
+   http:
+      multipart:
+        max-file-size: 16MB
+        max-request-size: 16MB
 server:
    port: 9092
 endpoints:

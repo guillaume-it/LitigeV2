@@ -37,6 +37,12 @@ spring:
       serialization:
 #    database: H2
          indent-output: true
+   servlet:
+      multipart:
+         max-file-size: 16MB
+         max-request-size: 16MB
+         location: ./uploads
+        
 eureka:
    instance:
       hostname: localhost

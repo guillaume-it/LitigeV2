@@ -1,3 +1,5 @@
+import { FileStatus } from './../../models/file-status';
+import { FileService } from './../../services/file.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  files: any[] = [];
+  filesStatus = new Map<string, FileStatus>();
 
-  constructor() {}
+  constructor(private fileService: FileService) {}
 
   ngOnInit() {}
 
@@ -30,40 +32,20 @@ export class UploadComponent implements OnInit {
    * Delete file from files list
    * @param index (File index)
    */
-  deleteFile(index: number) {
-    this.files.splice(index, 1);
+  deleteFile(name: string) {
+    this.filesStatus.delete(name);
+    // TODO a delete back side
   }
 
   /**
-   * Simulate the upload process
-   */
-  uploadFilesSimulator(index: number) {
-    setTimeout(() => {
-      if (index === this.files.length) {
-        return;
-      } else {
-        const progressInterval = setInterval(() => {
-          if (this.files[index].progress === 100) {
-            clearInterval(progressInterval);
-            this.uploadFilesSimulator(index + 1);
-          } else {
-            this.files[index].progress += 5;
-          }
-        }, 200);
-      }
-    }, 1000);
-  }
-
-  /**
-   * Convert Files list to normal array list
+   * Convert Files list to a map
    * @param files (Files List)
    */
-  prepareFilesList(files: Array<any>) {
+  prepareFilesList(files: Set<File>) {
     for (const item of files) {
-      item.progress = 0;
-      this.files.push(item);
+      this.filesStatus.set(item.name, new FileStatus(item));
     }
-    this.uploadFilesSimulator(0);
+    this.fileService.upload(this.filesStatus);
   }
 
   /**

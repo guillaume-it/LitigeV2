@@ -7,18 +7,18 @@
   <label for="fileDropRef">Browse for file</label>
 </div>
 <div class="files-list">
-  <div class="single-file" *ngFor="let file of files; let i = index">
+  <div class="single-file" *ngFor="let map of filesStatus | keyvalue">
     <div class="file-icon" style="width: 50px"><mat-icon>insert_drive_file</mat-icon></div>
     <div class="info">
       <h4 class="name">
-        {{ file?.name }}
+        {{ map.value?.file?.name }}
       </h4>
       <p class="size">
-        {{ formatBytes(file?.size) }}
+        {{ formatBytes(map.value?.file?.size) }}
       </p>
-      <app-progress-bar [progress]="file?.progress"></app-progress-bar>
+      <app-progress-bar [fileStatus]="map.value"></app-progress-bar>
     </div>
 
-    <div class="delete" (click)="deleteFile(i)"><mat-icon>delete</mat-icon></div>
+    <div class="delete" (click)="deleteFile(map.value?.file?.name)"><mat-icon>delete</mat-icon></div>
   </div>
 </div>

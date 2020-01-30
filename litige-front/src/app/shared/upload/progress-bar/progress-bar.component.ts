@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FileStatus } from 'src/app/models/file-status';
 
 @Component({
   selector: 'app-progress-bar',
@@ -7,9 +8,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProgressBarComponent implements OnInit {
   @Input()
+  fileStatus: FileStatus;
+
   progress = 0;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.fileStatus && this.fileStatus.progressEvent) {
+      this.fileStatus.progressEvent.subscribe(progress => {
+        this.progress = progress;
+      });
+    }
+  }
 }
