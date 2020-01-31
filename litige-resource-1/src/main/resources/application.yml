@@ -41,9 +41,8 @@ spring:
       multipart:
          max-file-size: 16MB
          max-request-size: 16MB
-         location: ./uploads
-storage:
-   location: ./uploads        
+         file-size-threshold: 16MB
+      
 eureka:
    instance:
       hostname: localhost
@@ -58,3 +57,6 @@ eureka:
 logging:
    level:
       root: INFO
+      
+storage:
+   location: /Users/Guillaume/Desktop/upload/  

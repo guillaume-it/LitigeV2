@@ -1,11 +1,10 @@
 package com.ruscassie.litige.controller;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ruscassie.litige.dto.FileResponse;
+import com.ruscassie.litige.dto.FileInformation;
 import com.ruscassie.litige.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,30 +47,22 @@ public class FileController {
 	}
 
 	@GetMapping("/")
-	public String listAllFiles(final Model model) {
+	public ResponseEntity<String> listAllFiles(final Model model) {
 
 		model.addAttribute("files",
 				storageService.loadAll().map(path -> ServletUriComponentsBuilder.fromCurrentContextPath()
 						.path("/download/").path(path.getFileName().toString()).toUriString())
 						.collect(Collectors.toList()));
 
-		return "listFiles";
+		return new ResponseEntity<String>("listFiles", HttpStatus.OK);
 	}
 
 	@PostMapping("/upload-file")
 	@ResponseBody
-	public FileResponse uploadFile(@RequestParam("file") final MultipartFile file) {
-		final String name = storageService.store(file);
+	public ResponseEntity<FileInformation> uploadFile(@RequestParam("file") final MultipartFile file) {
+		final FileInformation fileInformation = storageService.store(file);
 
-		final String uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(name)
-				.toUriString();
-
-		return new FileResponse(name, uri, file.getContentType(), file.getSize());
+		return new ResponseEntity<FileInformation>(fileInformation, HttpStatus.OK);
 	}
 
-	@PostMapping("/upload-multiple-files")
-	@ResponseBody
-	public List<FileResponse> uploadMultipleFiles(@RequestParam("files") final MultipartFile[] files) {
-		return Arrays.stream(files).map(file -> uploadFile(file)).collect(Collectors.toList());
-	}
 }

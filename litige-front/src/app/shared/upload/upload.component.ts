@@ -1,6 +1,5 @@
 import { FileStatus } from './../../models/file-status';
-import { FileService } from './../../services/file.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-upload',
@@ -8,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
+  @Output()
+  selectFilesEvent = new EventEmitter<Map<string, FileStatus>>();
+  @Output()
+  deleteFileEvent = new EventEmitter<FileStatus>();
+
   filesStatus = new Map<string, FileStatus>();
 
-  constructor(private fileService: FileService) {}
+  constructor() {}
 
   ngOnInit() {}
 
@@ -33,8 +37,10 @@ export class UploadComponent implements OnInit {
    * @param index (File index)
    */
   deleteFile(name: string) {
-    this.filesStatus.delete(name);
-    // TODO a delete back side
+    const file = this.filesStatus.get(name);
+    if (this.filesStatus.delete(name)) {
+      this.deleteFileEvent.next(file);
+    }
   }
 
   /**
@@ -45,7 +51,7 @@ export class UploadComponent implements OnInit {
     for (const item of files) {
       this.filesStatus.set(item.name, new FileStatus(item));
     }
-    this.fileService.upload(this.filesStatus);
+    this.selectFilesEvent.next(this.filesStatus);
   }
 
   /**

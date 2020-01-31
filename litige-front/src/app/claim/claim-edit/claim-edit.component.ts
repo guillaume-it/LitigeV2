@@ -1,9 +1,11 @@
+import { FileService } from './../../services/file.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, NavigationEnd, UrlSegment } from '@angular/router';
+import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { LitigeService } from 'src/app/services';
 import { Litige } from 'src/app/models/litige';
 import { ScreenState } from 'src/app/models/screen-state';
+import { FileStatus } from 'src/app/models/file-status';
 
 @Component({
   selector: 'app-claim-edit',
@@ -16,8 +18,14 @@ export class ClaimEditComponent implements OnInit {
   loading = false;
   claim: Litige;
   formGroup: FormGroup;
+  filesStatus = new Map<string, FileStatus>();
 
-  constructor(private router: Router, private litigeService: LitigeService, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private litigeService: LitigeService,
+    private route: ActivatedRoute,
+    private fileService: FileService
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -49,14 +57,20 @@ export class ClaimEditComponent implements OnInit {
     this.state = ScreenState.DETAIL;
   }
   ngSubmit() {
+    // TODO
+
     this.claim.objet = this.formGroup.get('object').value;
     this.claim.message = this.formGroup.get('message').value;
     this.loading = true;
     if (this.state === ScreenState.CREATE) {
       this.litigeService.create(this.claim).subscribe(
-        res => {
+        (res: Litige) => {
           this.loading = false;
-          this.router.navigate(['/claim', 'list']);
+          if (this.filesStatus && this.filesStatus.size > 0) {
+            this.fileService.upload(this.filesStatus, res.id);
+          } else {
+            this.router.navigate(['/claim', 'list']);
+          }
         },
         err => {
           this.loading = false;
@@ -74,5 +88,11 @@ export class ClaimEditComponent implements OnInit {
         }
       );
     }
+  }
+  selectFiles(filesStatus: Map<string, FileStatus>) {
+    this.filesStatus = filesStatus;
+  }
+  deleteFile(fileStatus: FileStatus) {
+    // TODO delete fFileStatus
   }
 }

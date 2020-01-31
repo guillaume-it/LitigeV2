@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileResponse {
+public class FileInformation {
+	private Long id;
 	private String name;
 	private String uri;
-	private String type;
+	private String contentType;
 	private Long size;
-
+	private Claim claim;
 }

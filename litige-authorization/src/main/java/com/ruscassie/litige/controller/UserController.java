@@ -127,8 +127,6 @@ class UserController {
 		return new ResponseEntity<User>(userService.signinClaimant(user), HttpStatus.OK);
 	}
 
-	// || (authentication.principal == @userRepository.findById(#id).orElse(new
-	// net.reliqs.gleeometer.users.User()).email)"
 	@PutMapping
 	@PreAuthorize("!hasAuthority('USER')")
 	public void update(@Valid @RequestBody final User user) {

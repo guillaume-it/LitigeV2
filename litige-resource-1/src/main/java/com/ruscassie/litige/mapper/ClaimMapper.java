@@ -2,7 +2,7 @@ package com.ruscassie.litige.mapper;
 
 import com.ruscassie.litige.dto.Claim;
 
-public class LitigeMapper {
+public class ClaimMapper {
 
 	public static Claim mapper(final com.ruscassie.litige.entity.Claim entity) {
 		if (entity == null) {

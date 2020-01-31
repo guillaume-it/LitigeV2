@@ -17,6 +17,8 @@
 	<include file="liquibase/changelog/v1.0.0/session.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/address.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/session_dossier.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/file_information.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/claim_file_information.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
  

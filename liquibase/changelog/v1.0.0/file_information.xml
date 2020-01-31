@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="file_information-1">
+		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_file_information_id"
+			startValue="2" />
+	</changeSet>
+	<changeSet author="Guillaume" id="file_information-2">
+		<createTable tableName="file_information">
+			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_file_information_id">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(20)" />
+			<column name="uri" type="VARCHAR(300)" />
+			<column name="content_type" type="VARCHAR(20)" />
+			<column name="size" type="numeric(19)" />
+			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
+		</createTable>
+
+		<addPrimaryKey columnNames="id" constraintName="file_information_pkey" tableName="file_information" />
+
+	</changeSet>
+
+</databaseChangeLog>

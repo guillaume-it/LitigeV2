@@ -3,7 +3,6 @@ server:
    use-forward-headers: false
    servlet:
       context-path: /auth
-
 spring:
    profiles: default
    application:
