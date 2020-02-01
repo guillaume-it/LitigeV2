@@ -10,14 +10,14 @@
     <div class="file-icon"><mat-icon>insert_drive_file</mat-icon></div>
     <div class="info">
       <h4 class="name">
-        {{ map.value?.file?.name }}
+        {{ map.value?.name }}
       </h4>
       <p class="size">
-        {{ formatBytes(map.value?.file?.size) }}
+        {{ formatBytes(map.value?.size) }}
       </p>
       <app-progress-bar [fileStatus]="map.value"></app-progress-bar>
     </div>
 
-    <div class="delete" (click)="deleteFile(map.value?.file?.name)"><mat-icon>delete</mat-icon></div>
+    <div class="delete" (click)="deleteFile(map.value?.name)"><mat-icon>delete</mat-icon></div>
   </div>
 </div>

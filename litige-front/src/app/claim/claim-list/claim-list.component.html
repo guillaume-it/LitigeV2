@@ -63,7 +63,8 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="'/claim/detail/1'"> </mat-row>
+        <mat-row *matRowDef="let litige; columns: displayedColumns" [routerLink]="['/', 'claim', 'detail', litige.id]">
+        </mat-row>
       </mat-table>
 
       <div class="spinner" *ngIf="dataSource?.data === undefined">

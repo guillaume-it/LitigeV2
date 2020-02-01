@@ -41,11 +41,13 @@ public class Claim implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(columnDefinition = "NUMERIC(19,0)")
 	private Long id;
-
+	@Column
 	private ZonedDateTime creation;
-
+	@Column
+	private ZonedDateTime modification;
+	@Column
 	private String message;
-
+	@Column
 	private String objet;
 
 	// bi-directional many-to-one association to User

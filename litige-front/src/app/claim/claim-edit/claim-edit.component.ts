@@ -5,7 +5,8 @@ import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { LitigeService } from 'src/app/services';
 import { Litige } from 'src/app/models/litige';
 import { ScreenState } from 'src/app/models/screen-state';
-import { FileStatus } from 'src/app/models/file-status';
+import { FileInformation } from 'src/app/models/file-information';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-claim-edit',
@@ -18,14 +19,9 @@ export class ClaimEditComponent implements OnInit {
   loading = false;
   claim: Litige;
   formGroup: FormGroup;
-  filesStatus = new Map<string, FileStatus>();
+  filesStatus = new Map<string, FileInformation>();
 
-  constructor(
-    private router: Router,
-    private litigeService: LitigeService,
-    private route: ActivatedRoute,
-    private fileService: FileService
-  ) {}
+  constructor(private router: Router, private litigeService: LitigeService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -39,6 +35,10 @@ export class ClaimEditComponent implements OnInit {
         this.litigeService.getLitige(params.get('id')).subscribe(claim => {
           this.claim = claim;
           this.initFromGroup(this.claim);
+          this.claim.fileInformations.forEach(fileInformation => {
+            fileInformation.loaded = true;
+            this.filesStatus.set(fileInformation.name, fileInformation);
+          });
         });
       } else {
         this.claim = new Litige();
@@ -67,9 +67,9 @@ export class ClaimEditComponent implements OnInit {
         (res: Litige) => {
           this.loading = false;
           if (this.filesStatus && this.filesStatus.size > 0) {
-            this.fileService.upload(this.filesStatus, res.id);
+            this.litigeService.upload(this.filesStatus, res.id);
           } else {
-            this.router.navigate(['/claim', 'list']);
+            this.router.navigate(['/', 'claim', 'list']);
           }
         },
         err => {
@@ -81,6 +81,8 @@ export class ClaimEditComponent implements OnInit {
         res => {
           this.state = ScreenState.DETAIL;
           this.loading = false;
+
+          //
           // TODO notification
         },
         err => {
@@ -89,10 +91,12 @@ export class ClaimEditComponent implements OnInit {
       );
     }
   }
-  selectFiles(filesStatus: Map<string, FileStatus>) {
+  selectFiles(filesStatus: Map<string, FileInformation>) {
     this.filesStatus = filesStatus;
   }
-  deleteFile(fileStatus: FileStatus) {
-    // TODO delete fFileStatus
+  deleteFile(fileStatus: FileInformation) {
+    if (fileStatus.loaded) {
+      //this.
+    }
   }
 }

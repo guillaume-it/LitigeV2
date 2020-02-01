@@ -1,8 +1,22 @@
 package com.ruscassie.litige.mapper;
 
+import java.util.Optional;
+
 import com.ruscassie.litige.dto.Claim;
 
 public class ClaimMapper {
+
+	public static com.ruscassie.litige.entity.Claim mapper(final Claim dto) {
+		if (dto == null) {
+			return null;
+		}
+		final com.ruscassie.litige.entity.Claim entity = new com.ruscassie.litige.entity.Claim();
+		entity.setCreation(dto.getCreation());
+		entity.setId(dto.getId());
+		entity.setMessage(dto.getMessage());
+		entity.setObjet(dto.getObjet());
+		return entity;
+	}
 
 	public static Claim mapper(final com.ruscassie.litige.entity.Claim entity) {
 		if (entity == null) {
@@ -16,16 +30,13 @@ public class ClaimMapper {
 		return dto;
 	}
 
-	public static com.ruscassie.litige.entity.Claim mapper(final Claim dto) {
-		if (dto == null) {
-			return null;
+	public static Optional<Claim> mapper(final Optional<com.ruscassie.litige.entity.Claim> entity) {
+		if (entity.isPresent()) {
+			return Optional.of(mapper(entity.get()));
+
 		}
-		final com.ruscassie.litige.entity.Claim entity = new com.ruscassie.litige.entity.Claim();
-		entity.setCreation(dto.getCreation());
-		entity.setId(dto.getId());
-		entity.setMessage(dto.getMessage());
-		entity.setObjet(dto.getObjet());
-		return entity;
+		return Optional.empty();
+
 	}
 
 }

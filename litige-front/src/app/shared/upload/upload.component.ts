@@ -1,5 +1,5 @@
-import { FileStatus } from './../../models/file-status';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FileInformation } from '../../models/file-information';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-upload',
@@ -8,11 +8,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   @Output()
-  selectFilesEvent = new EventEmitter<Map<string, FileStatus>>();
+  selectFilesEvent = new EventEmitter<Map<string, FileInformation>>();
   @Output()
-  deleteFileEvent = new EventEmitter<FileStatus>();
-
-  filesStatus = new Map<string, FileStatus>();
+  deleteFileEvent = new EventEmitter<FileInformation>();
+  @Input()
+  filesStatus: Map<string, FileInformation>;
 
   constructor() {}
 
@@ -49,7 +49,7 @@ export class UploadComponent implements OnInit {
    */
   prepareFilesList(files: Set<File>) {
     for (const item of files) {
-      this.filesStatus.set(item.name, new FileStatus(item));
+      this.filesStatus.set(item.name, new FileInformation(item));
     }
     this.selectFilesEvent.next(this.filesStatus);
   }

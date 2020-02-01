@@ -33,7 +33,6 @@ spring:
       platform: postgres
 #  jpa:
    jackson:
-      property-naming-strategy: SNAKE_CASE
       serialization:
 #    database: H2
          indent-output: true

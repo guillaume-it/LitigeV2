@@ -1,69 +1,77 @@
 package com.ruscassie.litige.service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.ruscassie.litige.dto.Claim;
-import com.ruscassie.litige.dto.FileInformation;
-import com.ruscassie.litige.mapper.ClaimMapper;
-import com.ruscassie.litige.mapper.FileInformationMapper;
-import com.ruscassie.litige.mapper.UserMapper;
+import com.ruscassie.litige.entity.Claim;
+import com.ruscassie.litige.entity.FileInformation;
 import com.ruscassie.litige.repository.ClaimRepository;
 
 @Service
 public class ClaimService {
 
 	@Autowired
-	private ClaimRepository litigeRepository;
+	private ClaimRepository claimRepository;
 
-	public Optional<Claim> addFileInformation(final Long idClaim, final FileInformation fileInformation) {
-		final Optional<com.ruscassie.litige.entity.Claim> claim = litigeRepository.findById(idClaim);
+	@Autowired
+	private StorageService storageService;
+
+	public Optional<FileInformation> addFileInformation(final Long idClaim, final MultipartFile file) {
+		final Optional<Claim> claim = claimRepository.findById(idClaim);
 		if (claim.isPresent()) {
+
+			final FileInformation fileInformation = storageService.create(file, claim.get().getId().toString());
+
 			if (claim.get().getFileInformations() == null) {
-				claim.get().setFileInformations(new ArrayList<com.ruscassie.litige.entity.FileInformation>());
+				claim.get().setFileInformations(new ArrayList<FileInformation>());
 			}
-			claim.get().getFileInformations().add(FileInformationMapper.mapper(fileInformation));
-			return Optional.of(ClaimMapper.mapper(litigeRepository.save(claim.get())));
+			claim.get().getFileInformations().add(fileInformation);
+			claimRepository.save(claim.get());
+			return Optional.of(fileInformation);
 		}
 		return Optional.empty();
 
 	}
 
 	public void delete(final long id) {
-		litigeRepository.deleteById(id);
+		claimRepository.deleteById(id);
 	}
 
 	public Page<Claim> findAll(final Pageable pageable) {
 
-		final Page<com.ruscassie.litige.entity.Claim> pageClaim = litigeRepository.findAll(pageable);
+		final Page<com.ruscassie.litige.entity.Claim> pageClaim = claimRepository.findAll(pageable);
 
-		final List<Claim> claims = pageClaim.getContent().stream().map(claim -> {
-			return ClaimMapper.mapper(claim);
-		}).collect(Collectors.toList());
-
-		final Page<Claim> pageableDto = new PageImpl<>(claims, pageClaim.getPageable(), pageClaim.getTotalElements());
-
-		return pageableDto;
+		return pageClaim;
 
 	}
 
-	public Claim findOne(final long id) {
-		return ClaimMapper.mapper(litigeRepository.findById(id).get());
+	public Optional<Claim> findOne(final long id) {
+		return claimRepository.findById(id);
 	}
 
-	public Claim save(final Claim litige) {
-		final com.ruscassie.litige.entity.Claim eLitige = ClaimMapper.mapper(litige);
-		eLitige.setAgent(UserMapper.mapper(litige.getAgent()));
-		eLitige.setClaimant(UserMapper.mapper(litige.getRequerant()));
+	public boolean removeFileInformation(final Long idClaim, final Long idFileInformation) {
+		final Optional<Claim> claim = claimRepository.findById(idClaim);
+		if (claim.isPresent()) {
+			final Optional<FileInformation> optional = claim.get().getFileInformations().stream()
+					.filter(fileInformation -> fileInformation.getId().equals(idFileInformation)).findFirst();
+			if (optional.isPresent()) {
 
-		return ClaimMapper.mapper(litigeRepository.save(eLitige));
+				return storageService.delete(optional.get());
+			}
+
+		}
+		return false;
+
+	}
+
+	public Claim save(final Claim claim) {
+
+		return claimRepository.save(claim);
 	}
 }

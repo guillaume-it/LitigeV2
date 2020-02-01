@@ -1,6 +1,7 @@
 package com.ruscassie.litige.dto;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -19,5 +20,6 @@ public class Claim {
 	private ZonedDateTime creation;
 	private User requerant;
 	private User agent;
+	private List<FileInformation> fileInformations;
 
 }

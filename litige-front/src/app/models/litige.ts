@@ -1,4 +1,5 @@
 import { User } from './user';
+import { FileInformation } from './file-information';
 
 export class Litige {
   id: number;
@@ -7,4 +8,5 @@ export class Litige {
   message: string;
   agent: User;
   requerant: User;
+  fileInformations: Array<FileInformation>;
 }

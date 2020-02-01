@@ -10,15 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ruscassie.litige.dto.FileInformation;
 import com.ruscassie.litige.service.StorageService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,12 +53,12 @@ public class FileController {
 		return new ResponseEntity<String>("listFiles", HttpStatus.OK);
 	}
 
-	@PostMapping("/upload-file")
-	@ResponseBody
-	public ResponseEntity<FileInformation> uploadFile(@RequestParam("file") final MultipartFile file) {
-		final FileInformation fileInformation = storageService.store(file);
-
-		return new ResponseEntity<FileInformation>(fileInformation, HttpStatus.OK);
-	}
+//	@PostMapping("/upload-file")
+//	@ResponseBody
+//	public ResponseEntity<FileInformation> uploadFile(@RequestParam("file") final MultipartFile file) {
+//		final FileInformation fileInformation = storageService.store(file);
+//
+//		return new ResponseEntity<FileInformation>(fileInformation, HttpStatus.OK);
+//	}
 
 }

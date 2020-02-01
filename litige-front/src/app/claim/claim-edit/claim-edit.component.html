@@ -30,7 +30,11 @@
           Please enter a message
         </mat-error>
       </mat-form-field>
-      <app-upload (selectFilesEvent)="selectFiles($event)" (deleteFileEvent)="deleteFile($event)"></app-upload>
+      <app-upload
+        [filesStatus]="filesStatus"
+        (selectFilesEvent)="selectFiles($event)"
+        (deleteFileEvent)="deleteFile($event)"
+      ></app-upload>
     </mat-card-content>
     <mat-card-actions *ngIf="!loading && (state === screenState.EDIT || state === screenState.CREATE)">
       <button mat-button type="button" (click)="ngCancel()">Annuler</button>
