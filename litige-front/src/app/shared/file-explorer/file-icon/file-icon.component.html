@@ -1,0 +1,14 @@
+<div class="container">
+  <mat-icon>insert_drive_file</mat-icon>
+  <div class="text">
+    <div class="name">
+      {{ fileInformation.name }}
+    </div>
+    <div class="size">
+      {{ fileInformation.size | bytes: 0:'B':'KB':'MB' }}
+    </div>
+  </div>
+  <mat-icon *ngIf="state.screenState === screenState.EDIT" class="delete" (click)="deleteFile(fileInformation.name)"
+    >delete</mat-icon
+  >
+</div>

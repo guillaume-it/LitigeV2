@@ -1,12 +1,11 @@
-import { FileService } from './../../services/file.service';
-import { Component, OnInit } from '@angular/core';
+import { LoadingState } from './../../models/state';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { LitigeService } from 'src/app/services';
 import { Litige } from 'src/app/models/litige';
-import { ScreenState } from 'src/app/models/screen-state';
+import { ScreenState, State } from 'src/app/models/state';
 import { FileInformation } from 'src/app/models/file-information';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-claim-edit',
@@ -15,11 +14,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ClaimEditComponent implements OnInit {
   screenState = ScreenState;
-  state: ScreenState;
+  state = new State();
   loading = false;
   claim: Litige;
   formGroup: FormGroup;
   filesStatus = new Map<string, FileInformation>();
+  stateEvent = new EventEmitter<State>();
 
   constructor(private router: Router, private litigeService: LitigeService, private route: ActivatedRoute) {}
 
@@ -29,7 +29,7 @@ export class ClaimEditComponent implements OnInit {
         (url: UrlSegment) =>
           url.path === ScreenState.DETAIL || url.path === ScreenState.CREATE || url.path === ScreenState.EDIT
       );
-      this.state = urlSegment.path as ScreenState;
+      this.manageState(urlSegment.path as ScreenState);
 
       if (params.get('id')) {
         this.litigeService.getLitige(params.get('id')).subscribe(claim => {
@@ -52,9 +52,22 @@ export class ClaimEditComponent implements OnInit {
       message: new FormControl(claim.message, Validators.required)
     });
   }
+
+  manageStateLoading(loadingState: LoadingState) {
+    this.state.loadingState = loadingState;
+    this.stateEvent.next(this.state);
+  }
+  manageState(screenState: ScreenState, loadingState?: LoadingState) {
+    this.state.screenState = screenState;
+
+    if (loadingState) {
+      this.state.loadingState = loadingState;
+    }
+    this.stateEvent.next(this.state);
+  }
   ngCancel() {
     this.initFromGroup(this.claim);
-    this.state = ScreenState.DETAIL;
+    this.manageState(ScreenState.DETAIL);
   }
   ngSubmit() {
     // TODO
@@ -62,7 +75,8 @@ export class ClaimEditComponent implements OnInit {
     this.claim.objet = this.formGroup.get('object').value;
     this.claim.message = this.formGroup.get('message').value;
     this.loading = true;
-    if (this.state === ScreenState.CREATE) {
+    if (this.state.screenState === ScreenState.CREATE) {
+      this.manageStateLoading(LoadingState.LOADING);
       this.litigeService.create(this.claim).subscribe(
         (res: Litige) => {
           this.loading = false;
@@ -76,10 +90,11 @@ export class ClaimEditComponent implements OnInit {
           this.loading = false;
         }
       );
-    } else if (this.state === ScreenState.EDIT) {
+    } else if (this.state.screenState === ScreenState.EDIT) {
+      this.manageStateLoading(LoadingState.LOADING);
       this.litigeService.update(this.claim).subscribe(
         res => {
-          this.state = ScreenState.DETAIL;
+          this.manageState(ScreenState.DETAIL);
           this.loading = false;
 
           //
@@ -98,5 +113,9 @@ export class ClaimEditComponent implements OnInit {
     if (fileStatus.loaded) {
       //this.
     }
+  }
+  editing() {
+    this.state.screenState = this.screenState.EDIT;
+    this.manageState(this.state.screenState);
   }
 }

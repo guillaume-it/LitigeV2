@@ -1,5 +1,7 @@
+import { LoadingState } from './../../models/state';
 import { FileInformation } from '../../models/file-information';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { ScreenState, State } from 'src/app/models/state';
 
 @Component({
   selector: 'app-upload',
@@ -12,11 +14,23 @@ export class UploadComponent implements OnInit {
   @Output()
   deleteFileEvent = new EventEmitter<FileInformation>();
   @Input()
-  filesStatus: Map<string, FileInformation>;
+  stateEvent: EventEmitter<State>;
+  @Input()
+  state = new State();
+  screenState = ScreenState;
+  loadingState = LoadingState;
+
+  filesStatus = new Map<string, FileInformation>();
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.stateEvent) {
+      this.stateEvent.subscribe(state => {
+        this.state = state;
+      });
+    }
+  }
 
   /**
    * on file drop handler

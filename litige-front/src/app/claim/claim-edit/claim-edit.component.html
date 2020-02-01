@@ -1,19 +1,19 @@
 <mat-card>
   <mat-card-title>
     Déclarer un litige
-    <button
-      mat-button
-      type="button"
-      *ngIf="!loading && state === screenState.DETAIL"
-      (click)="state = screenState.EDIT"
-    >
+    <button mat-button type="button" *ngIf="!loading && state.screenState === screenState.DETAIL" (click)="editing()">
       Editer
     </button>
   </mat-card-title>
   <form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="ngSubmit()">
     <mat-card-content>
       <mat-form-field>
-        <input matInput placeholder="Objet" formControlName="object" [readonly]="state === screenState.DETAIL" />
+        <input
+          matInput
+          placeholder="Objet"
+          formControlName="object"
+          [readonly]="state.screenState === screenState.DETAIL"
+        />
         <mat-error *ngIf="!formGroup.hasError('required')">
           Please enter an object
         </mat-error>
@@ -23,20 +23,24 @@
           matInput
           placeholder="Message"
           formControlName="message"
-          [readonly]="state === screenState.DETAIL"
+          [readonly]="state.screenState === screenState.DETAIL"
         ></textarea>
         <!-- <mat-hint align="end">{{ formGroup.get('message').value.length }} / 256</mat-hint> -->
         <mat-error *ngIf="!formGroup.hasError('required')">
           Please enter a message
         </mat-error>
       </mat-form-field>
+      <app-file-explorer [state]="state" [stateEvent]="stateEvent" [filesStatus]="filesStatus"></app-file-explorer>
       <app-upload
-        [filesStatus]="filesStatus"
+        [state]="state"
+        [stateEvent]="stateEvent"
         (selectFilesEvent)="selectFiles($event)"
         (deleteFileEvent)="deleteFile($event)"
       ></app-upload>
     </mat-card-content>
-    <mat-card-actions *ngIf="!loading && (state === screenState.EDIT || state === screenState.CREATE)">
+    <mat-card-actions
+      *ngIf="!loading && (state.screenState === screenState.EDIT || state.screenState === screenState.CREATE)"
+    >
       <button mat-button type="button" (click)="ngCancel()">Annuler</button>
       <button mat-button type="submit" [disabled]="!formGroup.valid">Save</button>
     </mat-card-actions>

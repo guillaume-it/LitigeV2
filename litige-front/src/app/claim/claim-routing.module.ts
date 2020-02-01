@@ -4,7 +4,7 @@ import { Role } from '../models';
 import { AuthGuard } from '../auth.guard';
 import { ClaimListComponent } from './claim-list';
 import { ClaimEditComponent } from './claim-edit';
-import { ScreenState } from '../models/screen-state';
+import { ScreenState } from '../models/state';
 
 const routes: Routes = [
   {
