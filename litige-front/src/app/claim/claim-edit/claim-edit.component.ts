@@ -118,4 +118,8 @@ export class ClaimEditComponent implements OnInit {
     this.state.screenState = this.screenState.EDIT;
     this.manageState(this.state.screenState);
   }
+
+  downloadFile(fileInformation: FileInformation) {
+    this.litigeService.download(fileInformation, this.claim.id);
+  }
 }

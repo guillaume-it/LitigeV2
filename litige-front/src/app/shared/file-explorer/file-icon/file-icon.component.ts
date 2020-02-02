@@ -1,5 +1,5 @@
 import { FileInformation } from 'src/app/models/file-information';
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { State, ScreenState } from 'src/app/models/state';
 
 @Component({
@@ -14,6 +14,8 @@ export class FileIconComponent implements OnInit {
   stateEvent: EventEmitter<State>;
   @Input()
   state: State;
+  @Output()
+  download = new EventEmitter<FileInformation>();
 
   screenState = ScreenState;
   constructor() {}
@@ -27,4 +29,7 @@ export class FileIconComponent implements OnInit {
   }
 
   deleteFile(name: string) {}
+  downloadFile() {
+    this.download.emit(this.fileInformation);
+  }
 }

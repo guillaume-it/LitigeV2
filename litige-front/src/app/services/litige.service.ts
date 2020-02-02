@@ -6,8 +6,8 @@ import { Page } from '../models/page';
 import { url } from './url';
 import { environment } from 'src/environments/environment';
 import { FileInformation } from '../models/file-information';
-import { HttpRequest, HttpEventType, HttpResponse, HttpClient } from '@angular/common/http';
-
+import { HttpRequest, HttpEventType, HttpResponse, HttpClient, HttpHeaders } from '@angular/common/http';
+import * as fileSaver from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,12 +35,46 @@ export class LitigeService {
     return this.crudService.put(environment.serverUrl + url.litiges, value);
   }
 
+  public download(fileInformation: FileInformation, idClaim: number) {
+    const formData: FormData = new FormData();
+    formData.append('idFile', fileInformation.id.toString());
+    formData.append('idClaim', idClaim.toString());
+    // create a http-post request and pass the form
+    // tell it to report the upload progress
+    let headers = new HttpHeaders();
+    headers = headers.append('Accept', fileInformation.name);
+
+    this.http
+      .post(environment.serverUrl + url.litiges + '/download-file', formData, {
+        headers: headers,
+        observe: 'response',
+        responseType: 'blob'
+      })
+      .subscribe(response => {
+        const contentType = response.headers.get('Content-Type');
+        const fileName = response.headers.get('File-Name');
+        const blob = new Blob([response.body], { type: contentType });
+        fileSaver.saveAs(blob, fileInformation.name);
+      });
+
+    //   let blob = new Blob([event.body as File], { type: contentType });
+    //   let url = window.URL.createObjectURL(blob);
+    //   let pwa = window.open(url);
+    //   if (!pwa || pwa.closed || typeof pwa.closed === 'undefined') {
+    //     alert('Please disable your Pop-up blocker and try again.');
+    //   }
+    // }
+    // const blob = new Blob([event.blob()], { type: contentType });
+    // const file = new File([blob], fileName, { type: contentType });
+    // saveAs(file);
+  }
+
   public upload(files: Map<string, FileInformation>, idClaim: number) {
     for (const [key, value] of files) {
       if (!value.loaded) {
         // create a new multipart-form for every file
         const formData: FormData = new FormData();
-        formData.append('file', value.file, value.file.name);
+        formData.append('file', value.file);
         formData.append('idClaim', idClaim.toString());
         // create a http-post request and pass the form
         // tell it to report the upload progress

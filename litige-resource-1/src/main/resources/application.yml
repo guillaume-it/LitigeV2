@@ -21,6 +21,7 @@ spring:
          naming:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
+      show-sql: true
    datasource:
       url: jdbc:postgresql://localhost:5432/litige?useSSL=false
       username: litige

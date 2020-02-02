@@ -44,7 +44,7 @@ public class FileInformation implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "claim_file_information", joinColumns = {
-			@JoinColumn(name = "claim_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "file_information_id", referencedColumnName = "id") })
+			@JoinColumn(name = "file_information_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "claim_id", referencedColumnName = "id") })
 	private List<Claim> claims;
 }

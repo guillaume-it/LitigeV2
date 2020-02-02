@@ -30,7 +30,12 @@
           Please enter a message
         </mat-error>
       </mat-form-field>
-      <app-file-explorer [state]="state" [stateEvent]="stateEvent" [filesStatus]="filesStatus"></app-file-explorer>
+      <app-file-explorer
+        (download)="downloadFile($event)"
+        [state]="state"
+        [stateEvent]="stateEvent"
+        [filesStatus]="filesStatus"
+      ></app-file-explorer>
       <app-upload
         [state]="state"
         [stateEvent]="stateEvent"

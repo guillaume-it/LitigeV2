@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FileInformation } from 'src/app/models/file-information';
 import { State, ScreenState } from 'src/app/models/state';
 
@@ -14,6 +14,8 @@ export class FileExplorerComponent implements OnInit {
   stateEvent: EventEmitter<State>;
   @Input()
   state: State;
+  @Output()
+  download = new EventEmitter<FileInformation>();
 
   screenState = ScreenState;
   constructor() {}
@@ -24,5 +26,9 @@ export class FileExplorerComponent implements OnInit {
         this.state = state;
       });
     }
+  }
+
+  downloadFile(fileInformation: FileInformation) {
+    this.download.emit(fileInformation);
   }
 }

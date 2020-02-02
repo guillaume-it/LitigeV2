@@ -1,5 +1,7 @@
 package com.ruscassie.litige.dto;
 
+import org.springframework.core.io.Resource;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +18,5 @@ public class FileInformation {
 	private String contentType;
 	private Long size;
 	private Claim claim;
+	private Resource resource;
 }
