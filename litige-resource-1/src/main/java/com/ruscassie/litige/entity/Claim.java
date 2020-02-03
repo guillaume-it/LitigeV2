@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,9 +60,9 @@ public class Claim implements Serializable {
 	@JoinColumn(name = "claimant_id")
 	private User claimant;
 
-	// bi-directional many-to-one association to Dossier
-	@OneToMany(mappedBy = "claim")
-	private List<Dossier> dossiers;
+	@OneToOne
+	@JoinColumn(name = "dossier_id")
+	private Dossier dossier;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "claim_file_information", joinColumns = {

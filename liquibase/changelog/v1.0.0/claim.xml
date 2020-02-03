@@ -17,6 +17,8 @@
 			<column name="modification" type="TIMESTAMP(29) WITH TIME ZONE" />
 			<column name="claimant_id" type="numeric(19)" />
 			<column name="agent_id" type="numeric(19)" />
+			<column name="dossier_id" type="numeric(19)" />
+			
 		</createTable>
 	
 		<addPrimaryKey columnNames="id" constraintName="claim_pkey" tableName="claim" />
@@ -26,7 +28,8 @@
 	
 		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="claim"
 			constraintName="fk_claim_agent_user_id" referencedColumnNames="id" referencedTableName="users" />
-	</changeSet>
+			
+			</changeSet>
 
 	<changeSet author="Guillaume" id="claim-2">
 		<insert tableName="claim">

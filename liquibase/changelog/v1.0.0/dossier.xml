@@ -21,6 +21,8 @@
 
 		<addForeignKeyConstraint baseColumnNames="claim_id" baseTableName="dossier"
 			constraintName="fk_dossier_claim_id" referencedColumnNames="id" referencedTableName="claim" />
+<addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="claim"
+			constraintName="fk_claim_dossier_id" referencedColumnNames="id" referencedTableName="dossier" />
 
 		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="dossier"
 			constraintName="fk_dossier_users_id" referencedColumnNames="id" referencedTableName="users" />

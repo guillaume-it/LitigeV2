@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,8 +51,7 @@ public class Dossier implements Serializable {
 	@OneToMany(mappedBy = "dossier")
 	private List<Comment> comments;
 
-	// bi-directional many-to-one association to Claim
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "claim_id")
 	private Claim claim;
 
