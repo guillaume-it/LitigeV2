@@ -39,7 +39,7 @@ public class ClaimService {
 
 	}
 
-	public void delete(final long id) {
+	public void delete(final Long id) {
 		claimRepository.deleteById(id);
 	}
 

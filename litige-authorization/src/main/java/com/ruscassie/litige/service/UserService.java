@@ -111,9 +111,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(final String input) {
-		Optional<com.ruscassie.litige.entity.User> user = null;
-
-		user = userRepository.findByEmail(input);
+		Optional<com.ruscassie.litige.entity.User> user = userRepository.findByEmail(input);
 
 		if (!user.isPresent())
 			throw new BadCredentialsException("Bad credentials");
@@ -125,13 +123,16 @@ public class UserService implements UserDetailsService {
 
 	private void oauthClient(final com.ruscassie.litige.entity.User user) {
 		final BaseClientDetails client = new BaseClientDetails();
-		client.setClientId(user.getEmail().toString());
+		//TODO Conf properties
+		//client.setClientId(user.getEmail().toString());
+		client.setClientId("ClientIdResource");
 		client.setClientSecret(user.getPassword());
 		client.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password", "refresh_token", "implicit"));
 		final List<Permission> permissions = user.getRoles().stream().flatMap(role -> role.getPermissions().stream())
 				.collect(Collectors.toList());
 		client.setScope(permissions.stream().filter(permission -> permission.getName().startsWith("scope_"))
 				.map(role -> role.getName()).collect(Collectors.toList()));
+		//TODO Conf properties
 		client.setAccessTokenValiditySeconds(5 * 60);
 		client.setRefreshTokenValiditySeconds(30 * 24 * 60 * 60);
 		client.setResourceIds(Arrays.asList("claim/resource"));
@@ -147,6 +148,8 @@ public class UserService implements UserDetailsService {
 	@Transactional(rollbackFor = Exception.class)
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
+
+		// TODO enity
 		final com.ruscassie.litige.entity.Role roleAgent = roleRepository.findByName("role_agent");
 		final com.ruscassie.litige.entity.Role roleAdmin = roleRepository.findByName("role_admin");
 

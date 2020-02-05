@@ -2,8 +2,11 @@ package com.ruscassie.litige.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -13,6 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.ruscassie.litige.entity.Claim;
 import com.ruscassie.litige.entity.Dossier;
@@ -53,7 +60,28 @@ public class ClaimServiceTest {
 		claim.get().setClaimant(claimant);
 		claim.get().setDossier(dossier);
 
+		final List<Claim> claims = new ArrayList<Claim>();
+		claims.add(claim.get());
+
+		final Page<Claim> page = new PageImpl<>(claims);
+
+//		final Page<com.ruscassie.litige.entity.Claim> pageClaim = Page.empty(PageRequest.of(0, 3, Sort.by("id")));
+		// pageClaim.getContent().add(0, claim.get());
+
 		Mockito.when(claimRepository.findById(1L)).thenReturn(claim);
+		Mockito.when(claimRepository.findAll(Mockito.any(org.springframework.data.domain.Pageable.class)))
+				.thenReturn(page);
+
+	}
+
+	@Test
+	public void whenValidId_theClaimShouldBeDelete() {
+		try {
+			claimService.delete(1L);
+
+		} catch (final java.lang.IllegalArgumentException e) {
+			fail("Should not have thrown any exception");
+		}
 	}
 
 	@Test
@@ -63,4 +91,9 @@ public class ClaimServiceTest {
 		assertEquals(claim.get().getId(), new Long(1L));
 	}
 
+	@Test
+	public void whenValidPageable_thistClaimsShouldBeFound() {
+		final Page<Claim> page = claimService.findAll(PageRequest.of(0, 3, Sort.by("id")));
+		assertEquals(page.getNumberOfElements(), 1L);
+	}
 }

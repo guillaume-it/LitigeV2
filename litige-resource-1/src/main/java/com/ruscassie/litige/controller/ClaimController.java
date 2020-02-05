@@ -108,7 +108,7 @@ public class ClaimController {
 //				.body(resource);
 	}
 
-	@PreAuthorize("hasAuthority('can_read_claim')")
+	// @PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Claim> findOne(@PathVariable final long id) {
 		final Optional<com.ruscassie.litige.entity.Claim> claim = claimService.findOne(id);
