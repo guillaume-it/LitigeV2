@@ -159,7 +159,7 @@ public class UserService implements UserDetailsService {
 
 		userRepository.saveAndFlush(user);
 
-		oauthClient(user);
+	//	oauthClient(user);
 
 		return serviceMapper.mapEntityToDto(user, User.class);
 	}
@@ -180,7 +180,7 @@ public class UserService implements UserDetailsService {
 		userRepository.saveAndFlush(eUser);
 
 		emailService.prepareAndSend(eUser);
-		oauthClient(eUser);
+	//	oauthClient(eUser);
 
 		final User dto = serviceMapper.mapEntityToDto(eUser, User.class);
 		dto.setPassword(null);
