@@ -7,6 +7,8 @@ spring:
    profiles: default
    application:
       name: auth-server
+   main:
+     allow-bean-definition-overriding: true
    jpa:
       properties:
          hibernate:
