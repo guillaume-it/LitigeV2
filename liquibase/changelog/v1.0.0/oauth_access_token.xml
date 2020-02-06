@@ -14,4 +14,8 @@
 			<column defaultValue="NULL::character varying" name="refresh_token" type="VARCHAR(256)" />
 		</createTable>
 	</changeSet>
+
+	<changeSet author="Guillaume" id="1578097344371-12">
+		<addPrimaryKey columnNames="authentication_id" constraintName="oauth_access_token_pkey" tableName="oauth_access_token" />
+	</changeSet>
 </databaseChangeLog>

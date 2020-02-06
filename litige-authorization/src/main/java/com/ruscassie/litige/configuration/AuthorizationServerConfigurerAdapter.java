@@ -1,8 +1,6 @@
 package com.ruscassie.litige.configuration;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,25 +51,16 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
         return new JdbcClientDetailsService(dataSource);
     }
 
-//    @Bean
-//    public TokenStore tokenStore() {
-//        return new JdbcTokenStore(dataSource);
-//    }
-
-    private CustomTokenEnhancer customTokenEnhancer;
-    private TokenStore tokenStore;
-
     @Bean
     public TokenStore tokenStore() {
-        if (tokenStore == null) {
-            tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
-        }
-        return tokenStore;
+            return  new JdbcTokenStore(dataSource);
     }
+
     @Bean
     public ApprovalStore approvalStore() {
         return new JdbcApprovalStore(dataSource);
     }
+
     @Bean
     public DefaultTokenServices tokenServices(final TokenStore tokenStore,
                                               final ClientDetailsService clientDetailsService) {
@@ -82,9 +71,6 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
         tokenServices.setAuthenticationManager(this.authenticationManager);
         return tokenServices;
     }
-
-
-
 
     @Bean
     public AuthorizationCodeServices authorizationCodeServices() {
@@ -113,19 +99,17 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(this.dataSource);
-
+        JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+        clients.withClientDetails(jdbcClientDetailsService);
     }
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        if (customTokenEnhancer != null) {
-            return customTokenEnhancer;
-        }
+
 
 //        SecurityProperties.JwtProperties jwtProperties = securityProperties.getJwt();
 //        KeyPair keyPair = keyPair(jwtProperties, keyStoreKeyFactory(jwtProperties));
 
-        customTokenEnhancer = new CustomTokenEnhancer();
+        CustomTokenEnhancer  customTokenEnhancer = new CustomTokenEnhancer();
 //        jwtAccessTokenConverter.setKeyPair(keyPair);
         return customTokenEnhancer;
     }
