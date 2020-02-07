@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="oauth_client_token-1">
+		<createTable tableName="oauth_client_token">
+			<column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)" />
+			<column name="token" type="BYTEA" />
+			<column defaultValue="NULL::character varying" name="authentication_id" type="VARCHAR(256)" />
+			<column defaultValue="NULL::character varying" name="user_name" type="VARCHAR(256)" />
+			<column defaultValue="NULL::character varying" name="client_id" type="VARCHAR(256)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet author="Guillaume" id="oauth_client_token-2">
+		<addPrimaryKey columnNames="authentication_id" constraintName="oauth_client_token_pkey" tableName="oauth_client_token" />
+	</changeSet>
+</databaseChangeLog>

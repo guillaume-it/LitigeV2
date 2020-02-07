@@ -5,6 +5,8 @@
 	<include file="liquibase/changelog/v1.0.0/oauth_access_token.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/oauth_client_details.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/oauth_refresh_token.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/oauth_client_token.xml" relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/v1.0.0/oauth_code.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/permission.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/role.xml" relativeToChangelogFile="false" />
 	<include file="liquibase/changelog/v1.0.0/user.xml" relativeToChangelogFile="false" />
