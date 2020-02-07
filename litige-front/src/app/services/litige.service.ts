@@ -41,12 +41,11 @@ export class LitigeService {
     formData.append('idClaim', idClaim.toString());
     // create a http-post request and pass the form
     // tell it to report the upload progress
-    let headers = new HttpHeaders();
-    headers = headers.append('Accept', fileInformation.name);
 
+    // TODO define headers
     this.http
       .post(environment.serverUrl + url.litiges + '/download-file', formData, {
-        headers: headers,
+        headers: {},
         observe: 'response',
         responseType: 'blob'
       })
@@ -56,17 +55,6 @@ export class LitigeService {
         const blob = new Blob([response.body], { type: contentType });
         fileSaver.saveAs(blob, fileInformation.name);
       });
-
-    //   let blob = new Blob([event.body as File], { type: contentType });
-    //   let url = window.URL.createObjectURL(blob);
-    //   let pwa = window.open(url);
-    //   if (!pwa || pwa.closed || typeof pwa.closed === 'undefined') {
-    //     alert('Please disable your Pop-up blocker and try again.');
-    //   }
-    // }
-    // const blob = new Blob([event.blob()], { type: contentType });
-    // const file = new File([blob], fileName, { type: contentType });
-    // saveAs(file);
   }
 
   public upload(files: Map<string, FileInformation>, idClaim: number) {
