@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validator';
+import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { formatError } from 'src/app/services/store.service';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/models';
+import { formatError } from 'src/app/services/store.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-signin-claimant',
