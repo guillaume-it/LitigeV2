@@ -32,7 +32,6 @@ export class AuthenticationService {
     private userService: UserService,
     private crudService: CrudService
   ) {
-    console.log('init auth');
     this.jwtHelper = new JwtHelperService();
     TokenInterceptor.init(this);
     this.initAccessTokenPipe();
@@ -90,9 +89,10 @@ export class AuthenticationService {
 
   interceptUrl(req: HttpRequest<any>): boolean {
     return (
-      req.url.startsWith(this.config.config.serverUrl) &&
-      !req.url.startsWith(this.config.config.authUrl + '/auth') &&
-      !req.headers.get('Authorization')
+      (req.url.startsWith(this.config.config.serverUrl) &&
+        !req.url.startsWith(this.config.config.authUrl) &&
+        !req.headers.get('Authorization')) ||
+      req.url.startsWith(this.config.config.authUrl + '/oauth/logout')
     );
   }
 
