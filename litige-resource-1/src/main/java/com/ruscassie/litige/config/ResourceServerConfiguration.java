@@ -49,12 +49,19 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().permitAll().and().cors().disable().csrf().disable().httpBasic().disable()
+		// @formatter:off
+		http.authorizeRequests().anyRequest().authenticated()
+				.and()
+					.cors().disable()
+					.csrf().disable()
+					.httpBasic().disable()
+					.formLogin().disable()
 				.exceptionHandling()
 				.authenticationEntryPoint(
 						(request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
 				.accessDeniedHandler(
 						(request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+	// @formatter:on
 	}
 
 	@Override

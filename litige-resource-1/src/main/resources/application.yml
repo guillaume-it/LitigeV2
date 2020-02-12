@@ -7,6 +7,10 @@ server:
 management:
    security:
       enabled: true
+
+security:
+   basic:
+      enabled: false
 properties:
    auth-server-url: auth-server
    auth-check-token-uri: auth/oauth/check_token
