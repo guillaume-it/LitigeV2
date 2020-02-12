@@ -32,8 +32,20 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	@Autowired
 	private DataSource dataSource;
 
-	@Value("${auth-server.url}")
+	@Value("${properties.auth-server-url}")
 	private String authEndpoint;
+
+	@Value("${properties.resource-id}")
+	private String ressourceId;
+
+	@Value("${properties.client-secret}")
+	private String clientSecret;
+
+	@Value("${properties.client-id}")
+	private String clientId;
+
+	@Value("${properties.auth-check-token-uri}")
+	private String uriCheckToken;
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
@@ -47,17 +59,17 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(final ResourceServerSecurityConfigurer resources) throws Exception {
-		resources.resourceId("claim/resource").tokenStore(tokenStore());
+		resources.resourceId(ressourceId).tokenStore(tokenStore());
 	}
 
 	@Bean
 	public ResourceServerTokenServices tokenService() {
 		final RemoteTokenServices tokenServices = new RemoteTokenServices();
-		tokenServices.setClientId("ClientIdResource");
-		tokenServices.setClientSecret("password");
+		tokenServices.setClientId(clientId);
+		tokenServices.setClientSecret(clientSecret);
 		Application application = eurekaClient.getApplication(authEndpoint);
 
-		tokenServices.setCheckTokenEndpointUrl(application.getInstances().get(0).getHomePageUrl()+"auth/oauth/check_token");
+		tokenServices.setCheckTokenEndpointUrl(application.getInstances().get(0).getHomePageUrl()+uriCheckToken);
 
 		return tokenServices;
 	}
