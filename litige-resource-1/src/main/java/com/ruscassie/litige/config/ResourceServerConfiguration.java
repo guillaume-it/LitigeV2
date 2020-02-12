@@ -3,8 +3,13 @@ package com.ruscassie.litige.config;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.DiscoveryClient;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,11 +21,14 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
+import java.util.List;
+
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-
+	@Autowired
+	private EurekaClient eurekaClient;
 	@Autowired
 	private DataSource dataSource;
 
@@ -47,7 +55,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		final RemoteTokenServices tokenServices = new RemoteTokenServices();
 		tokenServices.setClientId("ClientIdResource");
 		tokenServices.setClientSecret("password");
-		tokenServices.setCheckTokenEndpointUrl(authEndpoint + "/auth/oauth/check_token");
+		Application application = eurekaClient.getApplication(authEndpoint);
+
+		tokenServices.setCheckTokenEndpointUrl(application.getInstances().get(0).getHomePageUrl()+"auth/oauth/check_token");
+
 		return tokenServices;
 	}
 
