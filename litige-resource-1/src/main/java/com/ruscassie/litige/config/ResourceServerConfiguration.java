@@ -74,9 +74,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		final RemoteTokenServices tokenServices = new RemoteTokenServices();
 		tokenServices.setClientId(clientId);
 		tokenServices.setClientSecret(clientSecret);
-		Application application = eurekaClient.getApplication(authEndpoint);
+		// TODO  HTTPS
+		InstanceInfo instance = eurekaClient.getNextServerFromEureka(authEndpoint, false);
 
-		tokenServices.setCheckTokenEndpointUrl(application.getInstances().get(0).getHomePageUrl()+uriCheckToken);
+		tokenServices.setCheckTokenEndpointUrl(instance.getHomePageUrl()+uriCheckToken);
 
 		return tokenServices;
 	}
