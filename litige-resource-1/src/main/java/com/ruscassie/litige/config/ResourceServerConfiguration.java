@@ -75,6 +75,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		tokenServices.setClientId(clientId);
 		tokenServices.setClientSecret(clientSecret);
 		// TODO  HTTPS
+		// TODO manage the changing of instance
 		InstanceInfo instance = eurekaClient.getNextServerFromEureka(authEndpoint, false);
 
 		tokenServices.setCheckTokenEndpointUrl(instance.getHomePageUrl()+uriCheckToken);
