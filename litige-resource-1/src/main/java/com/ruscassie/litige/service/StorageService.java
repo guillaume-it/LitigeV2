@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -33,12 +34,8 @@ public class StorageService {
 	@Autowired
 	private FileInformationRepository fileInformationRepository;
 
-	private final Path rootLocation;
-
-	@Autowired
-	public StorageService(final StorageProperties properties) {
-		this.rootLocation = Paths.get(properties.getLocation());
-	}
+	@Value("${properties.storage-location}")
+	private String storageLocation;
 
 // TODO check if the file exist
 	public FileInformation create(final MultipartFile file, final String directory) {
@@ -61,9 +58,10 @@ public class StorageService {
 	}
 
 	public Stream<Path> loadAll() {
+		Path rootLocation = Paths.get(this.storageLocation);
 		try {
-			return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
-					.map(this.rootLocation::relativize);
+			return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation))
+					.map(rootLocation::relativize);
 		} catch (final IOException e) {
 			throw new StorageException("Failed to read stored files", e);
 		}
@@ -89,6 +87,8 @@ public class StorageService {
 	}
 
 	public FileInformation store(final MultipartFile file, final String directory) {
+		Path rootLocation = Paths.get(this.storageLocation);
+
 		final String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		final String path = rootLocation.toString() + File.separator + directory + File.separator + filename;
 		try {
@@ -106,7 +106,7 @@ public class StorageService {
 				throw new StorageException("Could not initialize storage location", e);
 			}
 			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, this.rootLocation.resolve(path), StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(inputStream, rootLocation.resolve(path), StandardCopyOption.REPLACE_EXISTING);
 			}
 		} catch (final IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);

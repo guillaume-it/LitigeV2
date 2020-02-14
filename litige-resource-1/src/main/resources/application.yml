@@ -17,7 +17,7 @@ properties:
    resource-id: claim/resource
    client-id: ClientIdResource
    client-secret: password
-
+   storage-location: /Users/Guillaume/Desktop/upload/
 spring:
    profiles: default
    application:
@@ -68,5 +68,3 @@ logging:
    level:
       root: INFO
       
-storage:
-   location: /Users/Guillaume/Desktop/upload/  
