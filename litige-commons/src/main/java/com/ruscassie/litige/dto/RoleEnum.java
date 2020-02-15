@@ -1,4 +1,4 @@
-package com.ruscassie.dto;
+package com.ruscassie.litige.dto;
 
 public enum RoleEnum {
 	USER, ADMIN, USER_MANAGER

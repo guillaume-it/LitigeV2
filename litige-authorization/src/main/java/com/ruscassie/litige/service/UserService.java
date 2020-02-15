@@ -1,6 +1,6 @@
 package com.ruscassie.litige.service;
 
-import com.ruscassie.dto.User;
+import com.ruscassie.litige.dto.User;
 import com.ruscassie.litige.entity.Permission;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.mapper.UserMapper;

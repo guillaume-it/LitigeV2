@@ -1,4 +1,4 @@
-package com.ruscassie.dto;
+package com.ruscassie.litige.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.ruscassie.litige.mapper;
 
-import com.ruscassie.dto.User;
+import com.ruscassie.litige.dto.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
