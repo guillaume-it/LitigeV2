@@ -123,7 +123,7 @@ public class ClaimController {
 			return new ResponseEntity<Claim>(HttpStatus.NOT_FOUND);
 	}
 
-	//@PreAuthorize("hasAuthority('can_read_claim')")
+	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(value = "")
 	public ResponseEntity<Page<Claim>> list(final Pageable pageable) {
 
