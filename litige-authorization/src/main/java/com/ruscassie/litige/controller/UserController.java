@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruscassie.litige.dto.RoleEnum;
-import com.ruscassie.litige.dto.User;
+import com.ruscassie.dto.RoleEnum;
+import com.ruscassie.dto.User;
 import com.ruscassie.litige.error.EntityNotFoundException;
 import com.ruscassie.litige.service.UserService;
 

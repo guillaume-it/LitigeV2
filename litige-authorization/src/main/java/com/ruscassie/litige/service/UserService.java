@@ -1,22 +1,16 @@
 package com.ruscassie.litige.service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import javax.mail.MessagingException;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
-
+import com.ruscassie.dto.User;
+import com.ruscassie.litige.entity.Permission;
+import com.ruscassie.litige.error.EntityNotFoundException;
+import com.ruscassie.litige.mapper.UserMapper;
+import com.ruscassie.litige.repository.RoleRepository;
+import com.ruscassie.litige.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,14 +21,12 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ruscassie.litige.dto.User;
-import com.ruscassie.litige.entity.Permission;
-import com.ruscassie.litige.error.EntityNotFoundException;
-import com.ruscassie.litige.mapper.UserMapper;
-import com.ruscassie.litige.repository.RoleRepository;
-import com.ruscassie.litige.repository.UserRepository;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.mail.MessagingException;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -53,8 +45,6 @@ public class UserService implements UserDetailsService {
 	private EmailService emailService;
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-	private final ServiceMapper<User, com.ruscassie.litige.entity.User> serviceMapper = new ServiceMapper<>();
 
 	public void changePassword(final Long id, final String oldPassword, final String newPassword) {
 		final com.ruscassie.litige.entity.User user = userRepository.findById(id).orElseThrow(
@@ -81,33 +71,33 @@ public class UserService implements UserDetailsService {
 	}
 
 	public Page<User> findAll(final Pageable pageable) {
-		return serviceMapper.mapper(userRepository.findAll(pageable), User.class);
+		return UserMapper.mapper(userRepository.findAll(pageable));
 	}
 
 	public Page<User> findAllByEmail(final String email, final Pageable pageable) {
-		return serviceMapper.mapper(userRepository.findByEmailContains(email, pageable), User.class);
+		return UserMapper.mapper(userRepository.findByEmailContains(email, pageable));
 	}
 
 	public Page<User> findAllByEmailContainsAndEmail(final String email, final String auth, final Pageable pageable) {
-		return serviceMapper.mapper(userRepository.findAllByEmailContainsAndEmail(email, auth, pageable), User.class);
+		return UserMapper.mapper(userRepository.findAllByEmailContainsAndEmail(email, auth, pageable));
 	}
 
 	public Optional<User> findByEmail(final String email) {
 
 		final Optional<com.ruscassie.litige.entity.User> entity = userRepository.findByEmail(email);
-		final User dto = serviceMapper.mapEntityToDto(entity.get(), User.class);
+		final User dto = UserMapper.mapper(entity.get());
 		return Optional.of(dto);
 
 	}
 
 	public Page<User> findByEmailContains(final String email, final Pageable pageable) {
-		return serviceMapper.mapper(userRepository.findByEmailContains(email, pageable), User.class);
+		return UserMapper.mapper(userRepository.findByEmailContains(email, pageable));
 	}
 
 	public Optional<User> findById(final Long id) {
 		final Optional<com.ruscassie.litige.entity.User> entity = userRepository.findById(id);
 
-		return Optional.of(serviceMapper.mapEntityToDto(entity.get(), User.class));
+		return Optional.of(UserMapper.mapper(entity.get()));
 	}
 
 	@Override
@@ -141,9 +131,8 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User save(@Valid final User user) {
-		return serviceMapper.mapEntityToDto(
-				userRepository.save(serviceMapper.mapDtoToEntity(user, com.ruscassie.litige.entity.User.class)),
-				User.class);
+		return UserMapper.mapper(
+				userRepository.save(UserMapper.mapper(user)));
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -162,7 +151,7 @@ public class UserService implements UserDetailsService {
 
 	//	oauthClient(user);
 
-		return serviceMapper.mapEntityToDto(user, User.class);
+		return UserMapper.mapper(user);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -183,7 +172,7 @@ public class UserService implements UserDetailsService {
 		emailService.prepareAndSend(eUser);
 	//	oauthClient(eUser);
 
-		final User dto = serviceMapper.mapEntityToDto(eUser, User.class);
+		final User dto = UserMapper.mapper(eUser);
 		dto.setPassword(null);
 		return dto;
 
@@ -194,8 +183,7 @@ public class UserService implements UserDetailsService {
 				.orElseThrow(() -> new EntityNotFoundException(com.ruscassie.litige.entity.User.class, "id",
 						res.getId().toString()));
 
-		final com.ruscassie.litige.entity.User save = serviceMapper.mapDtoToEntity(res,
-				com.ruscassie.litige.entity.User.class);
+		final com.ruscassie.litige.entity.User save = UserMapper.mapper(res);
 		save.setPassword(u.getPassword());
 
 		userRepository.save(save);

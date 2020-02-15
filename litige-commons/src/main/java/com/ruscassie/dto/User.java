@@ -1,4 +1,4 @@
-package com.ruscassie.litige.dto;
+package com.ruscassie.dto;
 
 import java.util.List;
 
