@@ -23,6 +23,11 @@ spring:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
       show-sql: true
+   datasource:
+      url: jdbc:h2:~/testdb
+      driverClassName: org.h2.Driver
+      username: sa
+      password: password
    h2:
       console:
          enabled: true

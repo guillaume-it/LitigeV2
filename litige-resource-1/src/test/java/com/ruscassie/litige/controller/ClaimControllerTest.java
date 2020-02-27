@@ -60,21 +60,21 @@ public class ClaimControllerTest {
 	private static Liquibase liquibase;
 	@Mock
 	private ClaimRepository claimRepository;
-	@BeforeAll
-	public static void createTestData() throws SQLException,
-			ClassNotFoundException, LiquibaseException {
-
-		Class.forName("org.h2.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-
-		Database database = DatabaseFactory.getInstance()
-				.findCorrectDatabaseImplementation(new JdbcConnection(conn));
-
-		liquibase = new Liquibase("../liquibase/master.xml",
-				new FileSystemResourceAccessor(), database);
-		liquibase.dropAll();
-		liquibase.update("test");
-	}
+//	@BeforeAll
+//	public static void createTestData() throws SQLException,
+//			ClassNotFoundException, LiquibaseException {
+//
+//		Class.forName("org.h2.Driver");
+//		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+//
+//		Database database = DatabaseFactory.getInstance()
+//				.findCorrectDatabaseImplementation(new JdbcConnection(conn));
+//
+//		liquibase = new Liquibase("../liquibase/master.xml",
+//				new FileSystemResourceAccessor(), database);
+//		liquibase.dropAll();
+//		liquibase.update("test");
+//	}
 
 	@AfterAll
 	public static void removeTestData() throws LiquibaseException, SQLException {
