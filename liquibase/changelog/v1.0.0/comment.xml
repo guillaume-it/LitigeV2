@@ -8,14 +8,14 @@
 	</changeSet>
 	<changeSet author="Guillaume" id="comment-2">
 		<createTable tableName="comment">
-			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_comment_id">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_comment_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="message" type="VARCHAR(500)" />
-			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="update" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="agent_id" type="numeric(19)" />
-			<column name="dossier_id" type="numeric(19)" />
+			<column name="creation" type="${date}" />
+			<column name="update" type="${date}" />
+			<column name="agent_id" type="${idDb}" />
+			<column name="dossier_id" type="${idDb}" />
 		</createTable>
 
 		<addPrimaryKey columnNames="id" constraintName="comment_pkey" tableName="comment" />

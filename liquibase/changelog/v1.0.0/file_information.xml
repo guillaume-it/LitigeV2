@@ -8,14 +8,14 @@
 	</changeSet>
 	<changeSet author="Guillaume" id="file_information-2">
 		<createTable tableName="file_information">
-			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_file_information_id">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_file_information_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="name" type="VARCHAR(50)" />
 			<column name="uri" type="VARCHAR(300)" />
 			<column name="content_type" type="VARCHAR(20)" />
-			<column name="size" type="numeric(19)" />
-			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
+			<column name="size" type="${idDb}" />
+			<column name="creation" type="${date}" />
 		</createTable>
 
 		<addPrimaryKey columnNames="id" constraintName="file_information_pkey" tableName="file_information" />

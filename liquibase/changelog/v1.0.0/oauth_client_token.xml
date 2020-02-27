@@ -5,11 +5,11 @@
 
 	<changeSet author="Guillaume" id="oauth_client_token-1">
 		<createTable tableName="oauth_client_token">
-			<column defaultValue="NULL::character varying" name="token_id" type="VARCHAR(256)" />
+			<column  name="token_id" type="VARCHAR(256)" />
 			<column name="token" type="BYTEA" />
-			<column defaultValue="NULL::character varying" name="authentication_id" type="VARCHAR(256)" />
-			<column defaultValue="NULL::character varying" name="user_name" type="VARCHAR(256)" />
-			<column defaultValue="NULL::character varying" name="client_id" type="VARCHAR(256)" />
+			<column  name="authentication_id" type="VARCHAR(256)" />
+			<column  name="user_name" type="VARCHAR(256)" />
+			<column  name="client_id" type="VARCHAR(256)" />
 		</createTable>
 	</changeSet>
 

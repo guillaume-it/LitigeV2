@@ -8,12 +8,12 @@
 	</changeSet>
 	<changeSet author="Guillaume" id="dossier-2">
 		<createTable tableName="dossier">
-			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_dossier_id">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_dossier_id">
 				<constraints nullable="false" />
 			</column>
-			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="claim_id" type="numeric(19)" />
-			<column name="agent_id" type="numeric(19)" />
+			<column name="creation" type="${date}" />
+			<column name="claim_id" type="${idDb}" />
+			<column name="agent_id" type="${idDb}" />
 			<column name="resolution" type="VARCHAR(200)" />
 		</createTable>
 

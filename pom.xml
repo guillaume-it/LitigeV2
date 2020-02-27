@@ -42,6 +42,15 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+<!--			<repository>-->
+<!--				<id>java-net-repo</id>-->
+<!--				<url>https://maven.java.net/content/repositories/public/</url>-->
+<!--			</repository>-->
+
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
 	</repositories>
 	<build>
 		<plugins>
@@ -79,7 +88,6 @@
 						<artifactId>snakeyaml</artifactId>
 						<version>1.25</version>
 					</dependency>
-
 				</dependencies>
 			</plugin>
 		</plugins>

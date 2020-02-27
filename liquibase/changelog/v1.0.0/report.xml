@@ -8,13 +8,13 @@
 	</changeSet>
 	<changeSet author="Guillaume" id="report-2">
 		<createTable tableName="report">
-			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_report_id">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_report_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="summary" type="VARCHAR(500)" />
-			<column name="creation" type="TIMESTAMP(29) WITH TIME ZONE" />
-			<column name="agent_id" type="numeric(19)" />
-			<column name="dossier_id" type="numeric(19)" />
+			<column name="creation" type="${date}" />
+			<column name="agent_id" type="${idDb}" />
+			<column name="dossier_id" type="${idDb}" />
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="report"
 			constraintName="fk_report_agent_user_id" referencedColumnNames="id" referencedTableName="users" />

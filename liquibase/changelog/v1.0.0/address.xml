@@ -8,14 +8,14 @@
 	</changeSet>
 	<changeSet author="Guillaume" id="address-2">
 		<createTable tableName="address">
-			<column name="id" type="numeric(19)" defaultValueSequenceNext="seq_address_id">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_address_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="detail" type="VARCHAR(500)" />
 			<column name="post_office_box" type="VARCHAR(200)" />
 			<column name="town" type="VARCHAR(50)" />
 			<column name="country" type="VARCHAR(50)" />
-			<column name="user_id" type="numeric(19)" />
+			<column name="user_id" type="${idDb}" />
 		</createTable>
 		
 		<addPrimaryKey columnNames="id" constraintName="address_pkey" tableName="address" />

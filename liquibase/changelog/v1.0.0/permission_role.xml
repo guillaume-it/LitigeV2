@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 	<changeSet author="Guillaume" id="1578097344371-6">
 		<createTable tableName="permission_role">
-			<column name="permission_id" type="numeric(19)">
+			<column name="permission_id" type="${idDb}">
 				<constraints nullable="false" />
 			</column>
-			<column name="role_id" type="numeric(19)">
+			<column name="role_id" type="${idDb}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITH TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${date}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITH TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${date}">
 				<constraints nullable="false" />
 			</column>
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">

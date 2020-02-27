@@ -1,0 +1,55 @@
+server:
+   port: 9094
+   servlet:
+      context-path: /api
+   compression:
+      enabled: false
+properties:
+   auth-server-url: auth-server
+   auth-check-token-uri: auth/oauth/check_token
+   resource-id: claim/resource
+   client-id: ClientIdResource
+   client-secret: password
+   storage-location: /Users/Guillaume/Desktop/upload/
+
+spring:
+   profiles: default
+   application:
+      name: resource-server-1
+   jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      hibernate:
+         naming:
+            physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+         ddl-auto: validate
+      show-sql: true
+   h2:
+      console:
+         enabled: true
+   jackson:
+      serialization:
+         indent-output: true
+   servlet:
+      multipart:
+         max-file-size: 16MB
+         max-request-size: 16MB
+         file-size-threshold: 16MB
+   liquibase:
+      drop-first: true
+      enabled: true
+eureka:
+   instance:
+      hostname: localhost
+      port: 9091
+      preferIpAddress: true
+   client:
+      registerWithEureka: true
+      fetchRegistry: true
+      serviceUrl:
+         defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+
+logging:
+   level:
+      root: INFO
+      

@@ -4,16 +4,16 @@
 
 	<changeSet author="Guillaume" id="role_user-1">
 		<createTable tableName="role_user">
-			<column name="role_id" type="numeric(19)">
+			<column name="role_id" type="${idDb}">
 				<constraints nullable="false" />
 			</column>
-			<column name="user_id" type="numeric(19)">
+			<column name="user_id" type="${idDb}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="TIMESTAMP(29) WITH TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${date}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="TIMESTAMP(29) WITH TIME ZONE">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${date}">
 				<constraints nullable="false" />
 			</column>
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
