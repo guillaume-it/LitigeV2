@@ -1,9 +1,13 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-	<changeSet author="Guillaume" id="1578097344371-5">
+	<changeSet author="Guillaume" id="permission-1">
+
+			<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_permission_id"
+							startValue="22" />
+
 		<createTable tableName="permission">
-			<column name="id" type="${idDb}">
+			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_permission_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="name" type="VARCHAR(60)">
@@ -15,19 +19,17 @@
 			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${date}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+			<column defaultValueComputed="'0'::numeric" name="version" type="${idDb}">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-	</changeSet>
-	<changeSet author="Guillaume" id="1578097344371-12">
+
 		<addPrimaryKey columnNames="id" constraintName="permission_pkey" tableName="permission" />
-	</changeSet>
-	<changeSet author="Guillaume" id="1578097344371-17">
+
 		<addUniqueConstraint columnNames="name" constraintName="permission_name_key"
 			tableName="permission" />
 	</changeSet>
-	<changeSet author="Guillaume" id="1578098400899-5">
+	<changeSet author="Guillaume" id="permission-2">
 		<!-- <insert tableName="permission"> -->
 		<!-- <column name="id" valueNumeric="1" /> -->
 		<!-- <column name="name" value="can_delete_user" /> -->

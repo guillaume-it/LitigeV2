@@ -4,6 +4,13 @@ server:
       context-path: /api
    compression:
       enabled: false
+management:
+   security:
+      enabled: true
+
+security:
+   basic:
+      enabled: false
 properties:
    auth-server-url: auth-server
    auth-check-token-uri: auth/oauth/check_token
@@ -11,35 +18,40 @@ properties:
    client-id: ClientIdResource
    client-secret: password
    storage-location: /Users/Guillaume/Desktop/upload/
-
 spring:
-   profiles: default
+   profiles: prd
    application:
       name: resource-server-1
    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate:
          naming:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
       show-sql: true
    datasource:
-      url: jdbc:h2:~/testdb
-      driverClassName: org.h2.Driver
-      username: sa
-      password: password
-   h2:
-      console:
-         enabled: true
+      url: jdbc:postgresql://localhost:5432/litige?useSSL=false
+      username: litige
+      password: litige
+      driver-class-name: org.postgresql.Driver
+      tomcat:
+         test-while-idle: true
+         validation-query: SELECT 1
+      initialization-mode: never
+      platform: postgres
+#  jpa:
    jackson:
       serialization:
+#    database: H2
          indent-output: true
    servlet:
       multipart:
          max-file-size: 16MB
          max-request-size: 16MB
          file-size-threshold: 16MB
-
+      
 eureka:
    instance:
       hostname: localhost

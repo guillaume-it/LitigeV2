@@ -1,26 +1,14 @@
 package com.ruscassie.litige.entity;
 
-import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * The persistent class for the dossier database table.
@@ -56,9 +44,10 @@ public class Dossier implements Serializable {
 	private Claim claim;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "agent_id")
-	private User user;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "agent_id")
+	@Column
+	private Long agentId;
 
 	// bi-directional many-to-one association to Report
 	@OneToMany(mappedBy = "dossier")

@@ -23,7 +23,6 @@ import lombok.Setter;
 
 /**
  * The persistent class for the claim database table.
- *
  */
 @Entity
 @Setter
@@ -32,42 +31,46 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Claim implements Serializable {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1130749107152396936L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1130749107152396936L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "NUMERIC(19,0)")
-	private Long id;
-	@Column
-	private ZonedDateTime creation;
-	@Column
-	private ZonedDateTime modification;
-	@Column
-	private String message;
-	@Column
-	private String objet;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "NUMERIC(19,0)")
+    private Long id;
+    @Column
+    private ZonedDateTime creation;
+    @Column
+    private ZonedDateTime modification;
+    @Column
+    private String message;
+    @Column
+    private String objet;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "agent_id")
-	private User agent;
+    // bi-directional many-to-one association to User
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "agent_id")
+//	private User agent;
+    @Column
+    private Long agentId;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "claimant_id")
-	private User claimant;
+    // bi-directional many-to-one association to User
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "claimant_id")
+//	private User claimant;
+    @Column
+    private Long claimantId;
 
-	@OneToOne
-	@JoinColumn(name = "dossier_id")
-	private Dossier dossier;
+    @OneToOne
+    @JoinColumn(name = "dossier_id")
+    private Dossier dossier;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "claim_file_information", joinColumns = {
-			@JoinColumn(name = "claim_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "file_information_id", referencedColumnName = "id") })
-	private List<FileInformation> fileInformations;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "claim_file_information", joinColumns = {
+            @JoinColumn(name = "claim_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "file_information_id", referencedColumnName = "id")})
+    private List<FileInformation> fileInformations;
 
 }

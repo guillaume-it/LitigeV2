@@ -64,7 +64,8 @@ public class ClaimController {
 		final User user = userProxy.findByEmail(auth.getName());
 		final com.ruscassie.litige.entity.Claim entity = ClaimMapper.mapper(claim);
 		entity.setCreation(ZonedDateTime.now());
-		entity.setClaimant(UserMapper.mapper(user));
+		//entity.setClaimant(UserMapper.mapper(user));
+		entity.setClaimantId(user.getId());
 
 		return new ResponseEntity<Claim>(ClaimMapper.mapper(claimService.save(entity)), HttpStatus.OK);
 	}
@@ -145,7 +146,8 @@ public class ClaimController {
 
 		final User user = userProxy.findByEmail(auth.getName());
 		final com.ruscassie.litige.entity.Claim entity = ClaimMapper.mapper(claim);
-		entity.setClaimant(UserMapper.mapper(user));
+		//entity.setClaimant(UserMapper.mapper(user));
+		entity.setClaimantId(user.getId());
 
 		return new ResponseEntity<>(ClaimMapper.mapper(claimService.save(entity)), HttpStatus.OK);
 	}

@@ -1,27 +1,14 @@
 server:
-   port: 9094
+   port: 9093
+   use-forward-headers: false
    servlet:
-      context-path: /api
-   compression:
-      enabled: false
-management:
-   security:
-      enabled: true
-
-security:
-   basic:
-      enabled: false
-properties:
-   auth-server-url: auth-server
-   auth-check-token-uri: auth/oauth/check_token
-   resource-id: claim/resource
-   client-id: ClientIdResource
-   client-secret: password
-   storage-location: /Users/Guillaume/Desktop/upload/
+      context-path: /auth
 spring:
    profiles: prd
    application:
-      name: resource-server-1
+      name: auth-server
+   main:
+     allow-bean-definition-overriding: true
    jpa:
       properties:
          hibernate:
@@ -30,7 +17,6 @@ spring:
          naming:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
-      show-sql: true
    datasource:
       url: jdbc:postgresql://localhost:5432/litige?useSSL=false
       username: litige
@@ -41,30 +27,30 @@ spring:
          validation-query: SELECT 1
       initialization-mode: never
       platform: postgres
-   #  jpa:
-   jackson:
-      serialization:
-         #    database: H2
-         indent-output: true
-   servlet:
-      multipart:
-         max-file-size: 16MB
-         max-request-size: 16MB
-         file-size-threshold: 16MB
-
+   mail:
+      host: smtp.gmail.com
+      port: 587
+      username: arsel.cm@gmail.com
+      password: xdGnKL4m5x8wiJkMd8bx
+      properties:
+         mail:
+            smtp:
+               auth: true
+               connectiontimeout: 5000
+               timeout: 5000
+               writetimeout: 5000
+               starttls:
+                  enable: true
+   mvc:
+      async:
+         request-timeout: 5000
 eureka:
    instance:
       hostname: localhost
       port: 9091
-      preferIpAddress: true
    client:
-      registerWithEureka: true
-      fetchRegistry: true
       serviceUrl:
          defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-
-
 logging:
    level:
       root: INFO
-
