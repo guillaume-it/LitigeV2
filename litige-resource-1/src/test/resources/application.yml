@@ -4,6 +4,7 @@ server:
       context-path: /api
    compression:
       enabled: false
+
 properties:
    auth-server-url: auth-server
    auth-check-token-uri: auth/oauth/check_token
@@ -11,28 +12,35 @@ properties:
    client-id: ClientIdResource
    client-secret: password
    storage-location: /Users/Guillaume/Desktop/upload/
-
 spring:
    profiles: default
    application:
       name: resource-server-1
    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.H2Dialect
       hibernate:
          naming:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
       show-sql: true
    datasource:
-      url: jdbc:h2:~/testdb
-      driverClassName: org.h2.Driver
-      username: sa
-      password: password
+     driver-class-name: org.h2.Driver
+     url: jdbc:h2:mem:Litige;
+     username: sa
+     password:
+   liquibase:
+      enabled: true
+      drop-first: true
+      change-log: classpath:/db/changelog/db.changelog-master.xml
    h2:
       console:
          enabled: true
+   #  jpa:
    jackson:
       serialization:
+#    database: H2
          indent-output: true
    servlet:
       multipart:
@@ -55,4 +63,4 @@ eureka:
 logging:
    level:
       root: INFO
-      
+      liquibase: INFO
