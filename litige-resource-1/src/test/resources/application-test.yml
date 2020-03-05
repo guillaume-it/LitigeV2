@@ -13,7 +13,7 @@ properties:
    client-secret: password
    storage-location: /Users/Guillaume/Desktop/upload/
 spring:
-   profiles: default
+   profiles: test
    application:
       name: resource-server-1
    jpa:
