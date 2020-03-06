@@ -10,7 +10,7 @@
 	<changeSet author="Guillaume" id="users-1">
 		<createTable tableName="users">
 
-			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_user_id">
+			<column name="id" type="BIGINT" defaultValueSequenceNext="seq_user_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="last_name" type="VARCHAR(20)">
@@ -32,10 +32,10 @@
 			<column name="account_expired" type="BOOL" />
 			<column name="credentials_expired" type="BOOL" />
 			<column name="account_locked" type="BOOL" />
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${date}">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${dbDate}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${date}">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${dbDate}">
 				<constraints nullable="false" />
 			</column>
 			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">

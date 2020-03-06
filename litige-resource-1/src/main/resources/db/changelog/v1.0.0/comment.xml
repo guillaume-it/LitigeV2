@@ -9,14 +9,14 @@
     </changeSet>
     <changeSet author="Guillaume" id="comment-2">
         <createTable tableName="comment">
-            <column name="id" type="${idDb}" defaultValueSequenceNext="seq_comment_id">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_comment_id">
                 <constraints nullable="false"/>
             </column>
             <column name="message" type="VARCHAR(500)"/>
-            <column name="creation" type="${date}"/>
-            <column name="update" type="${date}"/>
-            <column name="agent_id" type="${idDb}"/>
-            <column name="dossier_id" type="${idDb}"/>
+            <column name="creation" type="${dbDate}"/>
+            <column name="update" type="${dbDate}"/>
+            <column name="agent_id" type="BIGINT"/>
+            <column name="dossier_id" type="BIGINT"/>
         </createTable>
 
         <addPrimaryKey columnNames="id" constraintName="comment_pkey" tableName="comment"/>

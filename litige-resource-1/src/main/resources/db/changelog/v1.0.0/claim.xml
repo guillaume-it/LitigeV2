@@ -9,16 +9,16 @@
     </changeSet>
     <changeSet author="Guillaume" id="claim-1">
         <createTable tableName="claim">
-            <column name="id" type="${idDb}" defaultValueSequenceNext="seq_claim_id">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_claim_id">
                 <constraints nullable="false"/>
             </column>
             <column name="objet" type="VARCHAR(200)"/>
             <column name="message" type="VARCHAR(200)"/>
-            <column name="creation" type="${date}"/>
-            <column name="modification" type="${date}"/>
-            <column name="claimant_id" type="${idDb}"/>
-            <column name="agent_id" type="${idDb}"/>
-            <column name="dossier_id" type="${idDb}"/>
+            <column name="creation" type="${dbDate}"/>
+            <column name="modification" type="${dbDate}"/>
+            <column name="claimant_id" type="BIGINT"/>
+            <column name="agent_id" type="BIGINT"/>
+            <column name="dossier_id" type="BIGINT"/>
 
         </createTable>
 

@@ -18,15 +18,14 @@ spring:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
    datasource:
-      url: jdbc:postgresql://localhost:5432/litige?useSSL=false
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/Authentification?useSSL=false
       username: litige
       password: litige
-      driver-class-name: org.postgresql.Driver
-      tomcat:
-         test-while-idle: true
-         validation-query: SELECT 1
-      initialization-mode: never
-      platform: postgres
+   liquibase:
+      enabled: true
+      drop-first: true
+      change-log: classpath:db/changelog/db.changelog-master.xml
    mail:
       host: smtp.gmail.com
       port: 587
@@ -54,3 +53,4 @@ eureka:
 logging:
    level:
       root: INFO
+      liquibase: DEBUG

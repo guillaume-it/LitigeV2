@@ -7,19 +7,19 @@
 							startValue="22" />
 
 		<createTable tableName="permission">
-			<column name="id" type="${idDb}" defaultValueSequenceNext="seq_permission_id">
+			<column name="id" type="BIGINT" defaultValueSequenceNext="seq_permission_id">
 				<constraints nullable="false" />
 			</column>
 			<column name="name" type="VARCHAR(60)">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${date}">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${dbDate}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${date}">
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${dbDate}">
 				<constraints nullable="false" />
 			</column>
-			<column defaultValueComputed="'0'::numeric" name="version" type="${idDb}">
+			<column defaultValueComputed="'0'::numeric" name="version" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
