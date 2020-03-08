@@ -55,7 +55,7 @@ public class ClaimController {
 	@Autowired
 	private UserProxy userProxy;
 
-	@PreAuthorize("hasAuthority('can_create_claim')")
+	///@PreAuthorize("hasAuthority('can_create_claim')")
 	@PostMapping()
 	public ResponseEntity<Claim> create(@RequestBody final Claim claim) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -1,4 +1,4 @@
-package com.ruscassie.litige.config;
+package com.ruscassie.litige.configuration;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;

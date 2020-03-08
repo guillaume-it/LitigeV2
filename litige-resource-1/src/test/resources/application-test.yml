@@ -13,6 +13,8 @@ properties:
    client-secret: password
    storage-location: /Users/Guillaume/Desktop/upload/
 spring:
+   main:
+      allow-bean-definition-overriding: true
    profiles: test
    application:
       name: resource-server-1
@@ -64,3 +66,14 @@ logging:
    level:
       root: INFO
       liquibase: INFO
+
+user:
+   oauth:
+      clientId: javadevjournal
+      clientSecret: 1234$#@!
+      redirectUris: http://localhost:8081/login
+      user:
+         username: admin@admin.com
+         password: password
+      accessTokenValidity: 300
+      refreshTokenValidity: 240000

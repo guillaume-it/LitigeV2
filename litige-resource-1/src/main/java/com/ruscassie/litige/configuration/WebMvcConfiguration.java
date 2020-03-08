@@ -1,4 +1,4 @@
-package com.ruscassie.litige.config;
+package com.ruscassie.litige.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
