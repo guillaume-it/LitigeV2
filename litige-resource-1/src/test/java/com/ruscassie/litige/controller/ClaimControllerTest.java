@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -40,13 +41,14 @@ public class ClaimControllerTest {
 	@Mock
 	private ClaimRepository claimRepository;
 
-
+	//@DatabaseSetup("dbunit/sampleData.xml")
+	@Sql({ "data.sql" })
 	@WithMockUser(authorities = "can_read_claim")
 	@Test
 	public void test() throws Exception {
 
 		final MvcResult result = mockMvc
-				.perform(get("/litiges/1")).andDo(print())
+				.perform(get("/litiges/2")).andDo(print())
 				.andExpect(status().isOk()).andReturn();
 
 		final String resultDOW = result.getResponse().getContentAsString();
