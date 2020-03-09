@@ -48,14 +48,18 @@ public class Session implements Serializable {
 	private String objet;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reporter_id")
-	private User reporter;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "reporter_id")
+//	private User reporter;
+	@Column
+	private Long reporterId;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "president_id")
-	private User president;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "president_id")
+//	private User president;
+	@Column
+	private long presidentId;
 
 	// bi-directional many-to-many association to Dossier
 	@ManyToMany

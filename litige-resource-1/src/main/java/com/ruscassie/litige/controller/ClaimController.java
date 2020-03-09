@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.ruscassie.litige.proxy.UserProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -32,12 +33,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ruscassie.litige.dto.Claim;
 import com.ruscassie.litige.dto.FileInformation;
-import com.ruscassie.litige.entity.User;
+import com.ruscassie.litige.dto.User;
 import com.ruscassie.litige.mapper.ClaimMapper;
 import com.ruscassie.litige.mapper.FileInformationMapper;
 import com.ruscassie.litige.service.ClaimService;
 import com.ruscassie.litige.service.StorageService;
-import com.ruscassie.litige.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,17 +53,18 @@ public class ClaimController {
 	private ClaimService claimService;
 
 	@Autowired
-	private UserService userService;
+	private UserProxy userProxy;
 
-	@PreAuthorize("hasAuthority('can_create_claim')")
+	///@PreAuthorize("hasAuthority('can_create_claim')")
 	@PostMapping()
 	public ResponseEntity<Claim> create(@RequestBody final Claim claim) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		final Optional<User> user = userService.findByEmail(auth.getName());
+		final User user = userProxy.findByEmail(auth.getName());
 		final com.ruscassie.litige.entity.Claim entity = ClaimMapper.mapper(claim);
 		entity.setCreation(ZonedDateTime.now());
-		entity.setClaimant(user.get());
+		//entity.setClaimant(UserMapper.mapper(user));
+		entity.setClaimantId(user.getId());
 
 		return new ResponseEntity<Claim>(ClaimMapper.mapper(claimService.save(entity)), HttpStatus.OK);
 	}
@@ -108,9 +109,10 @@ public class ClaimController {
 //				.body(resource);
 	}
 
-	// @PreAuthorize("hasAuthority('can_read_claim')")
+	@PreAuthorize("hasAuthority('can_read_claim')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Claim> findOne(@PathVariable final long id) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Optional<com.ruscassie.litige.entity.Claim> claim = claimService.findOne(id);
 		if (claim.isPresent()) {
 			final Claim claimDto = ClaimMapper.mapper(claim.get());
@@ -134,7 +136,7 @@ public class ClaimController {
 
 		final Page<Claim> pageableDto = new PageImpl<>(claims, pageClaim.getPageable(), pageClaim.getTotalElements());
 
-		return new ResponseEntity<Page<Claim>>(pageableDto, HttpStatus.OK);
+		return new ResponseEntity<>(pageableDto, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('can_update_claim')")
@@ -142,11 +144,12 @@ public class ClaimController {
 	public ResponseEntity<Claim> update(@RequestBody final Claim claim) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		final Optional<User> user = userService.findByEmail(auth.getName());
+		final User user = userProxy.findByEmail(auth.getName());
 		final com.ruscassie.litige.entity.Claim entity = ClaimMapper.mapper(claim);
-		entity.setClaimant(user.get());
+		//entity.setClaimant(UserMapper.mapper(user));
+		entity.setClaimantId(user.getId());
 
-		return new ResponseEntity<Claim>(ClaimMapper.mapper(claimService.save(entity)), HttpStatus.OK);
+		return new ResponseEntity<>(ClaimMapper.mapper(claimService.save(entity)), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('can_update_file_information')")
@@ -158,9 +161,9 @@ public class ClaimController {
 		final Optional<com.ruscassie.litige.entity.FileInformation> fileInformation = claimService
 				.addFileInformation(idClaim, file);
 		if (fileInformation.isPresent()) {
-			return new ResponseEntity<FileInformation>(FileInformationMapper.mapper(fileInformation.get()),
+			return new ResponseEntity<>(FileInformationMapper.mapper(fileInformation.get()),
 					HttpStatus.OK);
 		}
-		return new ResponseEntity<FileInformation>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

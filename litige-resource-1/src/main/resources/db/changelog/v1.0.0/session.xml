@@ -1,0 +1,34 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Guillaume" id="session-1">
+        <createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_session_id"
+                        startValue="1"/>
+    </changeSet>
+    <changeSet author="Guillaume"
+               id="session-2">
+        <createTable tableName="session">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_session_id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objet" type="VARCHAR(200)"/>
+            <column name="message" type="VARCHAR(200)"/>
+            <column name="creation" type="${dbDate}"/>
+            <column name="president_id" type="BIGINT"/>
+            <column name="reporter_id" type="BIGINT"/>
+        </createTable>
+        <!--		The user talbe is moved in other db -->
+        <!--		<addForeignKeyConstraint baseColumnNames="president_id"-->
+        <!--			baseTableName="session" constraintName="fk_session_president_user_id"-->
+        <!--			referencedColumnNames="id" referencedTableName="users" />-->
+        <!--			<addForeignKeyConstraint baseColumnNames="reporter_id"-->
+        <!--			baseTableName="session" constraintName="fk_session_agent_user_id"-->
+        <!--			referencedColumnNames="id" referencedTableName="users" />-->
+    </changeSet>
+    <changeSet author="Guillaume" id="session-3">
+        <addPrimaryKey columnNames="id" constraintName="session_pkey" tableName="session"/>
+    </changeSet>
+</databaseChangeLog>

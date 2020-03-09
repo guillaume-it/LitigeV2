@@ -44,9 +44,11 @@ public class Comment implements Serializable {
 	private ZonedDateTime update;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "agent_id")
-	private User agent;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "agent_id")
+//	private User agent;
+	@Column
+	private Long agentId;
 
 	// bi-directional many-to-one association to Dossier
 	@ManyToOne(fetch = FetchType.LAZY)

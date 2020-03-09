@@ -3,6 +3,8 @@ package com.ruscassie.litige.mapper;
 import java.util.Optional;
 
 import com.ruscassie.litige.dto.Claim;
+import com.ruscassie.litige.dto.User;
+import sun.management.Agent;
 
 public class ClaimMapper {
 
@@ -27,6 +29,8 @@ public class ClaimMapper {
 		dto.setId(entity.getId());
 		dto.setMessage(entity.getMessage());
 		dto.setObjet(entity.getObjet());
+		dto.setAgent(new User());
+		dto.getAgent().setId(entity.getAgentId());
 		return dto;
 	}
 

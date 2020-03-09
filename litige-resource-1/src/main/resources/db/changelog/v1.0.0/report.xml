@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Guillaume" id="report-1">
+        <createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_report_id"
+                        startValue="1"/>
+    </changeSet>
+    <changeSet author="Guillaume" id="report-2">
+        <createTable tableName="report">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_report_id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="summary" type="VARCHAR(500)"/>
+            <column name="creation" type="${dbDate}"/>
+            <column name="agent_id" type="BIGINT"/>
+            <column name="dossier_id" type="BIGINT"/>
+        </createTable>
+
+        <!--		The user talbe is moved in other db -->
+        <!--		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="report"-->
+        <!--			constraintName="fk_report_agent_user_id" referencedColumnNames="id" referencedTableName="users" />-->
+        <addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="report"
+                                 constraintName="fk_report_dossier_id" referencedColumnNames="id"
+                                 referencedTableName="dossier"/>
+    </changeSet>
+    <changeSet author="Guillaume" id="report-3">
+        <addPrimaryKey columnNames="id" constraintName="report_pkey" tableName="report"/>
+    </changeSet>
+</databaseChangeLog>

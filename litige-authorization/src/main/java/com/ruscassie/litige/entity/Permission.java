@@ -29,7 +29,8 @@ public class Permission implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "NUMERIC(19,0)")
+	@Column
+//	@Column(columnDefinition = "NUMERIC(19,0)")
 	private Long id;
 
 	@Column

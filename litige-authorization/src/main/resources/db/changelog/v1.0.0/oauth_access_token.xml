@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="oauth_access_token-1">
+		<createTable tableName="oauth_access_token">
+			<column  name="token_id" type="VARCHAR(256)" />
+			<column name="token" type="BYTEA" />
+			<column  name="authentication_id" type="VARCHAR(256)" >
+			<constraints nullable="false" />
+			</column>
+			<column  name="user_name" type="VARCHAR(256)" />
+			<column  name="client_id" type="VARCHAR(256)" />
+			<column name="authentication" type="BYTEA" />
+			<column  name="refresh_token" type="VARCHAR(256)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet author="Guillaume" id="oauth_access_token-2">
+		<addPrimaryKey columnNames="authentication_id" constraintName="oauth_access_token_pkey" tableName="oauth_access_token" />
+	</changeSet>
+</databaseChangeLog>

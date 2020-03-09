@@ -43,9 +43,11 @@ public class Report implements Serializable {
 	private String summary;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "agent_id")
-	private User user;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "agent_id")
+	//	private User user;
+	@Column
+	private Long agentId;
 
 	// bi-directional many-to-one association to Dossier
 	@ManyToOne(fetch = FetchType.LAZY)
