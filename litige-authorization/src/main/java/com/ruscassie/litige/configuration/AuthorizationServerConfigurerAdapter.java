@@ -79,11 +79,6 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-//        endpoints
-//                .approvalStore(approvalStore())
-//                .authorizationCodeServices(authorizationCodeServices())
-//                .tokenStore(tokenStore());
-
         endpoints.authenticationManager(this.authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .userDetailsService(this.userDetailsService)

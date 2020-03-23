@@ -8,8 +8,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>litige-resource</artifactId>
-	<name>litige-resource</name>
+	<artifactId>litige-resource-1</artifactId>
+	<name>litige-resource-1</name>
 	<description>Gestionnaire de litige</description>
 
 	<properties>

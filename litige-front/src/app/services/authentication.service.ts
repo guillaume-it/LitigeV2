@@ -43,7 +43,6 @@ export class AuthenticationService {
   private initAccessTokenPipe() {
     this.accessTokenSubject = new BehaviorSubject(this.accessToken);
     this.accessToken$ = this.accessTokenSubject.asObservable().pipe(
-      // filter(token => !!token),
       switchMap(token => {
         if (token && this.jwtHelper.isTokenExpired(token)) {
           console.log('access token expired');
