@@ -6,18 +6,12 @@ server:
       enabled: false
 
 properties:
-   zuul-server-url: zuul
    auth-server-url: auth-server
    auth-check-token-uri: auth/oauth/check_token
    resource-id: claim/resource
    client-id: ClientIdResource
    client-secret: password
    storage-location: /Users/Guillaume/Desktop/upload/
-   cors:
-      access-control-allow-origin: http://localhost:4200
-      access-control-allow-methods: POST, GET, OPTIONS, DELETE, PUT
-      access-control-max-age: 3600
-      access-control-allow-headers: x-requested-with, authorization, content-type
 spring:
    profiles: dev
    application:

@@ -46,3 +46,10 @@ eureka:
    client:
       serviceUrl:
          defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+properties:
+   front-server-name: angular
+   cors:
+      access-control-allow-origin: http://localhost:4200
+      access-control-allow-methods: POST, GET, OPTIONS, DELETE, PUT
+      access-control-max-age: 3600
+      access-control-allow-headers: x-requested-with, authorization, content-type

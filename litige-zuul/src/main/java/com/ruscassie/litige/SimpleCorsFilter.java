@@ -11,6 +11,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,6 +22,24 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCorsFilter implements Filter {
+
+	@Value("${properties.cors.access-control-allow-origin}")
+	private String accessControlAllowOrigin;
+
+	@Value("${properties.cors.access-control-allow-methods}")
+	private String accessControlAllowMethods;
+
+	@Value("${properties.cors.access-control-max-age}")
+	private String accessControlMaxAge;
+
+	@Value("${properties.cors.access-control-allow-headers}")
+	private String accessControlAllowHeaders;
+
+	@Value("${properties.front-server-name}")
+	private String frontServerName;
+
+	@Autowired
+	private EurekaClient eurekaClient;
 
 	public SimpleCorsFilter() {
 	}
@@ -31,10 +53,12 @@ public class SimpleCorsFilter implements Filter {
 			throws IOException, ServletException {
 		final HttpServletResponse response = (HttpServletResponse) res;
 		final HttpServletRequest request = (HttpServletRequest) req;
+		//InstanceInfo instance = eurekaClient.getNextServerFromEureka(frontServerName, false);
+
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, content-type");
+		response.setHeader("Access-Control-Allow-Methods", accessControlAllowMethods);
+		response.setHeader("Access-Control-Max-Age", accessControlMaxAge);
+		response.setHeader("Access-Control-Allow-Headers", accessControlAllowHeaders);
 
 		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
