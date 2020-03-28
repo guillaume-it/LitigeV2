@@ -9,7 +9,7 @@
           {{ map.value?.name }}
         </h4>
         <p class="size">
-          {{ formatBytes(map.value?.size) }}
+          {{ formatBytes(map.value?.size,2) }}
         </p>
         <app-progress-bar [fileStatus]="map.value"></app-progress-bar>
       </div>
