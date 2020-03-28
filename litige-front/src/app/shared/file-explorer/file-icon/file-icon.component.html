@@ -5,7 +5,7 @@
       {{ fileInformation.name }}
     </div>
     <div class="size">
-      {{ fileInformation.size | bytes: 0:'B':'KB':'MB' }}
+      {{ fileInformation.size | bytes: 0:'KB':'MB' }}
     </div>
   </div>
   <mat-icon *ngIf="state.screenState === screenState.EDIT" class="delete" (click)="deleteFile(fileInformation.name)"
