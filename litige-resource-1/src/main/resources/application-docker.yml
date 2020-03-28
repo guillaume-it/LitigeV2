@@ -19,27 +19,28 @@ spring:
    jpa:
       properties:
          hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
+            dialect: org.hibernate.dialect.H2Dialect
       hibernate:
          naming:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
          ddl-auto: validate
       show-sql: true
    datasource:
-      url: jdbc:postgresql://172.17.0.1:5432/litige?useSSL=false
-      username: litige
-      password: litige
-      driver-class-name: org.postgresql.Driver
-      tomcat:
-         test-while-idle: true
-         validation-query: SELECT 1
-      initialization-mode: never
-      platform: postgres
+     driver-class-name: org.h2.Driver
+     url: jdbc:h2:mem:Litige;
+     username: sa
+     password:
+   liquibase:
+      enabled: true
+      drop-first: true
+      change-log: classpath:/db/changelog/db.changelog-master.xml
+   h2:
+      console:
+         enabled: true
+   #  jpa:
    jackson:
       serialization:
          indent-output: true
-   liquibase:
-      enabled: false
    servlet:
       multipart:
          max-file-size: 16MB

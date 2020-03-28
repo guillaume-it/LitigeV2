@@ -24,6 +24,15 @@ services:
       - zuul
     networks:
       - litige-backend
+  resource-1:
+    image: litige/resource-1:latest
+    ports:
+      - "9094:9094"
+    links:
+      - eureka
+      - zuul
+    networks:
+      - litige-backend
 networks:
   litige-backend:
     driver: "bridge"
