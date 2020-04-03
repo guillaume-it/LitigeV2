@@ -1,15 +1,11 @@
-export enum Role {
-  AGENT = 'AGENT',
-  ADMIN = 'ADMIN',
-  CLAIMANT = 'CLAIMANT'
-}
+import { Role } from './role';
 
 export class User {
   id: number;
   email: string;
   password: string;
   phone: string;
-  role: Role;
+  roles: Array<Role>;
   firstName: string;
   lastName: string;
 }

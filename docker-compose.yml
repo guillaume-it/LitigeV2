@@ -31,6 +31,15 @@ services:
     links:
       - eureka
       - zuul
+  front:
+    image: litige/front:latest
+    ports:
+      - "4200:80"
+    links:
+      - eureka
+      - zuul
+      - authorization
+      - resource-1
     networks:
       - litige-backend
 networks:

@@ -6,13 +6,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { Role } from 'src/app/models';
-import { AuthGuard } from 'src/app/auth.guard';
+import { RoleEnum } from '../../models/role-enum';
+import { AuthGuard } from '../../auth.guard';
 
 const route: Routes = [
   {
     path: '',
-    data: { roles: [Role.CLAIMANT, Role.ADMIN, Role.AGENT] },
+    data: { roles: [RoleEnum.CLAIMANT, RoleEnum.ADMIN, RoleEnum.AGENT] },
     canActivateChild: [AuthGuard],
     component: LinkEmailValidationComponent
   }

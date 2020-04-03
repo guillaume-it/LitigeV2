@@ -44,7 +44,7 @@ class UserController {
 
 	@Autowired
 	private UserService userService;
-
+// TODO mettre securité
 	@GetMapping
 	public ResponseEntity<Page<User>> all(@PageableDefault(size = Integer.MAX_VALUE) final Pageable pageable) {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

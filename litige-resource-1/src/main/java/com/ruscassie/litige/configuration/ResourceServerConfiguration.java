@@ -2,6 +2,7 @@ package com.ruscassie.litige.configuration;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+@Slf4j
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -71,7 +73,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 		tokenServices.setClientSecret(clientSecret);
 		// TODO  HTTPS
 		// TODO manage the changing of instance
+		log.error("Auth End Point : ",authEndpoint);
 		InstanceInfo instance = eurekaClient.getNextServerFromEureka(authEndpoint, false);
+		log.error("getHomePageUrl : ",instance.getHomePageUrl()+uriCheckToken);
 		tokenServices.setCheckTokenEndpointUrl(instance.getHomePageUrl()+uriCheckToken);
 
 		return tokenServices;

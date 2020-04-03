@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Role } from '../models';
 import { AuthGuard } from '../auth.guard';
 import { UsersComponent } from './users/users.component';
+import { RoleEnum } from '../models/role-enum';
 
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.ADMIN, Role.ADMIN] },
+    data: { roles: [RoleEnum.ADMIN, RoleEnum.ADMIN] },
     canActivateChild: [AuthGuard],
     children: [{ path: 'users', component: UsersComponent }]
   }

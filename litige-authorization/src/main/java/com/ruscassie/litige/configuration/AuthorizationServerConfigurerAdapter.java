@@ -68,6 +68,9 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
         tokenServices.setTokenStore(tokenStore);
         tokenServices.setClientDetailsService(clientDetailsService);
         tokenServices.setAuthenticationManager(this.authenticationManager);
+        //TODO make a property
+        tokenServices.setAccessTokenValiditySeconds(50000);
+        tokenServices.setRefreshTokenValiditySeconds(50000000);
         return tokenServices;
     }
 

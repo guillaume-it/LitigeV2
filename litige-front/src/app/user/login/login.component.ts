@@ -12,12 +12,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  private loadingSubject: BehaviorSubject<boolean>;
-  loading$: Observable<boolean>;
+  loading = false;
 
-  constructor(private authentication: AuthenticationService, private router: Router, private snackBar: MatSnackBar) {
-    this.loadingSubject = new BehaviorSubject<boolean>(false);
-    this.loading$ = this.loadingSubject.asObservable();
+  constructor(private authenticationService: AuthenticationService, private router: Router, private snackBar: MatSnackBar) {
+   
   }
 
   ngOnInit() {
@@ -28,15 +26,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loadingSubject.next(true);
-    this.authentication.login(this.loginForm.value.login, this.loginForm.value.password).then(
-      () => {
-        this.loadingSubject.next(false);
+    this.loading = true;
+    this.authenticationService.login(this.loginForm.value.login, this.loginForm.value.password).subscribe(
+      data => {
+        this.loading = false;
         this.router.navigate(['/']);
       },
       error => {
         this.snackBar.open('Authentication failed.');
-        this.loadingSubject.next(false);
+        this.loading = false;
       }
     );
   }

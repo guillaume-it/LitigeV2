@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { User, Role } from 'src/app/models/user';
+import { User} from 'src/app/models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { createUniqueEmailValidator } from 'src/app/helpers/unique-email.validat
 import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
 import { formatError } from 'src/app/services/store.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { RoleEnum } from '../../models/role-enum';
 
 @Component({
   selector: 'app-user-detail',
@@ -41,7 +42,7 @@ export class UserDetailComponent implements OnInit {
         // asyncValidators: createUniqueEmailValidator(this.userService, this.snackBar, this.user.email),
         // updateOn: 'blur'
       }),
-      role: new FormControl(this.user.role, Validators.required)
+      role: new FormControl(this.user.roles, Validators.required)
     });
   }
 
@@ -54,7 +55,7 @@ export class UserDetailComponent implements OnInit {
     Object.assign(user, this.user);
     Object.assign(user, {
       email: String(this.userForm.value.email),
-      role: Role[String(this.userForm.value.role)],
+      role: RoleEnum[String(this.userForm.value.role)],
       minGleePerDay: Number(this.userForm.value.minGleePerDay)
     });
     if (this.index === null) {

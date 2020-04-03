@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { Role } from './models/user';
+import { RoleEnum } from './models/role-enum';
+
 // https://angular.io/guide/router#preloading-background-loading-of-feature-areas
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.ADMIN, Role.AGENT, Role.CLAIMANT] },
+    data: { roles: [RoleEnum.ADMIN, RoleEnum.AGENT, RoleEnum.CLAIMANT] },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [

@@ -4,5 +4,5 @@ export * from './crud.service';
 export * from './litige.service';
 export * from './store.service';
 export * from './user.service';
-export * from './token-interceptor';
+export * from './access-token-interceptor';
 export * from './service.module';

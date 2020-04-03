@@ -3,12 +3,10 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  Router,
   RouterStateSnapshot,
   UrlTree
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { User } from './models/user';
 import { AuthenticationService } from './services/authentication.service';
 
@@ -16,35 +14,27 @@ import { AuthenticationService } from './services/authentication.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authentication: AuthenticationService, private router: Router) {}
+  constructor(private authentication: AuthenticationService) { }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.canActivateRoute(route, state);
+    return this.checkRoute(route, state, this.authentication.currentUserValue);
   }
 
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.canActivateRoute(childRoute, state);
-  }
-
-  private canActivateRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.authentication.loggedUser$.pipe(
-      map(loggedUser => {
-        const res = this.checkRoute(route, state, loggedUser);
-        return res;
-      })
-    );
+    return this.checkRoute(childRoute, state, this.authentication.currentUserValue);
   }
 
   private checkRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot, user: User): boolean {
+
     if (
-      (!route.data.roles && !user) ||
-      (user && (!user.role || (user.role && user.role.length > 0 && route.data.roles.includes(user.role))))
+      !route.data.roles
+      ||
+      (user
+        &&
+        (user.roles && user.roles.length > 0
+          && route.data.roles.some(rr => user.roles.map(role => role.name).includes(rr))))
     ) {
       return true;
     }

@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Role } from '../models';
 import { AuthGuard } from '../auth.guard';
 import { ClaimListComponent } from './claim-list';
 import { ClaimEditComponent } from './claim-edit';
 import { ScreenState } from '../models/state';
+import { RoleEnum } from '../models/role-enum';
 
 const routes: Routes = [
   {
     path: '',
-    data: { roles: [Role.CLAIMANT, Role.ADMIN, Role.AGENT] },
+    data: { roles: [RoleEnum.CLAIMANT, RoleEnum.ADMIN, RoleEnum.AGENT] },
     canActivateChild: [AuthGuard],
     children: [
       {

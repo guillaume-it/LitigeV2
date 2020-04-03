@@ -2,127 +2,88 @@ import { environment } from '../../environments/environment';
 import { CrudService } from './crud.service';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
 import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
-import { Role, User } from '../models/user';
+import { User } from '../models/user';
 import { ConfigService } from './config.service';
-import { TokenInterceptor } from './token-interceptor';
+import { AccessTokenInterceptor } from './access-token-interceptor';
 import { UserService } from './user.service';
+import { Token } from '@angular/compiler/src/ml_parser/lexer';
+import { RoleEnum } from '../models/role-enum';
+import { TokenJwt } from '../models/token-jwt';
 
 const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private jwtHelper: JwtHelperService;
-  private accessTokenSubject: BehaviorSubject<string>;
-  accessToken$: Observable<string>;
-  private loggedUserSubject: BehaviorSubject<User>;
-  loggedUser$: Observable<User>;
-  private logoutSubject: Subject<string>;
-  logout$: Observable<string>;
-  private userLoading = false;
 
-  constructor(
-    private http: HttpClient,
-    private config: ConfigService,
-    private router: Router,
-    private userService: UserService,
-    private crudService: CrudService
+  private currentUserSubject = new BehaviorSubject<User>(null);
+  public currentUserObservable: Observable<User>;
+
+  private accessTokenSubject = new BehaviorSubject<string>(null);
+  public accessTokenObservable: Observable<string>;
+
+  constructor(private http: HttpClient, private config: ConfigService, private userService: UserService,
+    private crudService: CrudService, private jwtHelperService: JwtHelperService
   ) {
-    this.jwtHelper = new JwtHelperService();
-    TokenInterceptor.init(this);
-    this.initAccessTokenPipe();
-    this.initLoggedUserPipe();
-    this.logoutSubject = new Subject<string>();
-    this.logout$ = this.logoutSubject.asObservable();
+    this.currentUserSubject = new BehaviorSubject<User>(null);
+    this.currentUserObservable = this.currentUserSubject.asObservable();
+    this.accessTokenObservable = this.accessTokenSubject.asObservable();
   }
 
-  private initAccessTokenPipe() {
-    this.accessTokenSubject = new BehaviorSubject(this.accessToken);
-    this.accessToken$ = this.accessTokenSubject.asObservable().pipe(
-      switchMap(token => {
-        if (token && this.jwtHelper.isTokenExpired(token)) {
-          console.log('access token expired');
-          // blocks loggedUser to emit until currrent user is loaded
-          this.userLoading = true;
-          return this.loadAccessTokenUsingRefreshToken();
-        }
-        console.log(`access token available ${!!token}`);
-        return token ? of(token) : EMPTY;
-      })
-    );
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
   }
 
-  private initLoggedUserPipe() {
-    this.userLoading = true;
-    this.loggedUserSubject = new BehaviorSubject<User>(null);
-    this.loggedUser$ = this.loggedUserSubject.asObservable().pipe(
-      skipWhile(() => {
-        // this stops loggedUser subject to emit when the current user is being loaded
-        // it's mainly used inside auth guard, in order to make it waits for current user to be loaded before checking next url
-        // console.log(`skip loggedUser ${this.userLoading}`);
-        return this.userLoading;
-      })
-    );
-    this.accessTokenSubject
-      .asObservable()
-      .pipe(
-        // blocks loggedUser to emit until currrent user is loaded
-        tap(() => (this.userLoading = true)),
-        switchMap(token => this.extractLoggedUser(token))
-      )
-      .subscribe(user => {
-        console.log(`logged user change ${user ? user.email : null}`);
-        // permits loggedUser to emit new values
-        this.userLoading = false;
-        this.loggedUserSubject.next(user);
-      });
+  public get accessTokenValue(): string {
+    return this.accessTokenSubject.value;
   }
+  logout(): Observable<boolean> {
 
-  get loggedUser(): User {
-    return this.loggedUserSubject.value;
-  }
-
-  interceptUrl(req: HttpRequest<any>): boolean {
-    return (
-      (req.url.startsWith(this.config.config.serverUrl) &&
-        !req.url.startsWith(this.config.config.authUrl) &&
-        !req.headers.get('Authorization')) ||
-      req.url.startsWith(this.config.config.authUrl + '/oauth/logout')
-    );
-  }
-
-  login(email: string, password: string): Promise<string> {
-    return this.loadAccessToken(true, null, email, password).toPromise();
-  }
-
-  logout(msg: string): Promise<boolean> {
-    this.crudService.post(environment.authUrl + '/oauth/logout', new HttpParams()).subscribe(data => {});
-    this.clearToken();
-    this.logoutSubject.next(msg);
-    return this.router.navigate(['/login']);
+    this.currentUserSubject.next(null);
+    return new Observable(subscriber => {
+      this.crudService.post(environment.logoutUrl, new HttpParams())
+        .subscribe(data => {
+          this.clearToken();
+          subscriber.next(true);
+          subscriber.complete();
+        }, error => {
+          subscriber.next(false);
+          subscriber.complete();
+        });
+    });
   }
 
   currentUserUpdateForceLogout(user: User): boolean {
     console.log(`force update of logged user ${user.email}`);
-    if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
-      this.logout('Changed email or role of the current user: forced logout');
-      return true;
-    }
-    this.accessTokenSubject.next(this.accessTokenSubject.value);
+    // if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
+    //   this.logout('Changed email or role of the current user: forced logout');
+    //   return true;
+    // }
+    // this.accessTokenSubject.next(this.accessTokenSubject.value);
     return false;
   }
 
   hasRole(role: string): Observable<boolean> {
-    return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
+    return new Observable(subscriber => {
+      this.currentUserSubject.subscribe(user => {
+        if (user && user.roles === RoleEnum[role]) {
+          subscriber.next(true);
+          subscriber.complete();
+        }
+      }, error => {
+        subscriber.next(false);
+        subscriber.complete();
+      }
+      );
+    });
   }
 
   private extractLoggedUser(accessToken): Observable<User> {
     if (accessToken) {
-      const data = this.jwtHelper.decodeToken(accessToken);
+      const data = this.jwtHelperService.decodeToken(accessToken);
       console.log(data);
       if (data) {
         return this.userService.findByEmail(data.email);
@@ -131,84 +92,113 @@ export class AuthenticationService {
     return of(null);
   }
 
-  private get accessToken(): string {
-    const token = this.getToken(accessTokenKey);
-    return token && !this.jwtHelper.isTokenExpired(token) ? token : null;
+  /**
+   * Return the access token if valid.
+   * @returns valid access token
+   */
+  private getAccessToken(): Observable<string> {
+    return new Observable(subscriber => {
+      const token = localStorage.getItem(accessTokenKey);
+      if (token && !this.jwtHelperService.isTokenExpired(token)) {
+        subscriber.next(token);
+      } else {
+        // try to get a new acces token with refresh token
+        this.refreshToken().subscribe(token => {
+          subscriber.next(token);
+        }, error => {
+          //TODO manage
+        });
+      }
+
+    });
   }
 
-  private loadAccessTokenUsingRefreshToken(): Observable<string> {
-    const token = this.getToken(refreshTokenKey);
-    if (!token || this.jwtHelper.isTokenExpired(token)) {
-      console.log('refresh token expired: must logout');
-      this.logout('Refresh token expired');
-      return EMPTY;
-    }
-    return this.loadAccessToken(false, token);
-  }
+  public login(username: string, password: string): Observable<User> {
 
-  private loadAccessToken(
-    retrieveAccessToken: boolean,
-    refreshToken?: string,
-    username?: string,
-    password?: string
-  ): Observable<string> {
-    console.log(retrieveAccessToken ? 'login' : 'refresh_token');
-    const params = retrieveAccessToken
-      ? new HttpParams()
-          .set('username', username)
-          .set('password', password)
-          .set('grant_type', 'password')
-      : new HttpParams().set(refreshTokenKey, refreshToken).set('grant_type', refreshTokenKey);
+    const params = new HttpParams()
+      .set('username', username)
+      .set('password', password)
+      .set('grant_type', 'password');
+
+    const headers = new HttpHeaders().append(
+      'Authorization',
+      'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)
+    );
+
     return this.http
       .post<any>(this.config.config.loginUrl, params, {
-        headers: new HttpHeaders().append(
-          'Authorization',
-          'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)
-        )
+        headers: headers
       })
       .pipe(
         // delay(2000),
         map(jwt => {
-          console.log('load token response');
-          // console.log(jwt);
+          console.log('store the token');
           return this.storeToken(jwt);
+
+        }),
+        switchMap(jwt => this.extractLoggedUser(jwt)),
+        tap(user => {
+          this.currentUserSubject.next(user);
+          console.log(user);
         }),
         catchError(error => {
           console.error(error);
-          if (refreshToken) {
-            this.logout('Error loading access token, force logout.');
-          }
           throw error;
-        })
-      );
-  }
-
-  private getToken(key: string): string {
-    return localStorage.getItem(key);
-  }
-
-  private setToken(key: string, token: string) {
-    localStorage.setItem(key, token);
+        }));
   }
 
   private clearToken() {
     localStorage.removeItem(accessTokenKey);
     localStorage.removeItem(refreshTokenKey);
-    this.accessTokenSubject.next(null);
   }
 
-  private storeToken(jwt: any): string {
+  private storeToken(jwt: TokenJwt): string {
     console.log(`store token`);
     if (jwt && jwt[accessTokenKey]) {
       const accessToken = jwt[accessTokenKey];
       if (jwt[refreshTokenKey]) {
-        this.setToken(refreshTokenKey, jwt[refreshTokenKey]);
+        localStorage.setItem(refreshTokenKey, jwt[refreshTokenKey]);
       }
-      this.setToken(accessTokenKey, accessToken);
+      localStorage.setItem(accessTokenKey, accessToken);
       this.accessTokenSubject.next(accessToken);
+
       return accessToken;
     }
     console.log('token invalid');
     return null;
   }
+
+  /**
+   * Return a new acces token.
+   */
+  public refreshToken(): Observable<string> {
+    const refreshToken = localStorage.getItem(refreshTokenKey);
+    if (refreshToken && !this.jwtHelperService.isTokenExpired(refreshToken)) {
+      const params = new HttpParams()
+        .set(refreshTokenKey, refreshToken)
+        .set('grant_type', refreshTokenKey);
+      return this.http
+        .post<TokenJwt>(this.config.config.loginUrl, params, {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)
+          )
+        })
+        .pipe(
+          // delay(2000),
+          map(jwt => {
+            console.log('load token response');
+            return this.storeToken(jwt);
+          }),
+          catchError(error => {
+            console.error(error);
+            throw error;
+          })
+        );
+    } else {
+      // the refresh token isn't valid
+      return EMPTY;
+    }
+  }
+
 }

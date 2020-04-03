@@ -32,8 +32,8 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(`users initialized ${this.authService.loggedUser.email}`);
-    this.current = this.authService.loggedUser;
+    this.current = this.authService.currentUserValue;
+    console.log(`users initialized ${this.current.email}`);
     this.filter = new UserServiceFilter();
 
     this.userService.all().subscribe(page => {
@@ -69,7 +69,11 @@ export class UsersComponent implements OnInit {
     this.userService.delete(i).subscribe(
       res => {
         if (this.dataSource.data[i].id === this.current.id) {
-          this.authService.logout(`Deleted current user: forced logout.`);
+          this.authService.logout()
+          .subscribe(
+            data =>{this.snackBar.open('Deleted current user: forced logout.')},
+            error =>{this.snackBar.open('Error : Deleted current user: forced logout.')}
+            );
         } else {
           this.snackBar.open(`User deleted.`);
         }

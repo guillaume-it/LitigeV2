@@ -139,7 +139,7 @@ public class UserService implements UserDetailsService {
 	public User signin(final String email, final String password) {
 		final com.ruscassie.litige.entity.User user = new com.ruscassie.litige.entity.User();
 
-		// TODO enity
+		// TODO entity
 		final com.ruscassie.litige.entity.Role roleAgent = roleRepository.findByName("role_agent");
 		final com.ruscassie.litige.entity.Role roleAdmin = roleRepository.findByName("role_admin");
 
@@ -191,6 +191,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	// TODO make a batch to clear unactivate account
+	// TODO check if the token is expired
 	public Optional<User> validAccount(final String email, final String tokenActiveAccount) {
 		final Optional<com.ruscassie.litige.entity.User> user = userRepository.findByEmail(email);
 		if (user.isPresent()) {

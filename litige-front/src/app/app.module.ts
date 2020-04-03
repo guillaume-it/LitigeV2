@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { PublicModule } from './public/public.module';
-import { ConfigService, configServiceInitializerFactory, TokenInterceptor, ServiceModule } from './services';
+import { ConfigService, configServiceInitializerFactory, AccessTokenInterceptor, ServiceModule } from './services';
 import { NavBarModule } from './navbar/navbar.module';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { NavBarModule } from './navbar/navbar.module';
       multi: true
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AccessTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
