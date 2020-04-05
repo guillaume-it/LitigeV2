@@ -61,20 +61,6 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
     }
 
     @Bean
-    public DefaultTokenServices tokenServices(final TokenStore tokenStore,
-                                              final ClientDetailsService clientDetailsService) {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setTokenStore(tokenStore);
-        tokenServices.setClientDetailsService(clientDetailsService);
-        tokenServices.setAuthenticationManager(this.authenticationManager);
-        //TODO make a property
-        tokenServices.setAccessTokenValiditySeconds(50000);
-        tokenServices.setRefreshTokenValiditySeconds(50000000);
-        return tokenServices;
-    }
-
-    @Bean
     public AuthorizationCodeServices authorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
@@ -91,7 +77,7 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.passwordEncoder(this.passwordEncoder).tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+                .checkTokenAccess("permitAll()");
     }
 
     @Override

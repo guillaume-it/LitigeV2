@@ -1,15 +1,13 @@
 import { environment } from '../../environments/environment';
 import { CrudService } from './crud.service';
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
-import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap, flatMap } from 'rxjs/operators';
 import { User } from '../models/user';
 import { ConfigService } from './config.service';
-import { AccessTokenInterceptor } from './access-token-interceptor';
 import { UserService } from './user.service';
-import { Token } from '@angular/compiler/src/ml_parser/lexer';
 import { RoleEnum } from '../models/role-enum';
 import { TokenJwt } from '../models/token-jwt';
 
@@ -19,18 +17,13 @@ const refreshTokenKey = 'refresh_token';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  private currentUserSubject = new BehaviorSubject<User>(null);
-  public currentUserObservable: Observable<User>;
-
-  private accessTokenSubject = new BehaviorSubject<string>(null);
-  public accessTokenObservable: Observable<string>;
-
+  public currentUserSubject = new BehaviorSubject<User>(null);
+  public accessTokenSubject = new BehaviorSubject<string>(null);
+  private refreshTokenLoading = false;
   constructor(private http: HttpClient, private config: ConfigService, private userService: UserService,
     private crudService: CrudService, private jwtHelperService: JwtHelperService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(null);
-    this.currentUserObservable = this.currentUserSubject.asObservable();
-    this.accessTokenObservable = this.accessTokenSubject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -96,22 +89,24 @@ export class AuthenticationService {
    * Return the access token if valid.
    * @returns valid access token
    */
-  private getAccessToken(): Observable<string> {
-    return new Observable(subscriber => {
-      const token = localStorage.getItem(accessTokenKey);
-      if (token && !this.jwtHelperService.isTokenExpired(token)) {
-        subscriber.next(token);
-      } else {
-        // try to get a new acces token with refresh token
-        this.refreshToken().subscribe(token => {
-          subscriber.next(token);
-        }, error => {
-          //TODO manage
-        });
-      }
+  // private getAccessToken(): Observable<string> {
+  //   return new Observable(subscriber => {
+  //     const token = localStorage.getItem(accessTokenKey);
+  //     if (token && !this.jwtHelperService.isTokenExpired(token)) {
+  //       subscriber.next(token);
+  //     } else {
+  //       // try to get a new acces token with refresh token
+  //       this.refreshToken();
+  //       subscriber.next(localStorage.getItem(accessTokenKey));
+  //       // ).subscribe(token => {
+  //       //   subscriber.next(token);
+  //       // }, error => {
+  //       //   //TODO manage
+  //       // });
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   public login(username: string, password: string): Observable<User> {
 
@@ -133,8 +128,8 @@ export class AuthenticationService {
         // delay(2000),
         map(jwt => {
           console.log('store the token');
-          return this.storeToken(jwt);
-
+          this.accessTokenSubject.next(this.storeToken(jwt));
+          return this.accessTokenSubject.getValue();
         }),
         switchMap(jwt => this.extractLoggedUser(jwt)),
         tap(user => {
@@ -160,7 +155,6 @@ export class AuthenticationService {
         localStorage.setItem(refreshTokenKey, jwt[refreshTokenKey]);
       }
       localStorage.setItem(accessTokenKey, accessToken);
-      this.accessTokenSubject.next(accessToken);
 
       return accessToken;
     }
@@ -168,10 +162,14 @@ export class AuthenticationService {
     return null;
   }
 
+  public isNewAccesTokenLoading(): boolean {
+    return this.refreshTokenLoading;
+  }
   /**
    * Return a new acces token.
    */
-  public refreshToken(): Observable<string> {
+  public refreshToken(): Observable<any> {
+    this.refreshTokenLoading = true;
     const refreshToken = localStorage.getItem(refreshTokenKey);
     if (refreshToken && !this.jwtHelperService.isTokenExpired(refreshToken)) {
       const params = new HttpParams()
@@ -184,19 +182,18 @@ export class AuthenticationService {
             'Basic ' + btoa(`${this.config.config.clientId}:${this.config.config.clientSecret}`)
           )
         })
-        .pipe(
-          // delay(2000),
-          map(jwt => {
+        .pipe(map(
+          jwt => {
             console.log('load token response');
-            return this.storeToken(jwt);
-          }),
-          catchError(error => {
-            console.error(error);
-            throw error;
-          })
-        );
+            const token = this.storeToken(jwt);
+            this.accessTokenSubject.next(token);
+            return token;
+          }, error => {
+            console.log("error fatal shit");
+          }));
     } else {
       // the refresh token isn't valid
+      this.accessTokenSubject.next(null);
       return EMPTY;
     }
   }

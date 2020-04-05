@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { ConfigService } from './config.service';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, delay, map, flatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,24 +25,26 @@ export class AccessTokenInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    const accessToken = this.authenticationService.accessTokenValue;
-    if (accessToken) {
-      request = this.addToken(request, accessToken);
-    }
 
+    request = this.addAuthenticationToken(request);
+
+    //   return next.handle(request);
     return next.handle(request).pipe(
-      retry(3),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && error.error.error === 'invalid_token') {
+        //   request.url.includes("refreshtoken") ||
+        console.log('catch 1');
+        //   request.url.includes("login")
+        //   if (request.url.includes("refreshtoken")) {
+        // invalid_token
+
+        if (error.status === 401) {
           // 401 handled in auth.interceptor
-          this.authenticationService.refreshToken().subscribe(accessToken => {
-            console.log("Refresh token interceptor: ", request);
-          });
-        } else {
-          // auto logout if 401 response returned from api
-          this.authenticationService.logout();
-          location.reload(true);
+          return this.authenticationService.refreshToken()
+            .pipe(map(token => {
+              return this.addAuthenticationToken(request);
+            }));
         }
+
         return throwError(error);
 
       }
@@ -67,13 +69,23 @@ export class AccessTokenInterceptor implements HttpInterceptor {
     return false;
 
   }
-  /**
-   * Add the token in the header of the request.
-   * 
-   * @param request 
-   * @param token 
-   */
-  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+
+  addAuthenticationToken(request) {
+    // Get access token from Local Storage
+    const accessToken = this.authenticationService.accessTokenValue;
+
+    // If access token is null this means that user is not logged in
+    // And we return the original request
+    if (!accessToken) {
+      return request;
+    }
+
+    // We clone the request, because the original request is immutable
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${this.authenticationService.accessTokenValue}`
+      }
+    });
   }
+
 }

@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  userSubject: Observable<User>;
+  userSubject: Subject<User>;
 
   constructor(public authentication: AuthenticationService, private snackBar: MatSnackBar,  private router: Router) {}
 
   ngOnInit() {
-    this.userSubject = this.authentication.currentUserObservable;
+    this.userSubject = this.authentication.currentUserSubject;
   }
 
   logout() {
