@@ -3,6 +3,7 @@ package com.ruscassie.litige.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,10 +69,9 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-        endpoints.authenticationManager(this.authenticationManager)
+        endpoints.tokenStore(tokenStore()).authenticationManager(this.authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
-                .userDetailsService(this.userDetailsService)
-                .tokenStore(tokenStore());
+                .userDetailsService(this.userDetailsService).reuseRefreshTokens(false);
     }
 
     @Override
@@ -79,7 +79,15 @@ public class AuthorizationServerConfigurerAdapter extends org.springframework.se
         security.passwordEncoder(this.passwordEncoder).tokenKeyAccess("permitAll()")
                 .checkTokenAccess("permitAll()");
     }
-
+    @Bean
+    @Primary
+    //Making this primary to avoid any accidental duplication with another token service instance of the same name
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
+    }
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
         JdbcClientDetailsService jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);

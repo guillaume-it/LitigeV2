@@ -32,7 +32,7 @@
 			<column name="authorized_grant_types" value="authorization_code,password,refresh_token,implicit" />
 			<column name="web_server_redirect_uri" />
 			<column name="authorities" />
-			<column name="access_token_validity" valueNumeric="900" />
+			<column name="access_token_validity" valueNumeric="15" />
 			<column name="refresh_token_validity" valueNumeric="3600" />
 			<column name="additional_information" value="{}" />
 			<column name="autoapprove" />
