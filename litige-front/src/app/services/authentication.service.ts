@@ -85,29 +85,6 @@ export class AuthenticationService {
     return of(null);
   }
 
-  /**
-   * Return the access token if valid.
-   * @returns valid access token
-   */
-  // private getAccessToken(): Observable<string> {
-  //   return new Observable(subscriber => {
-  //     const token = localStorage.getItem(accessTokenKey);
-  //     if (token && !this.jwtHelperService.isTokenExpired(token)) {
-  //       subscriber.next(token);
-  //     } else {
-  //       // try to get a new acces token with refresh token
-  //       this.refreshToken();
-  //       subscriber.next(localStorage.getItem(accessTokenKey));
-  //       // ).subscribe(token => {
-  //       //   subscriber.next(token);
-  //       // }, error => {
-  //       //   //TODO manage
-  //       // });
-  //     }
-
-  //   });
-  // }
-
   public login(username: string, password: string): Observable<User> {
 
     const params = new HttpParams()

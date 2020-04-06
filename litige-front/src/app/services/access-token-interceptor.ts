@@ -1,14 +1,16 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { ConfigService } from './config.service';
-import { retry, catchError, delay, map, flatMap } from 'rxjs/operators';
+import { catchError, filter, take, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccessTokenInterceptor implements HttpInterceptor {
+
+  private refreshing = new BehaviorSubject<boolean>(false);
 
   constructor(private authenticationService: AuthenticationService, private config: ConfigService) {
   }
@@ -31,18 +33,9 @@ export class AccessTokenInterceptor implements HttpInterceptor {
     //   return next.handle(request);
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        //   request.url.includes("refreshtoken") ||
-        console.log('catch 1');
-        //   request.url.includes("login")
-        //   if (request.url.includes("refreshtoken")) {
-        // invalid_token
 
         if (error.status === 401) {
-          // 401 handled in auth.interceptor
-          return this.authenticationService.refreshToken()
-            .pipe(map(token => {
-              return this.addAuthenticationToken(request);
-            }));
+          return this.handle401Error(request, next);
         }
 
         return throwError(error);
@@ -86,6 +79,23 @@ export class AccessTokenInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${this.authenticationService.accessTokenValue}`
       }
     });
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.refreshing.getValue()) {
+      this.refreshing.next(true);
+      this.authenticationService.refreshToken().subscribe(token =>
+        this.refreshing.next(false));
+    }
+    return this.refreshing
+      .pipe(
+        filter(refreshing => refreshing === false),
+        take(1),
+        switchMap((data) =>
+          this.authenticationService.accessTokenValue ?
+            next.handle(this.addAuthenticationToken(request))
+            : throwError(new Error('Not Authorize'))
+        ))
   }
 
 }
