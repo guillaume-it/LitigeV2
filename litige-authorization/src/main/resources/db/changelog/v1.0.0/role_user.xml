@@ -1,0 +1,60 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="role_user-1">
+		<createTable tableName="role_user">
+			<column name="role_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${dbDate}">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${dbDate}">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Guillaume" id="role_user-2">
+		<addPrimaryKey columnNames="role_id, user_id" constraintName="role_user_pkey" tableName="role_user" />
+	</changeSet>
+	<changeSet author="Guillaume" id="role_user-3">
+		<addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user"
+			constraintName="role_user_fk1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+			referencedColumnNames="id" referencedTableName="role" />
+	</changeSet>
+	<changeSet author="Guillaume" id="role_user-4">
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="role_user"
+			constraintName="role_user_fk2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+			referencedColumnNames="id" referencedTableName="users" />
+	</changeSet>
+	<changeSet author="Guillaume" id="role_user-5">
+		<insert  tableName="role_user">
+			<column name="role_id" valueNumeric="1" />
+			<column name="user_id" valueNumeric="1" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert  tableName="role_user">
+			<column name="role_id" valueNumeric="2" />
+			<column name="user_id" valueNumeric="2" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert  tableName="role_user">
+			<column name="role_id" valueNumeric="2" />
+			<column name="user_id" valueNumeric="1" />
+			<column name="created_on" valueDate="2019-12-25 00:00:00.0" />
+			<column name="updated_on" valueDate="2019-12-25 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

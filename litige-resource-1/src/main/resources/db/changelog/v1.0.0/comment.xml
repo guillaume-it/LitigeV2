@@ -1,0 +1,33 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Guillaume" id="comment-1">
+        <createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_comment_id"
+                        startValue="1"/>
+    </changeSet>
+    <changeSet author="Guillaume" id="comment-2">
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_comment_id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="VARCHAR(500)"/>
+            <column name="creation" type="${dbDate}"/>
+            <column name="update" type="${dbDate}"/>
+            <column name="agent_id" type="BIGINT"/>
+            <column name="dossier_id" type="BIGINT"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="comment_pkey" tableName="comment"/>
+
+        <addForeignKeyConstraint baseColumnNames="dossier_id" baseTableName="comment"
+                                 constraintName="fk_comment_dossier_id" referencedColumnNames="id"
+                                 referencedTableName="dossier"/>
+
+        <!--		The user talbe is moved in other db -->
+        <!--		<addForeignKeyConstraint baseColumnNames="agent_id" baseTableName="comment"-->
+        <!--			constraintName="fk_comment_agent_user_id" referencedColumnNames="id" referencedTableName="users" />-->
+    </changeSet>
+
+</databaseChangeLog>

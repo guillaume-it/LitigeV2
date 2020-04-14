@@ -1,0 +1,70 @@
+server:
+   port: 9094
+   servlet:
+      context-path: /api
+   compression:
+      enabled: false
+management:
+   security:
+      enabled: true
+
+security:
+   basic:
+      enabled: false
+properties:
+   auth-server-url: auth-server
+   auth-check-token-uri: auth/oauth/check_token
+   resource-id: claim/resource
+   client-id: ClientIdResource
+   client-secret: password
+   storage-location: /Users/Guillaume/Desktop/upload/
+spring:
+   profiles: prd
+   application:
+      name: resource-server-1
+   jpa:
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+         naming:
+            physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+         ddl-auto: validate
+      show-sql: true
+   datasource:
+      url: jdbc:postgresql://localhost:5432/litige?useSSL=false
+      username: litige
+      password: litige
+      driver-class-name: org.postgresql.Driver
+      tomcat:
+         test-while-idle: true
+         validation-query: SELECT 1
+      initialization-mode: never
+      platform: postgres
+#  jpa:
+   jackson:
+      serialization:
+#    database: H2
+         indent-output: true
+   servlet:
+      multipart:
+         max-file-size: 16MB
+         max-request-size: 16MB
+         file-size-threshold: 16MB
+      
+eureka:
+   instance:
+      hostname: localhost
+      port: 9091
+      preferIpAddress: true
+   client:
+      registerWithEureka: true
+      fetchRegistry: true
+      serviceUrl:
+         defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+
+logging:
+   level:
+      root: INFO
+      

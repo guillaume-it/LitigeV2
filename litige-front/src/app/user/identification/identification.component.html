@@ -1,0 +1,60 @@
+<mat-card>
+  <form [formGroup]="formGroup" (ngSubmit)="create()">
+    <mat-card-header>
+      <mat-card-title>
+        Votre problème vous électrise?
+      </mat-card-title>
+      <mat-card-subtitle>Créer un compte sur arsel pour déclarer votre litige </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Prénom" formControlName="firstName" maxlength="20" />
+        <mat-error *ngFor="let error of formGroup.get('firstName').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'minlength' ? 'La longueur minimale est de 3 caractères' : '' }}
+          {{ error.key === 'maxlength' ? 'La longueur maximale est de 20 caractères' : '' }}
+          {{ error.key === 'required' ? 'Le prénom est nécessaire' : '' }}
+          {{ error.key === 'pattern' ? 'Seuls les caractères alphabétiques et le - sont autorisés' : '' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="lastName" maxlength="20" />
+        <mat-error *ngFor="let error of formGroup.get('lastName').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'minlength' ? 'La longueur minimale est de 3 caractères' : '' }}
+          {{ error.key === 'maxlength' ? 'La longueur maximale est de 20 caractères' : '' }}
+          {{ error.key === 'required' ? 'Le nom est nécessaire' : '' }}
+          {{ error.key === 'pattern' ? 'Seuls les caractères alphabétiques et le - sont autorisés' : '' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Téléphone" formControlName="phone" maxlength="13" />
+        <mat-error *ngFor="let error of formGroup.get('phone').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'minlength' ? 'La longueur minimale est de 9 caractères' : '' }}
+          {{ error.key === 'maxlength' ? 'La longueur maximale est de 13 caractères' : '' }}
+          {{ error.key === 'pattern' ? 'Le format du numéro de téléphone est invalide' : '' }}
+          {{ error.key === 'required' ? 'Le numéro de téléphone est nécessaire' : '' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="email" formControlName="email" maxlength="70" />
+        <mat-error *ngFor="let error of formGroup.get('email').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'email' ? "Le format de l'email est invalide" : '' }}
+          {{ error.key === 'required' ? "L'Email est nécessaire" : '' }}
+          {{ error.key === 'emailTaken' ? "L'Email est déjà utilisé" : '' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" placeholder="Password" matInput formControlName="password" maxlength="20" />
+        <mat-error *ngFor="let error of formGroup.get('password').errors | keyvalue | slice: 0:1">
+          {{ error.key === 'minlength' ? 'La longueur minimale est de 8 caractères' : '' }}
+          {{ error.key === 'maxlength' ? 'La longueur maximale est de 20 caractères' : '' }}
+          {{ error.key === 'required' ? 'Le mot de passe est nécessaire' : '' }}
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions *ngIf="!loading">
+      <button mat-button [disabled]="!formGroup.valid">Annuler</button>
+      <button mat-button type="submit" [disabled]="!formGroup.valid">Créer</button>
+    </mat-card-actions>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+  </form>
+</mat-card>

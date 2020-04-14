@@ -1,0 +1,14 @@
+<div [formGroup]="claimCreateFormGroup">
+  <mat-form-field>
+    <input matInput placeholder="Objet" formControlName="object" />
+    <mat-error *ngIf="!claimCreateFormGroup.hasError('required')">
+      Please enter an object
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Message" formControlName="message" />
+    <mat-error *ngIf="!claimCreateFormGroup.hasError('required')">
+      Please enter a message
+    </mat-error>
+  </mat-form-field>
+</div>

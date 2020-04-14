@@ -1,0 +1,45 @@
+<div *ngIf="state.screenState === screenState.EDIT || state.screenState === screenState.CREATE">
+  <div class="files-list">
+    <div class="single-file" *ngFor="let map of filesStatus | keyvalue">
+      <div class="file-icon">
+        <mat-icon>insert_drive_file</mat-icon>
+      </div>
+      <div class="info">
+        <h4 class="name">
+          {{ map.value?.name }}
+        </h4>
+        <p class="size">
+          {{ formatBytes(map.value?.size,2) }}
+        </p>
+        <app-progress-bar [fileStatus]="map.value"></app-progress-bar>
+      </div>
+
+      <div
+        *ngIf="
+          map.value.loaded &&
+          (state.screenState === screenState.EDIT || state.screenState === screenState.CREATE) &&
+          state.loadingState === loadingState.LOADED
+        "
+        class="delete"
+        (click)="deleteFile(map.value?.name)"
+      >
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div
+    class="container"
+    appDragAndDrop
+    (fileDropped)="onFileDropped($event)"
+    *ngIf="
+      (state.screenState === screenState.EDIT || state.screenState === screenState.CREATE) &&
+      state.loadingState === loadingState.LOADED
+    "
+  >
+    <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)" />
+    <mat-icon>cloud_upload</mat-icon>
+    <h3>Drag and drop file here</h3>
+    <h3>or</h3>
+    <label for="fileDropRef">Browse for file</label>
+  </div>
+</div>

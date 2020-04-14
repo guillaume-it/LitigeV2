@@ -1,0 +1,119 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet author="Guillaume" id="users-7">
+		<createSequence cycle="true" incrementBy="1" schemaName="public" sequenceName="seq_user_id"
+			startValue="5" />
+	</changeSet>
+
+	<changeSet author="Guillaume" id="users-1">
+		<createTable tableName="users">
+
+			<column name="id" type="BIGINT" defaultValueSequenceNext="seq_user_id">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="VARCHAR(20)">
+				<constraints nullable="true" />
+			</column>
+			<column name="first_name" type="VARCHAR(20)">
+				<constraints nullable="true" />
+			</column>
+			<column name="phone" type="VARCHAR(14)">
+				<constraints nullable="true" />
+			</column>
+			<column name="password" type="VARCHAR(200)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(70)">
+				<constraints nullable="false" />
+			</column>
+			<column name="enabled" type="BOOL" />
+			<column name="account_expired" type="BOOL" />
+			<column name="credentials_expired" type="BOOL" />
+			<column name="account_locked" type="BOOL" />
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="created_on" type="${dbDate}">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_on" type="${dbDate}">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="'0'::numeric" name="version" type="numeric(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="token_active_account" type="VARCHAR(200)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Guillaume" id="users-2">
+		<addPrimaryKey columnNames="id" constraintName="users_pkey" tableName="users" />
+	</changeSet>
+
+	<changeSet author="Guillaume" id="users-3">
+		<addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users" />
+	</changeSet>
+	<changeSet author="Guillaume" id="users-6">
+		<insert  tableName="users">
+			<column name="id" valueNumeric="1" />
+			<column name="first_name" value="first name admin" />
+			<column name="phone" value="phone admin" />		
+			<column name="last_name" value="admin" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="admin@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert  tableName="users">
+			<column name="id" valueNumeric="2" />
+			<column name="first_name" value="first name user" />
+			<column name="phone" value="phone user" />	
+			<column name="last_name" value="user" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="user@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="users">
+			<column name="id" valueNumeric="3" />
+			<column name="first_name" value="Keyte" />
+			<column name="phone" value="phone user" />	
+			<column name="last_name" value="user" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="keyte@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		<insert catalogName="litige" tableName="users">
+			<column name="id" valueNumeric="4" />
+			<column name="first_name" value="Marcel" />
+			<column name="phone" value="phone user" />	
+			<column name="last_name" value="user" />
+			<column name="password" value="{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi" />
+			<column name="email" value="marcel@example.com" />
+			<column name="enabled" valueBoolean="true" />
+			<column name="account_expired" valueBoolean="false" />
+			<column name="credentials_expired" valueBoolean="false" />
+			<column name="account_locked" valueBoolean="false" />
+			<column name="created_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="updated_on" valueDate="1970-01-01 00:00:00.0" />
+			<column name="version" valueNumeric="0" />
+		</insert>
+		
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,10 @@
+<div class="files-list" *ngIf="state.screenState === screenState.DETAIL || state.screenState === screenState.EDIT">
+  <div class="single-file" *ngFor="let map of filesStatus | keyvalue">
+    <app-file-icon
+      (download)="downloadFile($event)"
+      [stateEvent]="stateEvent"
+      [state]="state"
+      [fileInformation]="map.value"
+    ></app-file-icon>
+  </div>
+</div>
