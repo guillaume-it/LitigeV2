@@ -17,11 +17,11 @@
 	</parent>
 
 	<modules>
+		<module>litige-commons</module>
 		<module>litige-authorization</module>
 		<module>litige-resource-1</module>
 		<module>litige-zuul</module>
 		<module>litige-eureka</module>
-		<module>litige-commons</module>
 	</modules>
 
 	<properties>
