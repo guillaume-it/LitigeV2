@@ -8,8 +8,15 @@ spring:
       multipart:
         max-file-size: 16MB
         max-request-size: 16MB
+# accept only https
+security:
+   require-ssl: true
 server:
    port: 9092
+   ssl:
+      key-store: classpath:litige.p12
+      key-store-password: litige
+      keyStoreType: PKCS12
 endpoints:
    restart:
       enabled: true
