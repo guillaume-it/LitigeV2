@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:preprod": "ng serve --configuration=preprod",
     "build": "ng build",
     "build:stats": "ng build --stats-json",
     "test": "ng test",
