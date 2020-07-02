@@ -34,7 +34,8 @@ services:
   front:
     image: litige/front:latest
     ports:
-      - "4200:80"
+      - "80:80"
+      - "443:443"
     links:
       - eureka
       - zuul
