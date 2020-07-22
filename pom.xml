@@ -22,6 +22,7 @@
 		<module>litige-resource-1</module>
 		<module>litige-zuul</module>
 		<module>litige-eureka</module>
+		<module>video</module>
 	</modules>
 
 	<properties>
