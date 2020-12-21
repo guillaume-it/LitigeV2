@@ -19,40 +19,49 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
-  private static final Logger log = LoggerFactory.getLogger(BatchConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(BatchConfiguration.class);
 
-  @Autowired
-  public JobBuilderFactory jobBuilderFactory;
+    @Autowired
+    private JobBuilderFactory jobBuilderFactory;
 
-  @Autowired
-  public StepBuilderFactory stepBuilderFactory;
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
 
-  @Bean
-  public FfProbeItemReader reader() {
-    return new FfProbeItemReader();
-  }
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
-  @Bean
-  public FfProbeItemProcessor processor() {
-    return new FfProbeItemProcessor();
-  }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-  @Bean
-  public FfProbeItemWriter writer() {
-    return new FfProbeItemWriter ();
-  }
+    @Bean
+    public FfProbeItemReader reader() {
+        return new FfProbeItemReader();
+    }
 
-//  @Bean
+    @Bean
+    public FfProbeItemProcessor processor() {
+        return new FfProbeItemProcessor();
+    }
+
+    @Bean
+    public FfProbeItemWriter writer() {
+        return new FfProbeItemWriter();
+    }
+
+    //  @Bean
 //  public Step step1(FfProbeItemWriter writer) {
 //    return stepBuilderFactory.get("step1")
 //            .<FfProbeInParams, Integer> chunk(1)
@@ -61,72 +70,73 @@ public class BatchConfiguration {
 //            .writer(writer)
 //            .build();
 //  }
-  @Bean
-public   TaskletStep step1() throws IOException {
-      Tasklet tasklet = (contribution, context) -> {
-      FFmpeg ffmpeg = new FFmpeg("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\ffmpeg");
-      FFprobe ffprobe = new FFprobe("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\ffprobe");
+    @Bean
+    public TaskletStep step1() throws IOException {
+        Tasklet tasklet = (contribution, context) -> {
+            FFmpeg ffmpeg = new FFmpeg("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\ffmpeg");
+            FFprobe ffprobe = new FFprobe("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\ffprobe");
 
-          FFmpegProbeResult in = ffprobe.probe("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\test.mp4");
+            FFmpegProbeResult in = ffprobe.probe("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\test.mp4");
 
 
-      FFmpegBuilder builder = new FFmpegBuilder()
+            FFmpegBuilder builder = new FFmpegBuilder()
 
-              .setInput("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\test.mp4")     // Filename, or a FFmpegProbeResult
-              .overrideOutputFiles(true) // Override the output if it exists
+                    .setInput("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\test.mp4")     // Filename, or a FFmpegProbeResult
+                    .overrideOutputFiles(true) // Override the output if it exists
 
-              .addOutput("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\output.mp4")   // Filename for the destination
-              .setFormat("mp4")        // Format is inferred from filename, or can be set
-             // .setTargetSize(250_000)  // Aim for a 250KB file
+                    .addOutput("C:\\Users\\frup43860\\Documents\\Git\\LitigeV2\\video\\ffmpeg\\bin\\output.mp4")   // Filename for the destination
+                    .setFormat("mp4")        // Format is inferred from filename, or can be set
+                    // .setTargetSize(250_000)  // Aim for a 250KB file
 
-             // .disableSubtitle()       // No subtiles
+                    // .disableSubtitle()       // No subtiles
 
-              .setAudioChannels(1)         // Mono audio
-              .setAudioCodec("aac")        // using the aac codec
-              .setAudioSampleRate(48_000)  // at 48KHz
-              .setAudioBitRate(32768)      // at 32 kbit/s
+                    .setAudioChannels(1)         // Mono audio
+                    .setAudioCodec("aac")        // using the aac codec
+                    .setAudioSampleRate(48_000)  // at 48KHz
+                    .setAudioBitRate(32768)      // at 32 kbit/s
 
-              .setVideoCodec("libx264")     // Video using x264
-              .setVideoFrameRate(24, 1)     // at 24 frames per second
-              .setVideoResolution(640, 480) // at 640x480 resolution
+                    .setVideoCodec("libx264")     // Video using x264
+                    .setVideoFrameRate(24, 1)     // at 24 frames per second
+                    .setVideoResolution(640, 480) // at 640x480 resolution
 
-            //  .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
-              .done();
+                    //  .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                    .done();
 
-      FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 // Run a one-pass encode
-   //       builder.
-     FFmpegJob job = executor.createJob(builder, new ProgressListener() {
+            //       builder.
+            FFmpegJob job = executor.createJob(builder, new ProgressListener() {
 
-         // Using the FFmpegProbeResult determine the duration of the input
-         final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
+                // Using the FFmpegProbeResult determine the duration of the input
+                final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
 
-         @Override
-         public void progress(Progress progress) {
-             double percentage = progress.out_time_ns / duration_ns;
+                @Override
+                public void progress(Progress progress) {
+                    double percentage = progress.out_time_ns / duration_ns;
 
-             // Print out interesting information about the progress
-             System.out.println(String.format(
-                     "[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-                     percentage * 100,
-                     progress.status,
-                     progress.frame,
-                     FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-                     progress.fps.doubleValue(),
-                     progress.speed
-             ));
-         }
-     });
-          job.run();
+                    // Print out interesting information about the progress
+                    System.out.println(String.format(
+                            "[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
+                            percentage * 100,
+                            progress.status,
+                            progress.frame,
+                            FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
+                            progress.fps.doubleValue(),
+                            progress.speed
+                    ));
+                }
+            });
+            job.run();
 
 // Or run a two-pass encode (which is better quality at the cost of being slower)
 //      executor.createTwoPassJob(builder).run();
+            //TODO job.getState()
+            return RepeatStatus.FINISHED;
+        };
+        return stepBuilderFactory.get("step1").tasklet(tasklet).build();
+    }
 
-          return null;
-      };
-   return stepBuilderFactory.get("step1").tasklet(tasklet).build();
-  }
-//  private TaskletStep step1() {
+    //  private TaskletStep step1() {
 //    Tasklet tasklet = (contribution, context) -> {
 //      log.info("This is from tasklet step with parameter ->"
 //              + context.getStepContext().getJobParameters().get("message"));
@@ -140,9 +150,10 @@ public   TaskletStep step1() throws IOException {
 //            .start(step1)
 //            .build();
 //  }
-@Bean
-public Job job1() throws IOException {
-  return jobBuilderFactory.get("job1")
-          .incrementer(new RunIdIncrementer())
-          .start(step1()).build();
-}}
+    @Bean
+    public Job job1() throws IOException {
+        return jobBuilderFactory.get("job1")
+                .incrementer(new RunIdIncrementer())
+                .start(step1()).build();
+    }
+}
